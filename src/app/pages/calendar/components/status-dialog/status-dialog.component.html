@@ -1,0 +1,50 @@
+<h3 *ngIf="isTravelOn">Atualizar seguir viagem</h3>
+<h3 *ngIf="!isTravelOn" >Atualizar status</h3>
+<div mat-dialog-content>
+
+    <form [formGroup]="form" >
+        <div class="row" *ngIf="!isTravelOn">
+            <div class="col">
+                <mat-form-field appearance="outline">
+                <mat-label>Status</mat-label>
+                    <mat-select formControlName="status">
+                        <mat-option value="1">Confirmada</mat-option>
+                        <mat-option value="2">Pendente</mat-option>
+                        <mat-option value="3">Cancelada</mat-option>
+                        <mat-option value="4">Excluida</mat-option>
+                        <mat-option value="5">Pré Agendada</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" *ngIf="isTravelOn">
+            <div class="col">
+                <mat-form-field appearance="outline">
+                <mat-label>Segue viagem</mat-label>
+                <mat-select formControlName="travelOn" (selectionChange)="onRoomChange($event.value)">
+                    <mat-option [value]="0">
+                      <mat-icon></mat-icon>
+                    </mat-option>
+                    <mat-option [value]="1">
+                      <mat-icon>arrow_forward</mat-icon>
+                    </mat-option>
+                    <mat-option [value]="2">
+                      <mat-icon>arrow_back</mat-icon>
+                    </mat-option>
+                    <mat-option [value]="3">
+                      <mat-icon>swap_horiz</mat-icon>
+                    </mat-option>
+                    <!-- MUST USE mat-select-trigger TO SHOW mat-icon -->
+                    <mat-select-trigger >
+                      <mat-icon style="margin-top: -15px;">{{selectedtype}}</mat-icon>&nbsp;
+                    </mat-select-trigger>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions>
+        <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+</div>

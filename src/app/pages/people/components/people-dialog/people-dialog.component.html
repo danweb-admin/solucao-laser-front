@@ -1,0 +1,48 @@
+<h3 *ngIf="isAddMode" mat-dialog-title>Adicionar Motorista/Técnica</h3>
+<h3 *ngIf="!isAddMode" mat-dialog-title>Editar Motorista/Técnica</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <input type="hidden" formControlName="id">
+      <input type="hidden" formControlName="createdAt">
+      <input type="hidden" formControlName="updatedAt">
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome" formControlName="name">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Celular</mat-label>
+            <input matInput placeholder="Celular" mask="(00) 00000-0000" formControlName="cellPhone">
+          </mat-form-field>
+        </div>
+        <div class="col col-2" *ngIf="isDriver">
+          <mat-form-field appearance="outline">
+            <mat-label>Placa</mat-label>
+            <input matInput placeholder="Placa" formControlName="plate" mask="SSS-AAAA">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-2">
+            <mat-checkbox formControlName="active" checked="form.value.active" >Ativo</mat-checkbox>
+        </div>
+        <div class="col col-2">
+          <mat-radio-group aria-label="Selecione uma opção" formControlName="personType" (change)="radioChange($event)">
+            <mat-radio-button value="M" [checked]="isDriver" >Motorista</mat-radio-button>
+            <mat-radio-button value="T" [checked]="isTechnique">Técnica</mat-radio-button>
+          </mat-radio-group>
+      </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+</div>

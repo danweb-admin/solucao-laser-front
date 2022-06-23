@@ -1,0 +1,151 @@
+<h3 *ngIf="isAddMode" mat-dialog-title>Adicionar Locação</h3>
+<h3 *ngIf="!isAddMode" mat-dialog-title>Editar Locação</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <input type="hidden" formControlName="id">
+      <input type="hidden" formControlName="createdAt">
+      <input type="hidden" formControlName="updatedAt">
+      <input type="hidden" formControlName="clientId">
+
+      <div class="row">
+          <div class="col">
+            <mat-form-field style="width: 80% !important;" appearance="outline">
+                <mat-label>Locatário(a)</mat-label>
+                <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client">
+    
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngIf="isLoading" class="is-loading">Carregando...</mat-option>
+                  <ng-container *ngIf="!isLoading">
+                    <mat-option *ngFor="let option of clientResult" [value]="option">
+                      <span>{{ option.name }} - {{option.city.nome}} - {{option.state.sigla}}</span>
+
+                    </mat-option>
+                  </ng-container>
+                </mat-autocomplete>
+              </mat-form-field>
+              
+              <mat-checkbox (change)="noCadastre()" formControlName="noCadastre" >Sem Cadastro</mat-checkbox>
+          </div>
+          <span *ngIf="notFound">Não encontrado.</span>
+      </div>
+      <div class="row" *ngIf="semCadastro">
+        <div class="col"> 
+          <mat-form-field appearance="outline">
+            <mat-label>Cliente Sem Cadastro</mat-label>
+            <input matInput placeholder="Cliente Sem Cadastro" formControlName="temporaryName" >
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Equipamento</mat-label>
+            <mat-select formControlName="equipamentId" (selectionChange)="onChangeEquipament($event)">
+              <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Ponteiras</mat-label>
+            <mat-chip-list multiple id="chipList" [selectable]="true" [disabled]="inputReadonly ? true : false ">
+              <mat-chip formArrayName="calendarSpecifications" *ngFor="let item of form.get('calendarSpecifications').value" [selected]="item.active" (click)="item.active=!item.active;">{{item.name}}</mat-chip>
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Técnica</mat-label>
+            <mat-select id="techniqueId" formControlName="techniqueId" [(value)]="form.value.techniqueId">
+              <mat-option *ngFor="let item of techniqueResult" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Motorista</mat-label>
+            <mat-select formControlName="driverId">
+              <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="1">Confirmada</mat-option>
+              <mat-option value="2">Pendente</mat-option>
+              <mat-option value="3">Cancelada</mat-option>
+              <mat-option value="4">Excluida</mat-option>
+              <mat-option value="5">Pré Agendada</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Data</mat-label>
+            <input matInput [matDatepicker]="dp" [min]="todayDate" placeholder="Data" formControlName="date" (focus)="dp.open()">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+          
+        </div>
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Hora Início</mat-label>
+            <input matInput placeholder="Hora de Início" formControlName="startTime1" mask="00:00">
+          </mat-form-field>
+        </div>
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Hora Fim</mat-label>
+            <input matInput placeholder="Hora de Encerramento" formControlName="endTime1" mask="00:00">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" style="width: 70%; float: left;">
+          <mat-form-field appearance="outline">
+            <mat-label>Observação</mat-label>
+            <input matInput placeholder="Observação" formControlName="note">
+          </mat-form-field>
+        </div>
+        <div class="col" style="width: 30%; float: left;">
+          <mat-form-field appearance="outline">
+            <mat-label>Segue Viagem?</mat-label>
+            
+            <mat-select formControlName="travelOn" (selectionChange)="onRoomChange($event.value)">
+              <mat-option [value]="0">
+                <mat-icon></mat-icon>
+              </mat-option>
+              <mat-option [value]="1">
+                <mat-icon>arrow_forward</mat-icon>
+              </mat-option>
+              <mat-option [value]="2">
+                <mat-icon>arrow_back</mat-icon>
+              </mat-option>
+              <mat-option [value]="3">
+                <mat-icon>swap_horiz</mat-icon>
+              </mat-option>
+              <!-- MUST USE mat-select-trigger TO SHOW mat-icon -->
+              <mat-select-trigger >
+                <mat-icon style="margin-top: -15px;">{{selectedtype}}</mat-icon>&nbsp;
+              </mat-select-trigger>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+  <button *ngIf="!inputReadonly" mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+</div>

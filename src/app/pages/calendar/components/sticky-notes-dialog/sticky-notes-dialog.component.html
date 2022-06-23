@@ -1,0 +1,31 @@
+<h3 *ngIf="form.value.id == null">Adicionar anotação</h3>
+<h3 *ngIf="form.value.id != null" >Atualizar anotação</h3>
+<div mat-dialog-content>
+    <form [formGroup]="form" >
+        <input type="hidden" formControlName="id">
+        <input type="hidden" formControlName="createdAt">
+        <input type="hidden" formControlName="updatedAt">
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="outline">
+                    <mat-label>Anotações</mat-label>
+                    <input matInput placeholder="Anotações" formControlName="notes">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Data</mat-label>
+                    <input matInput [matDatepicker]="dp" [min]="todayDate" placeholder="Data" formControlName="date" (focus)="dp.open()">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp></mat-datepicker>
+                  </mat-form-field>
+            </div>
+        </div>        
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">Salvar</button>
+</div>

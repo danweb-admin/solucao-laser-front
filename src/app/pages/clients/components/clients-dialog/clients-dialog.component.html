@@ -1,0 +1,298 @@
+<h3 *ngIf="isAddMode" mat-dialog-title>Adicionar Cliente</h3>
+<h3 *ngIf="!isAddMode" mat-dialog-title>Editar Cliente</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Dados Gerais" >
+        <div class="form-row margin-top-10 tab-dados-gerais">
+          <input type="hidden" formControlName="id">
+          <input type="hidden" formControlName="createdAt">
+          <input type="hidden" formControlName="updatedAt">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput placeholder="Nome" formControlName="name">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Responsável</mat-label>
+                <input matInput placeholder="Responsável" formControlName="responsible">
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Especialidade/Orgão Fiscalizador</mat-label>
+                <input matInput placeholder="Especialidade/Orgão Fiscalizador" formControlName="specialty">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Nome da Clínica</mat-label>
+                <input matInput placeholder="Nome da Clínica" formControlName="clinicName"  maxlength="50">
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Secretária</mat-label>
+                <input matInput placeholder="Secretária" formControlName="secretary"  maxlength="50">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Endereço</mat-label>
+                <input matInput placeholder="Endereço"  formControlName="address" maxlength="70">
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Número</mat-label>
+                <input matInput placeholder="Número" formControlName="number" maxlength="15">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Complemento</mat-label>
+                <input matInput placeholder="Complemento" formControlName="complement" maxlength="30">
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Ponto de referência</mat-label>
+                <input matInput placeholder="Ponto de referência" formControlName="landMark" maxlength="100">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>CEP</mat-label>
+                <input matInput placeholder="CEP" formControlName="zipCode" maxlength="9" mask="00000-000">
+              </mat-form-field>
+            </div>
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Bairro</mat-label>
+                <input matInput placeholder="Bairro" formControlName="neighborhood" maxlength="30">
+              </mat-form-field>
+            </div>
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>E-mail</mat-label>
+                <input matInput placeholder="Email" maxlength="50" formControlName="email" maxlength="50">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Fixo</mat-label>
+                <input matInput placeholder="Fixo" formControlName="phone" mask="(00) 0000-0000">
+              </mat-form-field>
+            </div>
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Celular Particular</mat-label>
+                <input matInput placeholder="Celular Particular" mask="(00) 00000-0000" formControlName="cellPhone">
+              </mat-form-field>
+            </div>
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Celular Clínica</mat-label>
+                <input matInput placeholder="Celular Clínica" formControlName="clinicCellPhone" mask="(00) 00000-0000">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2" >
+              <mat-form-field appearance="outline">
+                <mat-label>CNPJ</mat-label>
+                <input matInput placeholder="CNPJ" formControlName="cnpj" maxlength="18" mask="00.000.000/0000-00">
+              </mat-form-field>
+            </div>
+            
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>IE</mat-label>
+                <input matInput placeholder="IE" formControlName="ie" maxlength="20">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2" >
+              <mat-form-field appearance="outline">
+                <mat-label>CPF</mat-label>
+                <input matInput placeholder="CPF" formControlName="cpf" maxlength="18" mask="000.000.000-00">
+              </mat-form-field>
+            </div>
+            
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>RG</mat-label>
+                <input matInput placeholder="RG" formControlName="rg" maxlength="20">
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+              <mat-label>Estado</mat-label>
+                <mat-select  formControlName="stateId" (openedChange)="openedState($event)" (selectionChange)="getCidadesByEstado($event.value)" #estado>
+                  <input matInput class="input-estado" placeholder="Digite o estado" (keyup)="onKeyState($event.target.value)" #stateInputSearch>
+                  <mat-option  *ngFor="let estado of arrayEstados "
+                            value="{{estado.id}}">
+                    {{estado.nome}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+              <mat-label>Cidade</mat-label>
+                <mat-select #cidade formControlName="cityId" (openedChange)="openedCity()" >
+                  <input matInput class="input-cidade" placeholder="Digite a cidade" (keyup)="onKeyCity($event.target.value)" #cityInputSearch>
+                  <mat-option *ngFor="let cidade of arrayCidades "
+                            value="{{cidade.id}}">
+                    {{cidade.nome}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+                <mat-checkbox formControlName="active" checked="form.value.active" >Ativo</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Dados Adicionais">
+        <div class="form-row margin-top-10 tab-dados-adicionais">
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Data Cadastro</mat-label>
+                <input matInput disabled [value]="form.value.createdAt | date: 'd/M/yy, h:mm a'">
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <div class="row">
+                <label class="field-label margin-left-5">Contrato Anual?</label>
+              </div>
+              <mat-radio-group aria-label="Contrato Anual?" formControlName="isAnnualContract">
+                <mat-radio-button class="margin-left-5" [value]="true" >Sim</mat-radio-button>
+                <mat-radio-button class="margin-left-5" [value]="false" >Não</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <div class="row">
+                <label class="field-label margin-left-5">Recibo?</label>
+              </div>
+              <mat-radio-group formControlName="isReceipt">
+                <mat-radio-button [value]="0"  class="margin-right-5">Não</mat-radio-button>
+                <mat-radio-button [value]="1"  class="margin-right-5">IR</mat-radio-button>
+                <mat-radio-button [value]="2"  class="margin-right-5">Interno</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Nome recibo</mat-label>
+                <input matInput placeholder="Nome recibo" formControlName="nameForReceipt" maxlength="100">
+              </mat-form-field>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col col-3">
+              <div class="row">
+                <label class="field-label  margin-left-5">Ar condicionado?</label>
+              </div>
+              <mat-radio-group formControlName="hasAirConditioning">
+                <mat-radio-button [value]="true"   class="margin-right-5">Sim</mat-radio-button>
+                <mat-radio-button [value]="false"  class="margin-right-5">Não</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col col-3">
+              <div class="row">
+                <label class="field-label margin-left-5">Transformador?</label>
+              </div>
+              <mat-radio-group formControlName="takeTransformer">
+                <mat-radio-button [value]="true" class="margin-right-5">Sim</mat-radio-button>
+                <mat-radio-button [value]="false" class="margin-right-5">Não</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col col-3 ">
+              <div class="row">
+                <label class="field-label margin-left-5">Tomada 220v?</label>
+              </div>
+              <mat-radio-group formControlName="has220V">
+                <mat-radio-button [value]="true" class="margin-right-5">Sim</mat-radio-button>
+                <mat-radio-button [value]="false" class="margin-right-5">Não</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row margin-top-10">
+            <div class="col col-3">
+              <div class="row">
+                <label class="field-label margin-left-5">Tem escada?</label>
+              </div>
+              <mat-radio-group formControlName="hasStairs">
+                <mat-radio-button [value]="true" class="margin-right-5">Sim</mat-radio-button>
+                <mat-radio-button [value]="false" class="margin-right-5">Não</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-3 margin-top-10">
+              <div class="row">
+                <label class="field-label margin-left-5">Tem técnica?</label>
+              </div>
+              <mat-radio-group formControlName="hasTechnique">
+                <mat-radio-button [value]="true" class="margin-right-5">Sim</mat-radio-button>
+                <mat-radio-button [value]="false" class="margin-right-5">Não</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col col-3 margin-top-10">
+              <mat-form-field appearance="outline">
+                <mat-label>Opção 1</mat-label>
+                <input matInput placeholder="Opção 1" formControlName="techniqueOption1" maxlength="30">
+              </mat-form-field>
+            </div>
+            <div class="col col-3 margin-top-10">
+              <mat-form-field appearance="outline">
+                <mat-label>Opção 2</mat-label>
+                <input matInput placeholder="Opção 2" formControlName="techniqueOption2" maxlength="30">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Valores">
+        <mat-form-field appearance="outline">
+          <mat-label>Valores e Aparelhos</mat-label>
+          <textarea matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="19"
+            cdkAutosizeMaxRows="40" formControlName="equipamentValues"></textarea>
+        </mat-form-field>
+      </mat-tab>
+    </mat-tab-group>
+    
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+</div>

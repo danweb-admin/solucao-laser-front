@@ -1,0 +1,96 @@
+{
+  "drivers": [
+    {
+      "id": 1,
+      "nome": "William Nascimento ",
+      "celular": "(43) 99951-0994",
+      "placa": "AAA-0000",
+      "ativo": false
+    },
+    {
+      "id": 2,
+      "nome": "Teste teste 00000000",
+      "celular": "43999991111",
+      "placa": "AAA-0000",
+      "ativo": false
+    },
+    {
+      "id": 3,
+      "nome": "Teste teste",
+      "celular": "(43) 99999-0000",
+      "placa": "AAA-0000",
+      "ativo": true
+    },
+    {
+      "id": 4,
+      "nome": "Novo novvovovov",
+      "celular": "11111111111",
+      "placa": "BBB1111",
+      "ativo": true
+    },
+    {
+      "id": 5,
+      "nome": "Paulo dos Santos Oliveira",
+      "celular": "22222222222",
+      "placa": "ABC0987",
+      "ativo": true
+    },
+    {
+      "id": 6,
+      "nome": "ksksksksksksks",
+      "celular": "88888888888",
+      "placa": "QQQQQQQ",
+      "ativo": true
+    },
+    {
+      "id": 7,
+      "nome": "nsodnfosdnfosdnf",
+      "celular": "21212222222",
+      "placa": "HHHH111",
+      "ativo": true
+    },
+    {
+      "id": 8,
+      "nome": "ksksisksisksisksisksi",
+      "celular": "55555555555",
+      "placa": "RRRRRRR",
+      "ativo": true
+    },
+    {
+      "id": 9,
+      "nome": "Daniele Nascimento",
+      "celular": "43999266887",
+      "placa": "ASY7F37",
+      "ativo": true
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "Post 1"
+    },
+    {
+      "id": 2,
+      "title": "Post 2"
+    },
+    {
+      "id": 3,
+      "title": "Post 3"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    },
+    {
+      "id": 2,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

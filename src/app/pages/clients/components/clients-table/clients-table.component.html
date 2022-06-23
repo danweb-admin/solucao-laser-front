@@ -1,0 +1,87 @@
+<mat-card class="client-table">
+    <mat-card-title class="client-table__header">
+      <h5 class="client-table__title">Lista</h5>
+      
+      <div class="row">
+        <div class="client-table-wrapper__search">
+          <div class="client-table-wrapper__icon-wrapper">
+            <mat-icon class="client-table-wrapper__icon">search</mat-icon>
+          </div>
+          <input matInput class="client-table-wrapper__search-input" #inputSearch (keyup)="applyFilter($event)">
+          <button class="client-table-wrapper__button" mat-mini-fab (click)="closeFilterInput()">
+            <mat-icon class="client-table-wrapper__icon">close</mat-icon>
+          </button>
+        </div>
+        <button mat-icon-button (click)="openDialog(null)">
+          <mat-icon>control_point</mat-icon>
+        </button>
+      </div>
+      
+    </mat-card-title>
+  
+    <mat-card-content >
+      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="tabChangedEvent($event)" #tabGroup>
+          <mat-tab label="Ativos">
+            <table class="client-table__table" mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="nome" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > NOME </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="celular" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > CELULAR </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.cellPhone | mask: '(00) 0 0000-0000'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="telefone" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > TELEFONE </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.phone | mask: '(00) 0000-0000'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="cidade" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > CIDADE/ESTADO </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.city?.nome}} - {{element.state?.sigla}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              (click)="openDialog(row)">
+              </tr>
+            </table>
+          </mat-tab>
+          <mat-tab label="Inativos" >
+            <table class="client-table__table" mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="nome" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > NOME </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="celular" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > CELULAR </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.cellPhone | mask: '(00) 0 0000-0000'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="telefone" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > TELEFONE </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.phone | mask: '(00) 0000-0000'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="cidade" >
+                <th class="client-table__table-header" mat-header-cell *matHeaderCellDef > CIDADE/ESTADO </th>
+                <td class="client-table__table-body" mat-cell *matCellDef="let element"> {{element.city?.nome}} - {{element.state?.sigla}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              (click)="openDialog(row)">
+              </tr>
+            </table>
+          </mat-tab>
+        </mat-tab-group>
+        <div class="pagination">
+          <mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-card-content>
+  </mat-card>
+  
+  

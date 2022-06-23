@@ -1,0 +1,58 @@
+<mat-list>
+  <mat-list-item routerLink="{{routes.DASHBOARD}}" routerLinkActive="active">
+    <mat-icon>home</mat-icon> Dashboard
+  </mat-list-item>
+  <mat-list-item routerLink="{{routes.PEOPLE}}" routerLinkActive="active">
+    <mat-icon>local_shipping</mat-icon> Motoristas/Técnicas
+  </mat-list-item>
+  <mat-list-item routerLink="{{routes.CLIENTS}}" routerLinkActive="active">
+    <mat-icon>account_circle</mat-icon> Clientes
+  </mat-list-item>
+  <mat-list-item (click)="openEquipaments()">
+    <mat-icon>filter_none</mat-icon> Equipamentos
+  </mat-list-item>
+    <div>
+      <mat-list-item class="ui-element" [style.display]="isOpenEquipaments ? 'flex' : 'none'" routerLink="{{routes.EQUIPAMENTS_SPECIFICATIONS}}" routerLinkActive="active">
+        <div class="circle"></div>Ponteiras
+      </mat-list-item>
+      <mat-list-item class="ui-element" [style.display]="isOpenEquipaments ? 'flex' : 'none'" routerLink="{{routes.EQUIPAMENTS}}" routerLinkActive="active">
+        <div class="circle"></div>Equipamentos
+      </mat-list-item>
+    </div>
+  <mat-list-item (click)="openLocations()">
+    <mat-icon>assignment</mat-icon> Locações
+  </mat-list-item>
+    <div>
+      <mat-list-item class="ui-element" routerLink="{{routes.CALENDAR}}" routerLinkActive="active">
+        <div class="circle"></div>Agenda
+      </mat-list-item>
+      <mat-list-item class="ui-element"  routerLink="{{routes.AVAILABILITY}}" routerLinkActive="active">
+        <div class="circle"></div>Disponibilidade
+      </mat-list-item>
+    </div>
+  <mat-list-item routerLink="{{routes.TYPOGRAPHY}}" routerLinkActive="active" [style.display]="'none'">
+    <mat-icon>text_fields</mat-icon> Typography
+  </mat-list-item>
+  <mat-list-item routerLink="{{routes.TABLES}}" routerLinkActive="active" [style.display]="'none'">
+    <mat-icon>border_all</mat-icon> Tables
+  </mat-list-item>
+  <mat-list-item routerLink="{{routes.NOTIFICATION}}" routerLinkActive="active" [style.display]="'none'">
+    <mat-icon>notifications_none</mat-icon> Notification
+  </mat-list-item>
+  <mat-list-item  [style.display]="'none'">
+    <mat-icon>filter_none</mat-icon> UI Elements
+  </mat-list-item>
+    <div>
+      <mat-list-item class="ui-element" routerLink="{{routes.UI_ELEMENTS_ICONS}}" routerLinkActive="active" [style.display]="'none'">
+        <div class="circle"></div>Icons
+      </mat-list-item>
+      <mat-list-item class="ui-element" routerLink="{{routes.UI_ELEMENTS_CHARTS}}" routerLinkActive="active" [style.display]="'none'">
+        <div class="circle"></div>Charts
+      </mat-list-item>
+      <mat-list-item class="ui-element" routerLink="{{routes.UI_ELEMENTS_MAP}}" routerLinkActive="active" [style.display]="'none'">
+        <div class="circle"></div>Map
+      </mat-list-item>
+    </div>
+</mat-list>
+
+

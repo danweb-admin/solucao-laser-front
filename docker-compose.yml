@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  solucao-angular:
+    image: solucao-angular
+    build: .
+    cpus: "0.5"
+    mem_limit: 23m
+    ports:
+      - 8081:80

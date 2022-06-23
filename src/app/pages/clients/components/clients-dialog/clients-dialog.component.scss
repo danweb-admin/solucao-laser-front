@@ -1,0 +1,19 @@
+mat-form-field {
+    width: 100%;
+}
+
+.field-label{
+    font-size: 11px; 
+    color: rgba(0, 0, 0, 0.60);
+}
+
+.tab-dados-gerais, .tab-dados-adicionais {
+    height: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.input-estado, .input-cidade {
+    padding-top: 10px;
+    padding-left: 15px;
+}

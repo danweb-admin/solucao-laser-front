@@ -1,0 +1,106 @@
+<mat-card class="calendar-table">
+    <mat-card-title class="calendar-table__header">
+        <h5 class="calendar-table__title">Agenda do dia {{time | date:'dd/MM/yyyy EE' : '' : 'pt-BR'}}</h5>
+        
+        <div class="row">
+            <div class="calendar-table-wrapper__search">
+                <input matInput class="calendar-table-wrapper__search-input" [matDatepicker]="dp"  placeholder="Data locação" #inputSearch (dateInput)="applyFilter($event)">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp></mat-datepicker>
+                <button class="calendar-table-wrapper__button" (click)="showFilterInput()">
+                  <mat-icon class="calendar-table-wrapper__icon" (click)="closeFilterInput()">close</mat-icon>
+                </button>
+              </div>
+            <button mat-icon-button (click)="openDialog(null)">
+                <mat-icon>control_point</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openDialogStickyNotes()">
+                <mat-icon>comment</mat-icon>
+            </button>
+        </div>
+    </mat-card-title>
+  
+    <mat-card-content >
+        <table class="calendar-table__table" >
+            <thead>
+                <th style="text-align: left; padding-left: 5px;"> EQUIPAMENTO </th>
+                <th style="text-align: left; padding-left: 5px;"> LOCATÁRIO </th>
+                <th style="text-align: left; padding-left: 5px;"> HORÁRIO </th>
+                <th style="text-align: left; padding-left: 5px;"> TÉCNICA </th>
+                <th style="text-align: left; padding-left: 5px;"> STATUS </th>
+                <th style="text-align: left; padding-left: 5px;"> USUÁRIO </th>
+                <th style="text-align: left; padding-left: 5px;"> MOTORISTA </th>
+                <th style="text-align: left; padding-left: 5px;"> </th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let element of dataSource">
+                    <td>
+                        <div class="padding-left-5">
+                            {{element.equipament.name}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let item of element.calendars">
+                            <div class="row padding-left-5" (click)="openDialog(item)">
+                                {{showClientCity(item)}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let item of element.calendars" (click)="openDialog(item)">
+                            <div class="row padding-left-5">
+                                {{showTime(item)}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let item of element.calendars" (click)="openDialogTechnique(item)">
+                            <div class="row padding-left-5" >
+                                {{item.technique?.name}}
+                            </div>
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <div *ngFor="let item of element.calendars" (click)="openDialogStatus(item,false)">
+                            <div class="calendar-table__content-badge" [ngClass]="statusToString(item.status)">
+                                {{statusToString(item.status)}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let item of element.calendars" (click)="openDialog(item)">
+                            <div class="row padding-left-5">
+                                {{item.user.nickName}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let item of element.calendars" (click)="openDialogDriver(item)">
+                            <div class="row padding-left-5">
+                                {{item.driver?.name}}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let item of element.calendars" (click)="openDialogStatus(item,true)">
+                            <div class="row padding-left-5">
+                                <mat-icon>{{showIconTravelOn(item.travelOn)}}</mat-icon>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>
+        <h5>Anotações do dia</h5>
+    </mat-card-title>
+    <mat-card-content>
+        <app-sticky-notes-table [today]="time"></app-sticky-notes-table>
+    </mat-card-content>
+  </mat-card>
+  
+  
