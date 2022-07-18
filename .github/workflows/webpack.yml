@@ -36,4 +36,4 @@ jobs:
     
     - name: Deploy
       if: success()
-      run: aws s3 sync ./dist/front-end-solucao-pipeline s3://solucao-laser-dev
+      run: aws s3 sync ./dist s3://solucao-laser-dev
