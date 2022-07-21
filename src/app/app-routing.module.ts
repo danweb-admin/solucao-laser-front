@@ -73,10 +73,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/calendar/calendar.module').then(m => m.CalendarModule)
   },
   {
-    path: 'disponibilidade',
+    path: 'agendamentos',
     pathMatch: 'full',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/availability/availability.module').then(m => m.AvailabilityModule)
+    loadChildren: () => import('./pages/schedules/schedules.module').then(m => m.SchedulesModule)
   },
   {
     path: 'usuario',

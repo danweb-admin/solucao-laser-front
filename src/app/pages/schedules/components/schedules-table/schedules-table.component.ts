@@ -1,10 +1,10 @@
-import { Client } from './../../../../shared/models/client';
+import { Client } from '../../../../shared/models/client';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ClientsService } from './../../../../shared/services/clients.service';
-import { EquipamentsService } from './../../../../shared/services/equipaments.service';
+import { ClientsService } from '../../../../shared/services/clients.service';
+import { EquipamentsService } from '../../../../shared/services/equipaments.service';
 import { ToastrService } from 'ngx-toastr';
 import { SpecificationsService } from 'src/app/shared/services/specifications.service';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog} from '@angular/material/dialog';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -17,19 +17,21 @@ import { Specification } from 'src/app/shared/models/specification';
 import { Equipament } from 'src/app/shared/models/equipament';
 import { debounceTime, filter, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { PersonService } from 'src/app/shared/services/people.service';
+import { Person } from 'src/app/shared/models/person';
 
 
 
 @Component({
-    selector: 'app-availability-table',
-    templateUrl: 'availability-table.component.html',
-    styleUrls: ['./availability-table.component.scss',],
+    selector: 'app-schedules-table',
+    templateUrl: 'schedules-table.component.html',
+    styleUrls: ['./schedules-table.component.scss',],
     providers: [
       {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
       {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     ],
   })
-  export class AvailabilityTableComponent implements OnInit{
+  export class SchedulesTableComponent implements OnInit, AfterViewInit{
     
     displayedColumns: string[] = ['data','horario','equipamento','locatario','tecnica','motorista','status'];
     @ViewChild('inputSearch') inputSearch: ElementRef;
@@ -43,27 +45,34 @@ import { of } from 'rxjs';
     isLoading = false;
     notFound = false;
     form: FormGroup;
+    techniqueResult: Person[];
+    driverResult: Person[];
     
     constructor(private calendarService: CalendarService,
                 public dialog: MatDialog,
                 private specificationSerivce: SpecificationsService,
-                private toastrService: ToastrService,
+                private personService: PersonService,
                 private formBuilder: FormBuilder,
                 private equipamentService: EquipamentsService,
                 private clientService: ClientsService,
                 private cdr: ChangeDetectorRef) {
     }
+    ngAfterViewInit(): void {
+      this.ajusteCSS();
+    }
 
     ngOnInit(): void {
       this.loadSpecifications();
       this.getEquipaments();
-      
+      this.getPeople();
 
       this.form = this.formBuilder.group({
         startDate: [null],
         endDate: [null],
         client: [null],
         equipamentId: [null],
+        techniqueId: [null],
+        driverId: [null]
       });
       this.onChanges();
 
@@ -132,29 +141,33 @@ import { of } from 'rxjs';
 
     statusToString(status){
       let ret = 'Confirmada';
-
-      if (status == 'pending'){
-        ret = 'Pendente';
-      }else if (status == 'canceled'){
-        ret = 'Cancelada';
-      }
-
       
+      if (status == '2'){
+        ret = 'Pendente';
+      }else if (status == '3'){
+        ret = 'Cancelada';
+      }else if (status == '4'){
+        ret = 'Excluida';
+      }else if (status == '5'){
+        ret = 'Pre Agendada';
+      }
 
       return ret;
     }
 
     onSubmit(): void{
-      debugger
       let startDate = this.form.value.startDate.format('yyyy-MM-DD');
       let endDate = this.form.value.endDate.format('yyyy-MM-DD');
       let clientId = '';
+      let driverId = this.form.value.driverId === null ? '' : this.form.value.driverId;
+      let techniqueId = this.form.value.techniqueId === null ? '' : this.form.value.techniqueId;
       let equipamentId = this.form.value.equipamentId === null ? '' : this.form.value.equipamentId;
+
       if (this.form.value.client !== null && this.form.value.client !== ''){
         clientId = this.form.value.client.id;
       }
 
-      this.calendarService.availability(startDate, endDate, clientId, equipamentId)
+      this.calendarService.availability(startDate, endDate, clientId, equipamentId, driverId,techniqueId)
         .subscribe((resp: Calendar[]) => {
           this.dataSource = new MatTableDataSource<Calendar>();
           this.dataSource = new MatTableDataSource<Calendar>(resp);
@@ -166,5 +179,17 @@ import { of } from 'rxjs';
         this.equipamentResult = resp;
       })
     }
+
+    getPeople(): void {
+      this.personService.loadPeople(true).subscribe((resp: Person[]) => {
+        this.techniqueResult = resp.filter(x => x.personType === 'T');
+        this.driverResult = resp.filter(x => x.personType === 'M');
+      })
+    }
     
+    ajusteCSS(): void {
+      document
+            .querySelectorAll<HTMLElement>('.header__title-button-icon')
+            .forEach(node => node.click())
+    }
   }
