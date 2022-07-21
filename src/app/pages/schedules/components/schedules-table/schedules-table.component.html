@@ -1,31 +1,43 @@
     <mat-card class="availability-table">
         <mat-card-title class="availability-table__header">
-            <h5 class="availability-table__title">Disponibilidade de Equipamentos</h5>
-            
-            
-            
-        
+            <h5 class="availability-table__title">Agendamentos de Equipamentos</h5>
         </mat-card-title>
         <div class="row" style="margin-left: 20px;">
             <div class="col">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                    <div  class="availability-table-wrapper__search">
+                    <div class="row availability-table-wrapper__search">
                         <div class="availability-table-wrapper__separate">
-                            <input matInput class="availability-table-wrapper__search-input" [matDatepicker]="dp"  placeholder="Data Início" formControlName="startDate" >
+                            <input matInput class="availability-table-wrapper__search-input" [matDatepicker]="dp"  placeholder="Data Início" formControlName="startDate" (focus)="dp.open()">
                             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                             <mat-datepicker #dp></mat-datepicker>
                         </div>
         
                         <div class="availability-table-wrapper__separate">
-                            <input matInput class="availability-table-wrapper__search-input" [matDatepicker]="dp1"  placeholder="Data Final"  formControlName="endDate" >
+                            <input matInput class="availability-table-wrapper__search-input" [matDatepicker]="dp1"  placeholder="Data Final"  formControlName="endDate" (focus)="dp1.open()">
                             <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
                             <mat-datepicker #dp1></mat-datepicker>
                         </div>
+                    </div>
+                    
+                    <div  class="row availability-table-wrapper__search">
+                        
 
                         <div class="availability-table-wrapper__separate">
                             <mat-select formControlName="equipamentId" class="availability-table-wrapper__search-input" placeholder="Equipamento">
                                 <mat-option value="">Todos</mat-option>
                                 <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                        </div>
+                        <div class="availability-table-wrapper__separate">
+                            <mat-select formControlName="driverId" class="availability-table-wrapper__search-input" placeholder="Motorista">
+                                <mat-option value="">Todos</mat-option>
+                                <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
+                              </mat-select>
+                        </div>
+                        <div class="availability-table-wrapper__separate">
+                            <mat-select formControlName="techniqueId" class="availability-table-wrapper__search-input" placeholder="Técnica">
+                                <mat-option value="">Todos</mat-option>
+                                <mat-option *ngFor="let item of techniqueResult" [value]="item.id">{{item.name}}</mat-option>
                             </mat-select>
                         </div>
                         
@@ -91,8 +103,8 @@
                 <ng-container matColumnDef="status" >
                     <th class="availability-table__table-header" mat-header-cell *matHeaderCellDef > STATUS </th>
                     <td class="availability-table__table-body" mat-cell *matCellDef="let element">
-                        <div class="availability-table__content-badge" [ngClass]="element.status">
-                            <span>{{statusToString(element.status)}}</span>
+                        <div class="availability-table__content-badge" [ngClass]="statusToString(element.status)">
+                            {{statusToString(element.status)}}
                         </div>
                     </td>
                 </ng-container>

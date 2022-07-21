@@ -48,8 +48,4 @@ import { UserService } from 'src/app/shared/services/user.service';
           this.toastr.warning(error.error?.errorMessage)
         })
     }
-
-    teste(){
-        debugger
-    }
   }

@@ -10,6 +10,7 @@
 
   &__separate {
     margin-left: 10px;
+    float: left;
   }
 
   &__header {
@@ -52,6 +53,7 @@
     border-bottom: 1px solid $grey;
     border-radius: 0;
     outline: none;
+    padding-left: 10px;
 
     @media (max-width: $small) {
       width: 150px;
@@ -175,15 +177,23 @@
   }  
 }
 
-.confirmed {
+.Confirmada {
   background-color: $green;
 }
 
-.pending {
+.Pendente {
   background-color: $yellow;
 }
 
-.canceled {
+.Cancelada {
   background-color: $red;
+}
+
+.Excluida {
+  background-color: magenta;
+}
+
+.Pre-Agendada {
+  background-color: lightskyblue;
 }
 
