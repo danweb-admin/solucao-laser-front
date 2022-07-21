@@ -230,15 +230,18 @@ const moment = _rollupMoment || _moment;
     }
 
     onChangeEquipament(event): void {
-      this.arr?.clear();
       this.arr = this.form.get('calendarSpecifications') as FormArray;
       let temp = this.equipamentResult.filter(x => x.id === event.value);
+
+      if (this.arr.value.length !== 0)
+        this.arr.clear();
     
       temp[0].equipamentSpecifications.forEach(item => {
         if (item.active){
           const spec = this.specificationResult.find(x => x.id === item.specificationId);
+          const active = this.data.element?.equipamentSpecifications?.filter(x => x.specificationId == item.id)[0].active
           let equipamentSpecification = {
-            active: (this.isAddMode ? false : this.data.element?.equipamentSpecifications.filter(x => x.specificationId == item.id)[0].active),
+            active: (this.isAddMode ? false : active == null ? false : active ),
             specificationId: item.specificationId,
             name: spec.name
           } as EquipamentSpecifications;
@@ -277,7 +280,6 @@ const moment = _rollupMoment || _moment;
     }
 
     compare(dateTimeA, dateTimeB) {
-      debugger
       var data_locacao = moment(dateTimeA,"YYYY-MM-DD");
       var hoje = moment(dateTimeB,"YYYY-MM-DD");
       if (data_locacao > hoje) return 1;

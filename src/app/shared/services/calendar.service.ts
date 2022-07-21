@@ -61,9 +61,19 @@ export class CalendarService {
       return resp;
     }))
   }
+
+  updateContractMade(calendarId: string): Observable<Calendar>{
+    let put = {
+      calendarId,
+    }
+    return this.http.put(`${environment.URL_API}${URL_CALENDARS}/update-contract-made`,put)
+    .pipe(map((resp: Calendar) => {
+      return resp;
+    }))
+  }
   
-  availability(startDate: string, endDate: string, clientId: string, equipamentId: string): Observable<Calendar[]>{
-    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/availability?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentId=${equipamentId}`)
+  availability(startDate: string, endDate: string, clientId: string, equipamentId: string, driverId: string, techniqueId: string): Observable<Calendar[]>{
+    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/availability?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentId=${equipamentId}&driverId=${driverId}&techniqueId=${techniqueId}`)
     .pipe(map((resp: Calendar[]) => {
       return resp;
     }));

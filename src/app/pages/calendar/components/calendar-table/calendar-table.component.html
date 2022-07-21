@@ -3,14 +3,20 @@
         <h5 class="calendar-table__title">Agenda do dia {{time | date:'dd/MM/yyyy EE' : '' : 'pt-BR'}}</h5>
         
         <div class="row">
+            <button mat-icon-button (click)="lastDay()">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
+            <button mat-icon-button (click)="today()">
+                HOJE
+            </button>
+            <button mat-icon-button (click)="followingDay()">
+                <mat-icon>arrow_forward_ios</mat-icon>
+            </button>
             <div class="calendar-table-wrapper__search">
-                <input matInput class="calendar-table-wrapper__search-input" [matDatepicker]="dp"  placeholder="Data locação" #inputSearch (dateInput)="applyFilter($event)">
+                <input matInput class="calendar-table-wrapper__search-input" [matDatepicker]="dp"  placeholder="Data locação" #inputSearch (dateInput)="applyFilter($event)" style="visibility: hidden;">
                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                 <mat-datepicker #dp></mat-datepicker>
-                <button class="calendar-table-wrapper__button" (click)="showFilterInput()">
-                  <mat-icon class="calendar-table-wrapper__icon" (click)="closeFilterInput()">close</mat-icon>
-                </button>
-              </div>
+            </div>
             <button mat-icon-button (click)="openDialog(null)">
                 <mat-icon>control_point</mat-icon>
             </button>
@@ -23,14 +29,15 @@
     <mat-card-content >
         <table class="calendar-table__table" >
             <thead>
-                <th style="text-align: left; padding-left: 5px;"> EQUIPAMENTO </th>
-                <th style="text-align: left; padding-left: 5px;"> LOCATÁRIO </th>
-                <th style="text-align: left; padding-left: 5px;"> HORÁRIO </th>
-                <th style="text-align: left; padding-left: 5px;"> TÉCNICA </th>
-                <th style="text-align: left; padding-left: 5px;"> STATUS </th>
-                <th style="text-align: left; padding-left: 5px;"> USUÁRIO </th>
-                <th style="text-align: left; padding-left: 5px;"> MOTORISTA </th>
-                <th style="text-align: left; padding-left: 5px;"> </th>
+                <th style="text-align: left;" class="padding-left-5"> EQUIPAMENTO </th>
+                <th style="text-align: left;" class="padding-left-5"> LOCATÁRIO </th>
+                <th style="text-align: left;" class="padding-left-5"> HORÁRIO </th>
+                <th style="text-align: left;" class="padding-left-5"> TÉCNICA </th>
+                <th style="text-align: left;" class="padding-left-5"> STATUS </th>
+                <th style="text-align: left;" class="padding-left-5"> USUÁRIO </th>
+                <th style="text-align: left;" class="padding-left-5"> MOTORISTA </th>
+                <th style="text-align: left;" class="padding-left-5"> </th>
+                <th style="text-align: left;" class="padding-left-5"> </th>
             </thead>
             <tbody>
                 <tr *ngFor="let element of dataSource">
@@ -86,6 +93,14 @@
                         <div *ngFor="let item of element.calendars" (click)="openDialogStatus(item,true)">
                             <div class="row padding-left-5">
                                 <mat-icon>{{showIconTravelOn(item.travelOn)}}</mat-icon>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let item of element.calendars" (click)="updateContractMade(item)">
+                            <div class="row padding-left-5">
+                                <mat-icon *ngIf="!item.contractMade" class="red">block</mat-icon>
+                                <mat-icon *ngIf="item.contractMade" class="limegreen">check</mat-icon>
                             </div>
                         </div>
                     </td>

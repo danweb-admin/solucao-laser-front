@@ -8,6 +8,7 @@ export enum routes {
   UI_ELEMENTS_MAP = '/ui/map',
   EQUIPAMENTS_SPECIFICATIONS = '/especificacoes',
   EQUIPAMENTS = '/equipamentos',
+  SCHEDULES = '/agendamentos',
   AVAILABILITY = '/disponibilidade',
   LOGIN = '/login',
   PEOPLE = '/pessoas',

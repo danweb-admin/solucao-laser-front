@@ -32,6 +32,7 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
     
     displayedColumns: string[] = ['equipamento', 'locatario', 'horario', 'tecnica', 'motorista','usuario','status','obs'];
     @ViewChild('inputSearch') inputSearch: ElementRef;
+    @ViewChild(StickyNotesDialogComponent) sticky: StickyNotesDialogComponent;
     dataSource: [];
     isShowFilterInput = false;
     currentDate = new Date();
@@ -64,7 +65,6 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
     constructor(private calendarService: CalendarService,
                 public dialog: MatDialog,
                 private specificationSerivce: SpecificationsService,
-                private equipamentService: EquipamentsService,
                 private toastrService: ToastrService) {
       this.time = moment();
     }
@@ -96,7 +96,6 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
         this.toastrService.info("Data está incorreta!");
         return;
       }
-
       this.time = moment(this.inputSearch.nativeElement.value, 'DD-MM-YYYY', true);
       this.getCalendars();
     }
@@ -114,6 +113,7 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
     }
 
     getCalendars(): void{
+      this.time = moment(this.time, 'DD-MM-YYYY', true);
       let date = this.time.format('YYYY-MM-DD');
       this.calendarService.getCalendarByDay(date).subscribe((resp: any) => {
         this.dataSource = resp;
@@ -199,9 +199,31 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
       dialogRef.afterClosed().subscribe(result => {
         if (result === undefined)
           return;
-        
-        window.location.reload();           
+
+        this.getCalendars();           
       });
+    }
+
+    today(): void {
+      this.time = moment();
+      this.getCalendars();
+    }
+
+    followingDay(): void {
+      
+      this.time = moment(this.time, 'DD-MM-YYYY', true).add(1,'days');
+      this.ngOnInit();
+    }
+
+    lastDay(): void {
+      this.time = moment(this.time, 'DD-MM-YYYY', true).add(-1,'days');
+      this.getCalendars();
+    }
+
+    updateContractMade(item: Calendar): void{
+      this.calendarService.updateContractMade(item.id).subscribe(() => {
+        this.getCalendars(); 
+      })
     }
 
     descriptionSpecifications(item: Calendar){

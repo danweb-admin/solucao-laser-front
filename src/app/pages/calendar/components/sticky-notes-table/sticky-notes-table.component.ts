@@ -39,7 +39,7 @@ import { MatDialog } from '@angular/material/dialog';
 
     updateResolved(item: StickyNotes){
       this.stickyNotesService.updateResolved(item.id).subscribe((resp: StickyNotes) => {
-        window.location.reload();
+        this.getStickyNotes();
       });
     }
 
@@ -55,9 +55,8 @@ import { MatDialog } from '@angular/material/dialog';
         if (result === undefined)
           return;
         
-        setTimeout(() => {
-          window.location.reload();         
-        },1000)
+        this.getStickyNotes();
+        
       });
     }
 
