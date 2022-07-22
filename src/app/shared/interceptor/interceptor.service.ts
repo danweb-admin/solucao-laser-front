@@ -42,23 +42,8 @@ export class Interceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       finalize(() => this.spinnerService.hide()),
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 404 && error.url.match(this.urlIsLogin)){
-          this.toastr.error(error.error.message);
-        }else if (error.status === 504 && error.url.match(this.urlIsLogin)){
-          this.toastr.error('Houve erro de comunicação com o servidor! Contate o administrador!');
-        }else if (error.status === 504){
-          // this.router.navigate([this.routers.LOGIN]).then();
-          // this.toastr.error('Faça o login novamente');
-          console.log(error);
-          this.toastr.error('erro!');
-        }else if (error.status === 500){
-          this.toastr.error('Houve erro de comunicação com o servidor! Contate o administrador!');
-        }else if (error.status === 401 || error.status === 403 || error.status === 0) {
-          this.router.navigate([this.routers.LOGIN]).then();
-          this.toastr.error('Faça o login novamente');
-          console.log(error);
-           this.removeDialog();
-        }
+
+        this.showError(error);
         // this.spinnerService.hide();
         return throwError(error);
       })
@@ -69,5 +54,24 @@ export class Interceptor implements HttpInterceptor {
     let element = document.getElementsByClassName("cdk-overlay-container") as HTMLCollection;
     if (element.length > 0)
       element[0].remove();
+  }
+
+  showError(error: HttpErrorResponse): void{
+    switch(error?.status){
+      case 400: //BadRequest
+        this.toastr.error(error.error.message);
+        break;
+      case 401: //Unauthorized
+        this.router.navigate([this.routers.LOGIN]).then();
+        this.toastr.error('Faça o login novamente');
+        this.removeDialog();
+        break;
+      case 500: //InternalServerError
+      case 504: //Gateway Timeout
+        this.toastr.error('Houve erro de comunicação com o servidor! Contate o administrador!');
+        console.log(error);
+        break;
+
+    }
   }
 }
