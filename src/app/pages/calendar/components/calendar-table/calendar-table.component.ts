@@ -255,7 +255,11 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
         ret.push(item.temporaryName);
       }else{
         let split = item.client.name.split(' ');
-        ret.push(split[0]);
+        if (split.length > 1){
+          ret.push(split[0] + ' ' + split[1]);
+        }else{
+          ret.push(split[0]);
+        }
         ret.push(item.client.city.nome)
       }
       

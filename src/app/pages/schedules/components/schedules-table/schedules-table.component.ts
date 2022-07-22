@@ -139,6 +139,23 @@ import { Person } from 'src/app/shared/models/person';
       return start + ' - ' + end;
     }
 
+    showClientCity(item){
+      let ret = [];
+      if (item.noCadastre){
+        ret.push(item.temporaryName);
+      }else{
+        let split = item.client.name.split(' ');
+        if (split.length > 1){
+          ret.push(split[0] + ' ' + split[1]);
+        }else{
+          ret.push(split[0]);
+        }
+        ret.push(item.client.city.nome)
+      }
+
+      return ret.join(' - ');
+    }
+
     statusToString(status){
       let ret = 'Confirmada';
       
