@@ -29,6 +29,9 @@
       <mat-list-item class="ui-element"  routerLink="{{routes.SCHEDULES}}" routerLinkActive="active">
         <div class="circle"></div>Agendamentos
       </mat-list-item>
+      <mat-list-item class="ui-element"  routerLink="{{routes.AVAILABILITY}}" routerLinkActive="active" [style.display]="'none'">
+        <div class="circle"></div>Disponibilidade
+      </mat-list-item>
     </div>
   <mat-list-item routerLink="{{routes.TYPOGRAPHY}}" routerLinkActive="active" [style.display]="'none'">
     <mat-icon>text_fields</mat-icon> Typography

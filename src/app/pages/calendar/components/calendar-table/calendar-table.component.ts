@@ -10,12 +10,13 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Calendar } from 'src/app/shared/models/calendar';
 import { CalendarService } from 'src/app/shared/services/calendar.service';
 import { CalendarDialogComponent } from '../calendar-dialog/calendar-dialog.component';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { Specification } from 'src/app/shared/models/specification';
 import { MY_FORMATS } from 'src/app/consts/my-format';
 import { PersonDialogUpdateComponent } from '../person-dialog-update/person-dialog-update.component';
 import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
 import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-dialog.component';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 
 
@@ -32,6 +33,7 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
     
     displayedColumns: string[] = ['equipamento', 'locatario', 'horario', 'tecnica', 'motorista','usuario','status','obs'];
     @ViewChild('inputSearch') inputSearch: ElementRef;
+    @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
     @ViewChild(StickyNotesDialogComponent) sticky: StickyNotesDialogComponent;
     dataSource: [];
     isShowFilterInput = false;
@@ -67,6 +69,10 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
                 private specificationSerivce: SpecificationsService,
                 private toastrService: ToastrService) {
       this.time = moment();
+    }
+
+    resetPicker() {
+      this.picker.select(undefined);
     }
 
     ngAfterViewInit(): void {
@@ -205,8 +211,7 @@ import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-
     }
 
     today(): void {
-      this.time = moment();
-      this.getCalendars();
+      window.location.reload();
     }
 
     followingDay(): void {
