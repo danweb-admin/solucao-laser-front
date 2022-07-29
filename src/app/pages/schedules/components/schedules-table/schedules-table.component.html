@@ -85,7 +85,7 @@
 
                 <ng-container matColumnDef="locatario" >
                     <th class="availability-table__table-header" mat-header-cell *matHeaderCellDef > LOCATÁRIO </th>
-                    <td class="availability-table__table-body" mat-cell *matCellDef="let element"> {{element.noCadastre ? element.temporaryName : element.client.name}} </td>
+                    <td class="availability-table__table-body" mat-cell *matCellDef="let element">{{showClientCity(element)}}</td>
                 </ng-container>
 
                 
