@@ -17,23 +17,32 @@
                             <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
                             <mat-datepicker #dp1></mat-datepicker>
                         </div>
+                        <div class="availability-table-wrapper__separate">
+                            <mat-select formControlName="status" class="availability-table-wrapper__search-input" placeholder="Status">
+                                <mat-option value="">Todos</mat-option>
+                                <mat-option value="1">Confirmada</mat-option>
+                                <mat-option value="2">Pendente</mat-option>
+                                <mat-option value="3">Cancelada</mat-option>
+                                <mat-option value="4">Excluida</mat-option>
+                                <mat-option value="5">Pré Agendada</mat-option>
+                            </mat-select>
+                        </div>
+                        <div class="availability-table-wrapper__separate">
+                            <mat-select multiple formControlName="driverList" class="availability-table-wrapper__search-input" placeholder="Motorista">
+                                <mat-option value="">Todos</mat-option>
+                                <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
+                              </mat-select>
+                        </div>
                     </div>
                     
                     <div  class="row availability-table-wrapper__search">
-                        
-
                         <div class="availability-table-wrapper__separate">
                             <mat-select formControlName="equipamentId" class="availability-table-wrapper__search-input" placeholder="Equipamento">
                                 <mat-option value="">Todos</mat-option>
                                 <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
                             </mat-select>
                         </div>
-                        <div class="availability-table-wrapper__separate">
-                            <mat-select formControlName="driverId" class="availability-table-wrapper__search-input" placeholder="Motorista">
-                                <mat-option value="">Todos</mat-option>
-                                <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
-                              </mat-select>
-                        </div>
+                        
                         <div class="availability-table-wrapper__separate">
                             <mat-select formControlName="techniqueId" class="availability-table-wrapper__search-input" placeholder="Técnica">
                                 <mat-option value="">Todos</mat-option>
@@ -55,13 +64,10 @@
                                 </mat-autocomplete>
                                 <span *ngIf="notFound">Não encontrado.</span>
                         </div>
-                        
         
-                        <button mat-raised-button color="primary" >Buscar</button>
+                        <button mat-raised-button color="primary" [disabled]="!form.valid">Buscar</button>
                     </div>
                 </form>
-
-                
             </div>
         </div>
     

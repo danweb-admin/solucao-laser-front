@@ -1,3 +1,7 @@
+@import 'src/app/styles/colors';
+@import 'src/app/styles/font';
+@import 'src/app/styles/variables';
+
 .toast-message {
     margin-left: 40px !important;
 }
@@ -41,6 +45,26 @@ div.mat-dialog-content {
 
 .padding-left-5 {
   padding-left: 5px;
+}
+
+.Confirmada {
+  background-color: $green;
+}
+
+.Pendente {
+  background-color: $yellow;
+}
+
+.Cancelada {
+  background-color: $red;
+}
+
+.Excluida {
+  background-color: magenta;
+}
+
+.Pre-Agendada {
+  background-color: lightskyblue;
 }
 
 // @media (max-width: 700px)
