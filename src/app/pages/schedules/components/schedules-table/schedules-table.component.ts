@@ -1,5 +1,5 @@
 import { Client } from '../../../../shared/models/client';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ClientsService } from '../../../../shared/services/clients.service';
 import { EquipamentsService } from '../../../../shared/services/equipaments.service';
 import { ToastrService } from 'ngx-toastr';
@@ -67,12 +67,13 @@ import { Person } from 'src/app/shared/models/person';
       this.getPeople();
 
       this.form = this.formBuilder.group({
-        startDate: [null],
-        endDate: [null],
+        startDate: [null, Validators.required],
+        endDate: [null, Validators.required],
         client: [null],
         equipamentId: [null],
         techniqueId: [null],
-        driverId: [null]
+        driverList: [null],
+        status: [null]
       });
       this.onChanges();
 
@@ -166,7 +167,7 @@ import { Person } from 'src/app/shared/models/person';
       }else if (status == '4'){
         ret = 'Excluida';
       }else if (status == '5'){
-        ret = 'Pre Agendada';
+        ret = 'Pre-Agendada';
       }
 
       return ret;
@@ -176,15 +177,16 @@ import { Person } from 'src/app/shared/models/person';
       let startDate = this.form.value.startDate.format('yyyy-MM-DD');
       let endDate = this.form.value.endDate.format('yyyy-MM-DD');
       let clientId = '';
-      let driverId = this.form.value.driverId === null ? '' : this.form.value.driverId;
+      let driverList = this.form.value.driverList === null ? '' : this.form.value.driverList;
       let techniqueId = this.form.value.techniqueId === null ? '' : this.form.value.techniqueId;
       let equipamentId = this.form.value.equipamentId === null ? '' : this.form.value.equipamentId;
+      let status = this.form.value.status === null ? '' : this.form.value.status;
 
       if (this.form.value.client !== null && this.form.value.client !== ''){
         clientId = this.form.value.client.id;
       }
 
-      this.calendarService.availability(startDate, endDate, clientId, equipamentId, driverId,techniqueId)
+      this.calendarService.availability(startDate, endDate, clientId, equipamentId, driverList,techniqueId, status)
         .subscribe((resp: Calendar[]) => {
           this.dataSource = new MatTableDataSource<Calendar>();
           this.dataSource = new MatTableDataSource<Calendar>(resp);

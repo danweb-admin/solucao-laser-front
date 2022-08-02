@@ -140,7 +140,7 @@
 
 .table-scroll {
 	position:relative;
-	max-width: 1000px;
+	max-width: 1200px;
 	margin:auto;
 	overflow:hidden;
 	border:1px solid #000;
@@ -161,6 +161,7 @@
 	background:#fff;
 	white-space:nowrap;
 	vertical-align:top;
+  height: 32px;
 }
 .table-scroll thead, .table-scroll tfoot {
 	background:#f9f9f9;
