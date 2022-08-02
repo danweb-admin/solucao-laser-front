@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { stat } from 'fs';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -72,8 +73,8 @@ export class CalendarService {
     }))
   }
   
-  availability(startDate: string, endDate: string, clientId: string, equipamentId: string, driverId: string, techniqueId: string): Observable<Calendar[]>{
-    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/availability?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentId=${equipamentId}&driverId=${driverId}&techniqueId=${techniqueId}`)
+  availability(startDate: string, endDate: string, clientId: string, equipamentId: string, driverId: string, techniqueId: string, status: string): Observable<Calendar[]>{
+    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/availability?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentId=${equipamentId}&driverList=${driverId}&techniqueId=${techniqueId}&status=${status}`)
     .pipe(map((resp: Calendar[]) => {
       return resp;
     }));

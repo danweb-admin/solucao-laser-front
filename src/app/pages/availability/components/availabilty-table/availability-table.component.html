@@ -1,22 +1,95 @@
-
-
-  <div id="table-scroll" class="table-scroll">
+<div id="table-scroll" class="table-scroll">
     <div class="table-wrap">
-      <table class="main-table">
-        <thead>
-          <tr>
-            <th class="fixed-side"> Equipamento</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-        <tfoot>
-          
-        </tfoot>
-      </table>
-    </div>    
-  </div>
-  
-  
+        <table class="main-table" id="main-table">
+            <thead>
+                <tr>
+                    <th class="fixed-side"></th>
+                    <th scope="col" *ngFor="let item of days_">{{item | date:'dd' : '' : 'pt-BR'}} </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="fixed-side">HXL 1</th>
+                    <td *ngFor="let item of days_"></td>
+                </tr>
+                <tr>
+                    <th class="fixed-side">HXL 2</th>
+                    <td *ngFor="let item of days_"></td>
+                </tr>
+                <tr>
+                    <th class="fixed-side">HARMONY TRADICIONAL</th>
+                    <td *ngFor="let item of days_"></td>
+                </tr>
+                <tr>
+                    <th class="fixed-side">HXL 2</th>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+                    <td style="background-color: greenyellow;"></td>
+                    <td style="background-color: rgb(244, 84, 66);"></td>
+
+                </tr>
+                <tr>
+                    <th class="fixed-side">HARMONY TRADICIONAL</th>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+                    <td>BlaBla</td>
+
+                </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<button (click)="download()">Download</button>
