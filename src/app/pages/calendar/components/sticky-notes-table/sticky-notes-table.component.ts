@@ -43,6 +43,12 @@ import { MatDialog } from '@angular/material/dialog';
       });
     }
 
+    remove(item: StickyNotes){
+      this.stickyNotesService.remove(item.id).subscribe((resp: StickyNotes) => {
+        this.getStickyNotes();
+      });
+    }
+
     openDialog(element: StickyNotes){
       const dialogRef = this.dialog.open(StickyNotesDialogComponent, {
         width: '600px',

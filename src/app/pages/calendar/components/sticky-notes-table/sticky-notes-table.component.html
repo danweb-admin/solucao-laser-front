@@ -11,7 +11,10 @@
             <td class="padding-left-5">
                 <button class="sticky-notes-wrapper__button" (click)="updateResolved(item)">
                     <mat-icon class="sticky-notes-wrapper__icon">check</mat-icon>
-                  </button>
+                </button>
+                <button class="sticky-notes-wrapper__button" (click)="remove(item)">
+                    <mat-icon class="sticky-notes-wrapper__icon">delete</mat-icon>
+                </button>
             </td>
         </tr>
     </tbody>
