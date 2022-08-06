@@ -36,7 +36,9 @@ registerLocaleData(localePT);
     AppRoutingModule,
     InterceptorModule,
     PeopleModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+    }),
     NgxMaskModule.forRoot(),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')

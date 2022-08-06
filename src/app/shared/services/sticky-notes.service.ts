@@ -37,6 +37,13 @@ export class StickyNotesService {
     }));
   }
 
+  remove(stickyNotesId: string): Observable<StickyNotes> {
+    return this.http.put(`${environment.URL_API}${URL_STICKYNOTES}/remove/${stickyNotesId}`, null)
+    .pipe(map((resp: StickyNotes) => {
+      return resp;
+    }));
+  }
+
   update(stickyNotes: StickyNotes): Observable<StickyNotes>{
     return this.http.put(`${environment.URL_API}${URL_STICKYNOTES}/${stickyNotes.id}`,stickyNotes)
     .pipe(map((resp: StickyNotes) => {
