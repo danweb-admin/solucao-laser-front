@@ -19,6 +19,7 @@ import { debounceTime, filter, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { PersonService } from 'src/app/shared/services/people.service';
 import { Person } from 'src/app/shared/models/person';
+import { CalendarDialogComponent } from 'src/app/pages/calendar/components/calendar-dialog/calendar-dialog.component';
 
 
 
@@ -155,6 +156,22 @@ import { Person } from 'src/app/shared/models/person';
       }
 
       return ret.join(' - ');
+    }
+
+    openDialog(element: Calendar){
+      const dialogRef = this.dialog.open(CalendarDialogComponent, {
+        width: '700px',
+        height: '600px',
+        disableClose: true,
+        data: {element}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === undefined)
+          return;
+        
+        this.onSubmit();           
+      });
     }
 
     statusToString(status){
