@@ -73,9 +73,16 @@ export class CalendarService {
     }))
   }
   
-  availability(startDate: string, endDate: string, clientId: string, equipamentId: string, driverId: string, techniqueId: string, status: string): Observable<Calendar[]>{
-    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/availability?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentId=${equipamentId}&driverList=${driverId}&techniqueId=${techniqueId}&status=${status}`)
+  schedules(startDate: string, endDate: string, clientId: string, equipamentId: string, driverId: string, techniqueId: string, status: string): Observable<Calendar[]>{
+    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/schedules?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentId=${equipamentId}&driverList=${driverId}&techniqueId=${techniqueId}&status=${status}`)
     .pipe(map((resp: Calendar[]) => {
+      return resp;
+    }));
+  }
+
+  availability(month: string, year: string, equipamentId: string): Observable<any[]>{
+    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/availability?month=${month}&year=${year}&equipamentList=${equipamentId}`)
+    .pipe(map((resp: any[]) => {
       return resp;
     }));
   }
