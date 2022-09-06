@@ -37,4 +37,11 @@ export class SpecificationsService {
       return resp;
     }));
   }
+
+  getSpecificationByEquipament(equipamentIds: string): Observable<Specification[]>{
+    return this.http.get(`${environment.URL_API}${URL_SPECIFICATIONS}/get-specification-by-equipament?equipamentList=${equipamentIds}`)
+    .pipe(map((resp: Specification[]) => {
+      return resp;
+    }));
+  }
 }
