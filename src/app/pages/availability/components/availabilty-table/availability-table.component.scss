@@ -23,10 +23,16 @@
     margin: 0;
   }
 
+  &__separate {
+    margin-left: 10px;
+    float: left;
+  }
+
   &__search {
     display: flex;
     align-items: center;
     float: left;
+    margin-right: 10px;
   }
 
   &__icon-wrapper {
@@ -43,17 +49,11 @@
 
   &__search-input {
     font-size: $fs-normal;
-    height: 32px;
     border: 0;
-    border-bottom: 1px solid $grey;
     outline: none;
 
     @media (max-width: $small) {
       width: 150px;
-    }
-
-    &:focus {
-      border-bottom: 2px solid $blue;
     }
   }
 
@@ -134,13 +134,32 @@
     font-size: $fs-small;
     padding: 20px;
   }
+}
 
-  
+.form-outline {
+  width: 600px;
+}
+
+.btn-submit {
+  margin-left: 15px;
+}
+
+.icon-cloud-download {
+  margin-top: -5px;
+  margin-right: 15px;
+}
+
+.green {
+  background-color: rgb(153, 230, 111)!important;
+}
+
+.red {
+  background-color: rgb(242, 87, 87)!important;
 }
 
 .table-scroll {
 	position:relative;
-	max-width: 1200px;
+	max-width: 1350px;
 	margin:auto;
 	overflow:hidden;
 	border:1px solid #000;

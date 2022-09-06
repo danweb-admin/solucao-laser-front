@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import moment from 'moment';
 import { MY_FORMATS } from 'src/app/consts/my-format';
-import * as htmlToImage from 'html-to-image';
 import html2canvas from 'html2canvas';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EquipamentsService } from 'src/app/shared/services/equipaments.service';
+import { Equipament } from 'src/app/shared/models/equipament';
+import { SpecificationsService } from 'src/app/shared/services/specifications.service';
+import { Specification } from 'src/app/shared/models/specification';
+import { CalendarService } from 'src/app/shared/services/calendar.service';
 
 @Component({
   selector: 'app-availability-table',
@@ -15,27 +20,53 @@ import html2canvas from 'html2canvas';
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
 })
-export class AvailabilityTableComponent implements OnInit {
+export class AvailabilityTableComponent implements OnInit, AfterViewInit {
   
   months: any = [];
   monthSelected: any;
+  equipamentResult: Equipament[];
+  list: any = [];
+  form: FormGroup;
   days_: any = [];
-  constructor() {
+  showTable: boolean = false;
+  
+  constructor(private equipamentService: EquipamentsService,
+              private specificationSerivce: SpecificationsService,
+              private formBuilder: FormBuilder,
+              private calendarService: CalendarService) {
     
   }
 
+  ngAfterViewInit(): void {
+    this.ajusteCSS();
+  }
+
   public ngOnInit(): void {
-    this.days_ = this.getDaysInMonthUTC(1,2022);
-    const table = document.querySelector('.main-table');
+    this.getEquipaments();
+    this.createForm();
+    this.initializeMonths();
+  }
 
-    let clone = table.cloneNode(true) as HTMLElement;
-    clone.className += " fixed-table";
+  change(){
+    
+    let month = this.form.value.month;
+    let year = this.form.value.year;
+    if (month === undefined || year === undefined)
+      return;
+    this.showTable = true;
+    this.days_ = this.getDaysInMonthUTC(month - 1,year);
+  }
 
-    let body = document.getElementById('table-scroll');
+  clear(){
+    window.location.reload();
+  }
 
-    body.appendChild(clone);
-    this.monthSelected = this.months.find(x => x.month === 'jan')
-    console.log(this.days_);
+  createForm(): void {
+    this.form = this.formBuilder.group({
+      month: [null, Validators.required],
+      year: [null, Validators.required],
+      equipamentId: [null, Validators.required]
+    });
   }
 
   getDaysInMonthUTC(month, year) {
@@ -46,6 +77,22 @@ export class AvailabilityTableComponent implements OnInit {
       date.setUTCDate(date.getUTCDate() + 1);
     }
     return days;
+  }
+
+  getEquipaments(): void{
+    this.equipamentService.loadEquipaments(true).subscribe((resp: Equipament[]) => {
+      this.equipamentResult = resp;
+    });
+  }
+
+  onSubmit(): void {
+    let month = this.form.value.month;
+    let year = this.form.value.year;
+    let equipamentIds = this.form.value.equipamentId;
+
+    this.calendarService.availability(month, year, equipamentIds).subscribe((resp: any) => {
+      this.list = resp;
+    });
   }
 
   download(){
@@ -61,5 +108,63 @@ export class AvailabilityTableComponent implements OnInit {
 		});
   }
 
+  ajusteCSS(): void {
+    document
+          .querySelectorAll<HTMLElement>('.header__title-button-icon')
+          .forEach(node => node.click())
+  }
+
+  initializeMonths(): void{
+    this.months = [
+          {
+            id: 1,
+            month: 'Janeiro'
+          },
+          {
+            id: 2,
+            month: 'Fevereiro'
+          },
+          {
+            id: 3,
+            month: 'Março'
+          },
+          {
+            id: 4,
+            month: 'Abril'
+          },
+          {
+            id: 5,
+            month: 'Maio'
+          },
+          {
+            id: 6,
+            month: 'Junho'
+          },
+          {
+            id: 7,
+            month: 'Julho'
+          },
+          {
+            id: 8,
+            month: 'Agosto'
+          },
+          {
+            id: 9,
+            month: 'Setembro'
+          },
+          {
+            id: 10,
+            month: 'Outubro'
+          },
+          {
+            id: 11,
+            month: 'Novembro'
+          },
+          {
+            id: 12,
+            month: 'Dezembro'
+          },
+    ]
+  }
   
 }

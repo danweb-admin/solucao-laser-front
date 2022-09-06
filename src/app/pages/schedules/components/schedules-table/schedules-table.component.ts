@@ -203,7 +203,7 @@ import { CalendarDialogComponent } from 'src/app/pages/calendar/components/calen
         clientId = this.form.value.client.id;
       }
 
-      this.calendarService.availability(startDate, endDate, clientId, equipamentId, driverList,techniqueId, status)
+      this.calendarService.schedules(startDate, endDate, clientId, equipamentId, driverList,techniqueId, status)
         .subscribe((resp: Calendar[]) => {
           this.dataSource = new MatTableDataSource<Calendar>();
           this.dataSource = new MatTableDataSource<Calendar>(resp);
