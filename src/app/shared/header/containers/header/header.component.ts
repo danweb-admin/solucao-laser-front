@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Email, User } from '../../../../pages/auth/models';
 import { AuthService, EmailService } from '../../../../pages/auth/services';
 import { routes } from '../../../../consts';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -17,14 +18,17 @@ export class HeaderComponent {
   public user$: Observable<User>
   public emails$: Observable<Email[]>
   public routers: typeof routes = routes;
+  public isAdmin: boolean = false;
 
   constructor(
-    private userService: AuthService,
+    private authService: AuthService,
     private emailService: EmailService,
+    private userService: UserService,
     private router: Router
   ) {
-    this.user$ = this.userService.getUser();
+    this.user$ = this.authService.getUser();
     this.emails$ = this.emailService.loadEmails();
+    this.isAdmin = this.userService.isAdmin();
   }
 
   public openMenu(): void {
@@ -34,7 +38,7 @@ export class HeaderComponent {
   }
 
   public signOut(): void {
-    this.userService.signOut();
+    this.authService.signOut();
 
     this.router.navigate([this.routers.LOGIN]);
   }

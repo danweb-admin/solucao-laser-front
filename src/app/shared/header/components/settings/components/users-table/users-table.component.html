@@ -1,0 +1,42 @@
+<app-layout>
+    <mat-toolbar class="page-header" role="heading">
+        <h1>Usuários</h1>
+    </mat-toolbar>
+
+    <div class="tables-wrapper">
+        <mat-card class="users-table mat-card-min">
+            <mat-card-title class="users-table__header">
+              <h5 class="users-table__title">Lista</h5>
+      
+              <button mat-icon-button (click)="openDialog(null)">
+                <mat-icon>control_point</mat-icon>
+              </button>
+            </mat-card-title>
+            <mat-card-content >
+                <table class="users-table__table">
+                    <thead>
+                        <tr>
+                            <th class="users-table__table-row-title">NOME</th>
+                            <th class="users-table__table-row-title">EMAIL</th>
+                            <th class="users-table__table-row-title">APELIDO</th>
+                            <th class="users-table__table-row-title">FUNÇÃO</th>
+                            <th class="users-table__table-row-title">ATIVO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataSource" (click)="openDialog(item)" class="users-table__row">
+                            <td class="users-table__cell">{{item.name}}</td>
+                            <td class="users-table__cell">{{item.email}}</td>
+                            <td class="users-table__cell">{{item.nickName}}</td>
+                            <td class="users-table__cell">{{item.role}}</td>
+                            <td class="users-table__cell">{{item.active ? 'Sim' : 'Não'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-card-content>
+          </mat-card>
+          
+          
+    </div>
+
+</app-layout>

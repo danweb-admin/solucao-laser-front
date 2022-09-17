@@ -6,6 +6,12 @@ import {AuthGuard} from './pages/auth/guards';
 
 const routes: Routes = [
   {
+    path: 'agenda',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/calendar/calendar.module').then(m => m.CalendarModule)
+  },
+  {
     path: 'dashboard',
     pathMatch: 'full',
     canActivate: [AuthGuard],
@@ -67,12 +73,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/equipaments/equipaments.module').then(m => m.EquipamentsModule)
   },
   {
-    path: 'agenda',
-    pathMatch: 'full',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/calendar/calendar.module').then(m => m.CalendarModule)
-  },
-  {
     path: 'agendamentos',
     pathMatch: 'full',
     canActivate: [AuthGuard],
@@ -83,6 +83,12 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard],
     loadChildren: () => import('./shared/header/components/user/user.module' ).then(m => m.UserModule)
+  },
+  {
+    path: 'usuarios',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./shared/header/components/settings/settings.module' ).then(m => m.UsersModule)
   },
   {
     path: 'disponibilidade',

@@ -11,7 +11,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { HeaderComponent } from './containers';
 import { UserComponent, EmailComponent } from './components';
 import { NotificationsComponent } from './components/notifications/notifications.component';
-import { SearchComponent } from './components/search/search.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { ShortNamePipe } from './pipes';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { ShortNamePipe } from './pipes';
     UserComponent,
     EmailComponent,
     NotificationsComponent,
-    SearchComponent,
+    SettingsComponent,
     ShortNamePipe
   ],
   exports: [

@@ -2,13 +2,13 @@
     <thead>
         <th class="mat-column-anotacao column-header"> ANOTAÇÃO </th>
         <th class="mat-column-resolvido column-header"> RESOLVIDO </th>
-        <th class="column-header"> AÇÕES </th>
+        <th class="column-header" *ngIf="isAdmin"> AÇÕES </th>
     </thead>
     <tbody>
         <tr *ngFor="let item of dataSource">
             <td class="padding-left-5" (click)="openDialog(item)">{{item.notes}}</td>
             <td class="padding-left-5">{{item.resolved ? 'Sim' : 'Não'}}</td>
-            <td class="padding-left-5">
+            <td class="padding-left-5" *ngIf="isAdmin">
                 <button class="sticky-notes-wrapper__button" (click)="updateResolved(item)">
                     <mat-icon class="sticky-notes-wrapper__icon">check</mat-icon>
                 </button>

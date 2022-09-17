@@ -17,6 +17,7 @@ import { PersonDialogUpdateComponent } from '../person-dialog-update/person-dial
 import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
 import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-dialog.component';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { UserService } from 'src/app/shared/services/user.service';
 
 
 
@@ -45,6 +46,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
     todayDate;
     inputReadonly = false;
     innerValue: Date = new Date();
+    isAdmin = false;
     icons: any = [
       {
         id: "0",
@@ -67,8 +69,10 @@ import { MatDatepicker } from '@angular/material/datepicker';
     constructor(private calendarService: CalendarService,
                 public dialog: MatDialog,
                 private specificationSerivce: SpecificationsService,
+                private userService: UserService,
                 private toastrService: ToastrService) {
       this.time = moment();
+      this.isAdmin = this.userService.isAdmin();
     }
 
     resetPicker() {

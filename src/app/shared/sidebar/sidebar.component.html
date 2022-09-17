@@ -1,14 +1,14 @@
 <mat-list>
-  <mat-list-item routerLink="{{routes.DASHBOARD}}" routerLinkActive="active">
+  <mat-list-item *ngIf="isAdmin" routerLink="{{routes.DASHBOARD}}" routerLinkActive="active">
     <mat-icon>home</mat-icon> Dashboard
   </mat-list-item>
-  <mat-list-item routerLink="{{routes.PEOPLE}}" routerLinkActive="active">
+  <mat-list-item *ngIf="isAdmin" routerLink="{{routes.PEOPLE}}" routerLinkActive="active">
     <mat-icon>local_shipping</mat-icon> Motoristas/Técnicas
   </mat-list-item>
-  <mat-list-item routerLink="{{routes.CLIENTS}}" routerLinkActive="active">
+  <mat-list-item *ngIf="isAdmin" routerLink="{{routes.CLIENTS}}" routerLinkActive="active">
     <mat-icon>account_circle</mat-icon> Clientes
   </mat-list-item>
-  <mat-list-item (click)="openEquipaments()">
+  <mat-list-item *ngIf="isAdmin" (click)="openEquipaments()">
     <mat-icon>filter_none</mat-icon> Equipamentos
   </mat-list-item>
     <div>
@@ -26,10 +26,10 @@
       <mat-list-item class="ui-element" routerLink="{{routes.CALENDAR}}" routerLinkActive="active">
         <div class="circle"></div>Agenda
       </mat-list-item>
-      <mat-list-item class="ui-element"  routerLink="{{routes.SCHEDULES}}" routerLinkActive="active">
+      <mat-list-item *ngIf="isAdmin" class="ui-element"  routerLink="{{routes.SCHEDULES}}" routerLinkActive="active">
         <div class="circle"></div>Agendamentos
       </mat-list-item>
-      <mat-list-item class="ui-element"  routerLink="{{routes.AVAILABILITY}}" routerLinkActive="active">
+      <mat-list-item *ngIf="isAdmin" class="ui-element"  routerLink="{{routes.AVAILABILITY}}" routerLinkActive="active">
         <div class="circle"></div>Disponibilidade
       </mat-list-item>
     </div>
@@ -57,5 +57,4 @@
       </mat-list-item>
     </div>
 </mat-list>
-
 

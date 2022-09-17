@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   URL_API: '/api',
-  hmr: false
+  hmr: false,
+  role: ''
 };
 
 /*

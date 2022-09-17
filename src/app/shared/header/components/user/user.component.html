@@ -5,7 +5,7 @@
   <div class="user-menu-title">
     <h4 class="user-menu-title__name">{{user.name}} {{user.lastName}}</h4>
   </div>
-  <a mat-menu-item class="user-menu__item-title" href="#{{routes.USER}}">
+  <a mat-menu-item *ngIf="isAdmin" class="user-menu__item-title" href="#{{routes.USER}}">
     <mat-icon class="user-menu-icon">person</mat-icon>Alterar senha
   </a>
   <div class="sign-button-wrapper">
