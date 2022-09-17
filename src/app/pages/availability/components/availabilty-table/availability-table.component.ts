@@ -70,6 +70,10 @@ export class AvailabilityTableComponent implements OnInit, AfterViewInit {
   }
 
   getDaysInMonthUTC(month, year) {
+    
+    if (year === null)
+      year = new Date().getFullYear();
+
     let date = new Date(year, month, 1);
     let days = [];
     while (date.getUTCMonth() === month) {
