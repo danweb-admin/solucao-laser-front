@@ -10,6 +10,7 @@ import { MY_FORMATS } from 'src/app/consts/my-format';
 import moment from 'moment';
 import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from 'src/app/shared/services/user.service';
 
 
 
@@ -26,11 +27,13 @@ import { MatDialog } from '@angular/material/dialog';
     
     dataSource: StickyNotes[];
     innerValue: Date = new Date();
+    isAdmin = false;
     @Input() today: string;
 
     constructor(private stickyNotesService: StickyNotesService,
+                private userService: UserService,
                 public dialog: MatDialog,) {
-      
+      this.isAdmin = this.userService.isAdmin();
     }
 
     ngOnChanges(changes: SimpleChanges): void {

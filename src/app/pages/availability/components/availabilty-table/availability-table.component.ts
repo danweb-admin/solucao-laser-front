@@ -76,6 +76,8 @@ export class AvailabilityTableComponent implements OnInit, AfterViewInit {
       days.push(moment(new Date(date)));
       date.setUTCDate(date.getUTCDate() + 1);
     }
+    console.log(days);
+    
     return days;
   }
 

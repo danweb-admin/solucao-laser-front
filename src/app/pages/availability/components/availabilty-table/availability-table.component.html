@@ -1,7 +1,7 @@
-<mat-card class="availability-table">
+<mat-card class="mat-card-min availability-table">
     <mat-card-title class="availability-table__header">
     </mat-card-title>
-    <div class="row" style="margin-left: 20px; margin-bottom: 20px;">
+    <div class="row" style="margin-left: 20px; margin-bottom: 20px; overflow-x: auto;">
         <div class="col">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div  class="row availability-table-wrapper__search">
@@ -48,7 +48,7 @@
                     <thead>
                         <tr>
                             <th class="fixed-side">Equipamentos</th>
-                            <th scope="col" *ngFor="let item of days_">{{item | date:'dd' : '' : 'pt-BR'}} </th>
+                            <th scope="col" *ngFor="let item of days_" [class.sunday]="item.isoWeekday()==='7'" >{{item | date:'dd' : '' : 'pt-BR'}} {{item.isoWeekday()}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,5 +64,7 @@
                 </table>
             </div>
         </div>
+
+        
     </mat-card-content>
 </mat-card>

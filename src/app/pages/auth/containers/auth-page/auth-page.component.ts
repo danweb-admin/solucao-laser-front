@@ -21,7 +21,7 @@ export class AuthPageComponent {
   ) { }
 
   public sendLoginForm(): void {
-    this.router.navigate([this.routers.DASHBOARD]).then();
+    this.router.navigate([this.routers.CALENDAR]).then();
   }
 
   public sendSignForm(): void {

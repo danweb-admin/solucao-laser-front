@@ -1,0 +1,11 @@
+<button class="settings-button" mat-mini-fab [matMenuTriggerFor]="settingsMenu">
+  <mat-icon class="settings-button__icon">settings</mat-icon>
+</button>
+<mat-menu #settingsMenu="matMenu" xPosition="before">
+  <div class="settings-menu-title">
+    <h4 class="settings-menu-title__name"></h4>
+  </div>
+  <a mat-menu-item class="settings-menu__item-title" href="#{{routes.USERS}}">
+    <mat-icon class="settings-menu-icon">people</mat-icon>Usuários
+  </a>
+</mat-menu>
