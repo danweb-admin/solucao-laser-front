@@ -1,0 +1,58 @@
+<h3 *ngIf="isAddMode" mat-dialog-title>Adicionar Usuário</h3>
+<h3 *ngIf="!isAddMode" mat-dialog-title>Editar Usuário</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <input type="hidden" formControlName="id">
+      <input type="hidden" formControlName="createdAt">
+      <input type="hidden" formControlName="updatedAt">
+      <div class="row">
+        <div class="col col-3" >
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome" formControlName="name">
+          </mat-form-field>
+        </div>
+        <div class="col col-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Apelido</mat-label>
+              <input matInput placeholder="Apelido" formControlName="nickName">
+            </mat-form-field>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col col-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email">
+          </mat-form-field>
+        </div>
+        <div class="col col-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Selecione uma opção?</mat-label>
+                <mat-select formControlName="role">
+                  <mat-option value="admin">Administrador</mat-option>
+                  <mat-option value="viewer">Visualizador</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-2">
+            <mat-checkbox formControlName="active" checked="form.value.active" >Ativo</mat-checkbox>
+        </div>
+        <div class="col col-2" *ngIf="isAddMode"> 
+            <mat-form-field appearance="outline">
+                <mat-label>Senha</mat-label>
+                <input matInput type="password" placeholder="Senha" formControlName="password">
+            </mat-form-field>
+        </div>
+        
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+</div>

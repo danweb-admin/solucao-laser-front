@@ -38,7 +38,6 @@ export class PersonService {
   }
 
   save(person: Person): Observable<Person>{
-    
     return this.http.post(`${environment.URL_API}${URL_PEOPLE}`,person)
     .pipe(map((resp: Person) => {
       return resp;

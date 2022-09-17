@@ -75,10 +75,10 @@ div.mat-dialog-content {
 //    }
 // }
 
-// @media (min-width: 1200px)
-// {
-//   mat-card.mat-card
-//    {
-//     min-height: 750px !important;
-//    }
-// }
+@media (min-width: 1200px)
+{
+  mat-card.mat-card-min
+   {
+    min-height: 600px !important;
+   }
+}

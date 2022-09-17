@@ -10,7 +10,7 @@
     [fixedInViewport]="mobileQuery.matches"
   >
   
-    <app-sidebar></app-sidebar>
+    <app-sidebar style="min-height: 400px;"></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content class="layout-content">
     <div *ngIf="spinnerService.visibility | async" class="spinner-container">

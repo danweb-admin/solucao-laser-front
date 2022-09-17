@@ -11,6 +11,7 @@ import {
   SupportRequestData,
   VisitsChartData
 } from '../../models';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard-page',
