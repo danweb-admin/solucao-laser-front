@@ -48,7 +48,7 @@
                     <thead>
                         <tr>
                             <th class="fixed-side">Equipamentos</th>
-                            <th scope="col" *ngFor="let item of days_" [class.sunday]="item.isoWeekday()==='7'" >{{item | date:'dd' : '' : 'pt-BR'}} {{item.isoWeekday()}}</th>
+                            <th scope="col" *ngFor="let item of days_" [class.sunday]="item.isoWeekday()===7" >{{item | date:'dd' : '' : 'pt-BR'}}</th>
                         </tr>
                     </thead>
                     <tbody>
