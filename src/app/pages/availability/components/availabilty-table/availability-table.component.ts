@@ -29,9 +29,10 @@ export class AvailabilityTableComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   days_: any = [];
   showTable: boolean = false;
+  monthYear_: string;
+
   
   constructor(private equipamentService: EquipamentsService,
-              private specificationSerivce: SpecificationsService,
               private formBuilder: FormBuilder,
               private calendarService: CalendarService) {
     
@@ -70,13 +71,18 @@ export class AvailabilityTableComponent implements OnInit, AfterViewInit {
   }
 
   getDaysInMonthUTC(month, year) {
+    
+    if (year === null)
+      year = new Date().getFullYear();
+
+    this.monthYear_ = `${this.months.filter(x => x.id === month + 1)[0].month}/${year}`
+
     let date = new Date(year, month, 1);
     let days = [];
     while (date.getUTCMonth() === month) {
       days.push(moment(new Date(date)));
       date.setUTCDate(date.getUTCDate() + 1);
     }
-    console.log(days);
     
     return days;
   }

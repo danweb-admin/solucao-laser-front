@@ -157,6 +157,8 @@
   background-color: rgb(242, 87, 87)!important;
 }
 
+
+
 .table-scroll {
 	position:relative;
 	max-width: 1350px;
@@ -210,3 +212,26 @@
   background:transparent;
 }
 
+.sunday {
+  background-color: #ff7070 !important;
+}
+
+.subtitle-available {
+  float: left;
+  background-color: rgb(153, 230, 111);
+  width: 25px; 
+  height: 25px;
+}
+
+.subtitle-unavailable {
+  float: left;
+  background-color: rgb(242, 87, 87);
+  width: 25px; 
+  height: 25px;
+}
+
+.display {
+  text-decoration: dashed;
+  margin-top: 10px;
+  margin-left: 10px;
+}
