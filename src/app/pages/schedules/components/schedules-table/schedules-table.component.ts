@@ -1,8 +1,6 @@
-import { Client } from '../../../../shared/models/client';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientsService } from '../../../../shared/services/clients.service';
 import { EquipamentsService } from '../../../../shared/services/equipaments.service';
-import { ToastrService } from 'ngx-toastr';
 import { SpecificationsService } from 'src/app/shared/services/specifications.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog} from '@angular/material/dialog';
@@ -34,7 +32,7 @@ import { CalendarDialogComponent } from 'src/app/pages/calendar/components/calen
   })
   export class SchedulesTableComponent implements OnInit, AfterViewInit{
     
-    displayedColumns: string[] = ['data','horario','equipamento','locatario','tecnica','motorista','status'];
+    displayedColumns: string[] = ['data','dataCriacao','horario','equipamento','locatario','tecnica','motorista','status'];
     @ViewChild('inputSearch') inputSearch: ElementRef;
     dataSource: MatTableDataSource<Calendar> = new MatTableDataSource<Calendar>();
     selection = new SelectionModel<Calendar>(true, []);
