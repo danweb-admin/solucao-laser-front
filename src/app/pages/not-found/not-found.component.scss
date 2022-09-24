@@ -2,7 +2,7 @@
 @import 'src/app/styles/font';
 
 .not-found-page {
-  background-color: $blue;
+  background-color: $violet;
   display: flex;
   justify-content: center;
   height: 100vh;
@@ -50,7 +50,7 @@
     &-title {
       font-size: 107px;
       font-weight: 500;
-      color: $blue;
+      color: $violet;
       line-height: 108px;
       text-align: center;
     }
@@ -60,7 +60,7 @@
       font-size: $fs-normal;
       font-weight: 400;
       letter-spacing: -0.05px;
-      color: $blue;
+      color: $violet;
       text-align: center;
     }
 

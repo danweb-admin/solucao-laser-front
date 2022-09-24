@@ -77,6 +77,10 @@
                     <th class="availability-table__table-header" mat-header-cell *matHeaderCellDef > DATA </th>
                     <td class="availability-table__table-body" mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}}</td>
                 </ng-container>
+                <ng-container matColumnDef="dataCriacao" >
+                    <th class="availability-table__table-header" mat-header-cell *matHeaderCellDef > DATA CRIAÇÃO</th>
+                    <td class="availability-table__table-body" mat-cell *matCellDef="let element"> {{element.createdAt | date:'dd/MM/yyyy'}}</td>
+                </ng-container>
                 <ng-container matColumnDef="horario" >
                     <th class="availability-table__table-header" mat-header-cell *matHeaderCellDef > HORÁRIO </th>
                     <td class="availability-table__table-body" mat-cell *matCellDef="let element"> {{showTime(element)}} </td>
