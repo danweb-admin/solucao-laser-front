@@ -38,12 +38,18 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col col-2">
           <mat-form-field appearance="outline">
             <mat-label>Equipamento</mat-label>
             <mat-select formControlName="equipamentId" (selectionChange)="onChangeEquipament($event)">
               <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
             </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col col-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Data de Criação</mat-label>
+            <input matInput disabled [value]="form.value.createdAt | date: 'd/M/yy, h:mm a'">
           </mat-form-field>
         </div>
       </div>

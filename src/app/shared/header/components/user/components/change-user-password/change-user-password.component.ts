@@ -43,9 +43,6 @@ import { UserService } from 'src/app/shared/services/user.service';
         this.userService.changeUserPassword(user).subscribe((resp: User) => {
             this.toastr.success('Senha alterada com sucesso.');
             this.router.navigate([this.routers.LOGIN]).then();
-        },
-        (error: any) =>{
-          this.toastr.warning(error.error?.errorMessage)
         })
     }
   }
