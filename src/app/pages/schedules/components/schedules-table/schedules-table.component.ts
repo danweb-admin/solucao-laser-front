@@ -32,7 +32,7 @@ import { CalendarDialogComponent } from 'src/app/pages/calendar/components/calen
   })
   export class SchedulesTableComponent implements OnInit, AfterViewInit{
     
-    displayedColumns: string[] = ['data','dataCriacao','horario','equipamento','locatario','tecnica','motorista','status'];
+    displayedColumns: string[] = ['data','horario','equipamento','locatario','tecnica','motorista','status'];
     @ViewChild('inputSearch') inputSearch: ElementRef;
     dataSource: MatTableDataSource<Calendar> = new MatTableDataSource<Calendar>();
     selection = new SelectionModel<Calendar>(true, []);
