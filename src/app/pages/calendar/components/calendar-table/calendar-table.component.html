@@ -15,7 +15,7 @@
             <div class="calendar-table-wrapper__search">
                 <input matInput class="calendar-table-wrapper__search-input" [matDatepicker]="dp"  placeholder="Data locação" #inputSearch (dateInput)="applyFilter($event)" style="visibility: hidden;">
                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp (opened)="resetPicker()"></mat-datepicker>
+                <mat-datepicker #dp></mat-datepicker>
             </div>
             <button mat-icon-button (click)="openDialog(null)">
                 <mat-icon>control_point</mat-icon>
