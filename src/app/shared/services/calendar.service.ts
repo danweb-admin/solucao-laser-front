@@ -38,11 +38,12 @@ export class CalendarService {
     }));
   }
 
-  updateDriverOrTechniqueCalendar(personId: string, calendarId: string, isDriver: boolean): Observable<Calendar> {
+  updateDriverOrTechniqueCalendar(personId: string, calendarId: string, isDriver: boolean, isCollect: boolean): Observable<Calendar> {
     let put = {
       personId,
       calendarId,
-      isDriver
+      isDriver,
+      isCollect
     }
     return this.http.put(`${environment.URL_API}${URL_CALENDARS}/update-driver-or-technique-calendar`,put)
     .pipe(map((resp: Calendar) => {

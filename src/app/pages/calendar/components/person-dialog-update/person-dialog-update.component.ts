@@ -47,7 +47,8 @@ import { ToastrService } from 'ngx-toastr';
       this.form = this.formBuilder.group({
         calendarId: [this.data.element.id],
         isDriver: [this.data.isDriver],
-        personId: ['']
+        personId: [''],
+        isCollect: [this.data.isCollect]
       });
     }
 
@@ -59,7 +60,8 @@ import { ToastrService } from 'ngx-toastr';
       this.calendarService.updateDriverOrTechniqueCalendar(
         this.form.value.personId,
         this.form.value.calendarId,
-        this.form.value.isDriver
+        this.form.value.isDriver,
+        this.form.value.isCollect
       ).subscribe((resp) => {
         if (this.isDriver){
           this.toastr.success('Motorista atualizado com sucesso');

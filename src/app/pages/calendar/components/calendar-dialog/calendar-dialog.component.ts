@@ -24,6 +24,7 @@ import {default as _rollupMoment} from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/consts/my-format';
+import { CDK_DESCRIBEDBY_HOST_ATTRIBUTE } from '@angular/cdk/a11y';
 
 const moment = _rollupMoment || _moment;
 
@@ -178,6 +179,7 @@ const moment = _rollupMoment || _moment;
         client: this.inputReadonly ? [{value: this.data.element?.client, disabled: true }] : [this.data.element?.client,Validators.required],
         clientId: this.inputReadonly ? [{value: this.data.element?.clientId, disabled: true}] : [{value: this.data.element?.clientId, disabled: false}],
         driverId: this.inputReadonly ? [{value: this.data.element?.driverId, disabled: true}] : [{value: this.data.element?.driverId, disabled: false}],
+        driverCollectsId: this.inputReadonly ? [{value: this.data.element?.driverCollectsId, disabled: true}] : [{value: this.data.element?.driverCollectsId, disabled: false}],
         techniqueId: this.inputReadonly ? [{value: this.data.element?.techniqueId, disabled: true}] : [{value: this.data.element?.techniqueId, disabled: false}],
         active: [true],
         noCadastre: this.inputReadonly ? [{value: this.data.element?.noCadastre || false, disabled: true}] : [{value: this.data.element?.noCadastre || false, disabled: false}],
@@ -305,6 +307,21 @@ const moment = _rollupMoment || _moment;
       var mat_select = document.getElementsByClassName('mat-select');
       for (var i = 0; i < mat_select.length; i++) {
         mat_select[i].setAttribute('style', 'display: contents');
+      }
+    }
+
+    onBlur(input){
+      var re=/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      
+      var isValid = re.test(input.target.value);
+      
+      var element = document.getElementById(input.target.id) as HTMLInputElement;
+      
+      if(!isValid)
+      {
+        this.toastr.warning('Horário inválido');
+        element.focus();
+        element.value = ""
       }
     }
   }

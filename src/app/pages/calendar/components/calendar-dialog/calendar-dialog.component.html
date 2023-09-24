@@ -12,7 +12,7 @@
           <div class="col">
             <mat-form-field style="width: 80% !important;" appearance="outline">
                 <mat-label>Locatário(a)</mat-label>
-                <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client">
+                <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client" required>
     
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                   <mat-option *ngIf="isLoading" class="is-loading">Carregando...</mat-option>
@@ -41,7 +41,7 @@
         <div class="col col-2">
           <mat-form-field appearance="outline">
             <mat-label>Equipamento</mat-label>
-            <mat-select formControlName="equipamentId" (selectionChange)="onChangeEquipament($event)">
+            <mat-select formControlName="equipamentId" (selectionChange)="onChangeEquipament($event)" required>
               <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col col-3">
+        <div class="col col-2">
           <mat-form-field appearance="outline">
             <mat-label>Técnica</mat-label>
             <mat-select id="techniqueId" formControlName="techniqueId" [(value)]="form.value.techniqueId">
@@ -72,15 +72,8 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col col-3">
-          <mat-form-field appearance="outline">
-            <mat-label>Motorista</mat-label>
-            <mat-select formControlName="driverId">
-              <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col col-3">
+        
+        <div class="col col-2">
           <mat-form-field appearance="outline">
             <mat-label>Status</mat-label>
             <mat-select formControlName="status">
@@ -94,25 +87,42 @@
         </div>
       </div>
       <div class="row">
+        <div class="col col-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Motorista Entrega</mat-label>
+            <mat-select formControlName="driverId">
+              <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col col-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Motorista Recolhe</mat-label>
+            <mat-select formControlName="driverCollectsId">
+              <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
         <div class="col col-3">
           <mat-form-field appearance="outline">
             <mat-label>Data</mat-label>
-            <input matInput [matDatepicker]="dp" [min]="todayDate" placeholder="Data" formControlName="date" (focus)="dp.open()">
+            <input matInput [matDatepicker]="dp" [min]="todayDate" placeholder="Data" formControlName="date" (focus)="dp.open()" required>
             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
             <mat-datepicker #dp></mat-datepicker>
           </mat-form-field>
-          
         </div>
         <div class="col col-3">
           <mat-form-field appearance="outline">
-            <mat-label>Hora Início</mat-label>
-            <input matInput placeholder="Hora de Início" formControlName="startTime1" mask="00:00">
+            <mat-label>Início</mat-label>
+            <input matInput placeholder="Início" formControlName="startTime1" mask="00:00" (blur)="onBlur($event)" required>
           </mat-form-field>
         </div>
         <div class="col col-3">
           <mat-form-field appearance="outline">
-            <mat-label>Hora Fim</mat-label>
-            <input matInput placeholder="Hora de Encerramento" formControlName="endTime1" mask="00:00">
+            <mat-label>Final</mat-label>
+            <input matInput placeholder="Final" formControlName="endTime1" mask="00:00" (blur)="onBlur($event)" required>
           </mat-form-field>
         </div>
       </div>

@@ -1,6 +1,5 @@
-import { filter } from 'rxjs/operators';
+
 import { Equipament } from './../../../../shared/models/equipament';
-import { EquipamentsService } from './../../../../shared/services/equipaments.service';
 import { ToastrService } from 'ngx-toastr';
 import { SpecificationsService } from 'src/app/shared/services/specifications.service';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -18,6 +17,7 @@ import { StatusDialogComponent } from '../status-dialog/status-dialog.component'
 import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-dialog.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { UserService } from 'src/app/shared/services/user.service';
+import html2canvas from 'html2canvas';
 
 
 
@@ -127,6 +127,7 @@ import { UserService } from 'src/app/shared/services/user.service';
       let date = this.time.format('YYYY-MM-DD');
       this.calendarService.getCalendarByDay(date).subscribe((resp: any) => {
         this.dataSource = resp;
+        
       });
     }
 
@@ -163,13 +164,19 @@ import { UserService } from 'src/app/shared/services/user.service';
       });
     }
 
-    openDialogDriver(element: Calendar){
+    openDialogDriver(element: Calendar, isCollect: boolean){
       let isDriver = true;
+      let role = localStorage.getItem('role');
+
+      if (role === 'viewer'){
+        return;
+      }
+    
       const dialogRef = this.dialog.open(PersonDialogUpdateComponent, {
         width: '400px',
         height: '250px',
         disableClose: true,
-        data: {element, isDriver}
+        data: {element, isDriver, isCollect}
       });
   
       dialogRef.afterClosed().subscribe(result => {
@@ -258,24 +265,37 @@ import { UserService } from 'src/app/shared/services/user.service';
       return start + ' - ' + end;
     }
 
+    showAddress(item){
+
+      let ret = [];
+      if (item.noCadastre){
+        return ''
+      }else{
+        ret.push(item.client.address + ', ' + item.client.number)
+        ret.push(item.client.complement)
+        ret.push(item.client.neighborhood)
+      }
+      
+      return ret.join(' - ');
+    }
+
     showClientCity(item){
       let ret = [];
       if (item.noCadastre){
         ret.push(item.temporaryName);
       }else{
-        let split = item.client.name.split(' ');
-        if (split.length > 1){
-          ret.push(split[0] + ' ' + split[1]);
-        }else{
-          ret.push(split[0]);
-        }
+        ret.push(item.client.name)
         ret.push(item.client.city.nome)
       }
       
+      return ret.join(' - ');
+    }
+
+    showSpecifications(item){
+      let ret = [];
       if (item.calendarSpecifications.filter(x => x.active).length > 0){
         ret.push(this.descriptionSpecifications(item));
       }
-
       return ret.join(' - ');
     }
 
@@ -313,6 +333,21 @@ import { UserService } from 'src/app/shared/services/user.service';
       }
 
       return ret;
+    }
+
+    download(){
+      let container = document.getElementById("calendar-main-table");
+      let today = new Date();
+      let imageName = `AgendaDia-${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}.png`
+      html2canvas(container,{allowTaint : true}).then(function(canvas) {
+      
+        var link = document.createElement("a");
+        document.body.appendChild(link);
+        link.download = imageName;
+        link.href = canvas.toDataURL("image/png");
+        link.target = '_blank';
+        link.click();
+      });
     }
 
     ajusteCSS(): void {
