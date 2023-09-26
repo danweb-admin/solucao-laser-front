@@ -48,7 +48,7 @@ import { ToastrService } from 'ngx-toastr';
         calendarId: [this.data.element.id],
         isDriver: [this.data.isDriver],
         personId: [''],
-        isCollect: [this.data.isCollect]
+        isCollect: [this.data.isCollect || false]
       });
     }
 
