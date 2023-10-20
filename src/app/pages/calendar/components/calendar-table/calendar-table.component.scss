@@ -221,3 +221,10 @@ table {
   visibility: visible;
   opacity: 1;
 }
+
+@media (max-width: 900px)
+{
+  td {
+    font-size: 11px;
+  }
+}
