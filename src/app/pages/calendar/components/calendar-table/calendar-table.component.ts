@@ -284,10 +284,19 @@ import html2canvas from 'html2canvas';
       if (item.noCadastre){
         ret.push(item.temporaryName);
       }else{
-        ret.push(item.client.name)
+        let split = item.client.name.split(' ');
+        if (split.length > 1){
+          ret.push(split[0] + ' ' + split[1]);
+        }else{
+          ret.push(split[0]);
+        }
         ret.push(item.client.city.nome)
       }
       
+      if (item.calendarSpecifications.filter(x => x.active).length > 0){
+        ret.push(this.descriptionSpecifications(item));
+      }
+
       return ret.join(' - ');
     }
 
