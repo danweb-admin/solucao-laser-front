@@ -37,8 +37,7 @@
                     
                     <div  class="row availability-table-wrapper__search">
                         <div class="availability-table-wrapper__separate">
-                            <mat-select formControlName="equipamentId" class="availability-table-wrapper__search-input" placeholder="Equipamento">
-                                <mat-option value="">Todos</mat-option>
+                            <mat-select multiple formControlName="equipamentId" class="availability-table-wrapper__search-input" placeholder="Equipamento">
                                 <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
                             </mat-select>
                         </div>

@@ -69,13 +69,12 @@ import { CalendarDialogComponent } from 'src/app/pages/calendar/components/calen
         startDate: [null, Validators.required],
         endDate: [null, Validators.required],
         client: [null],
-        equipamentId: [null],
+        equipamentId: [],
         techniqueId: [null],
         driverList: [null],
         status: [null]
       });
       this.onChanges();
-
     }
 
     onChanges(){
@@ -194,14 +193,14 @@ import { CalendarDialogComponent } from 'src/app/pages/calendar/components/calen
       let clientId = '';
       let driverList = this.form.value.driverList === null ? '' : this.form.value.driverList;
       let techniqueId = this.form.value.techniqueId === null ? '' : this.form.value.techniqueId;
-      let equipamentId = this.form.value.equipamentId === null ? '' : this.form.value.equipamentId;
+      let equipamentIds = this.form.value.equipamentId === null ? '' : this.form.value.equipamentId;
       let status = this.form.value.status === null ? '' : this.form.value.status;
 
       if (this.form.value.client !== null && this.form.value.client !== ''){
         clientId = this.form.value.client.id;
       }
 
-      this.calendarService.schedules(startDate, endDate, clientId, equipamentId, driverList,techniqueId, status)
+      this.calendarService.schedules(startDate, endDate, clientId, equipamentIds, driverList,techniqueId, status)
         .subscribe((resp: Calendar[]) => {
           this.dataSource = new MatTableDataSource<Calendar>();
           this.dataSource = new MatTableDataSource<Calendar>(resp);
