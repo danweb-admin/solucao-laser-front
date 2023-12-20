@@ -75,7 +75,6 @@ import { CalendarDialogComponent } from 'src/app/pages/calendar/components/calen
         status: [null]
       });
       this.onChanges();
-
     }
 
     onChanges(){
