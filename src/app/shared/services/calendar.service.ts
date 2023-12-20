@@ -75,7 +75,7 @@ export class CalendarService {
   }
   
   schedules(startDate: string, endDate: string, clientId: string, equipamentId: string, driverId: string, techniqueId: string, status: string): Observable<Calendar[]>{
-    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/schedules?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentId=${equipamentId}&driverList=${driverId}&techniqueId=${techniqueId}&status=${status}`)
+    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/schedules?startDate=${startDate}&endDate=${endDate}&clientId=${clientId}&equipamentList=${equipamentId}&driverList=${driverId}&techniqueId=${techniqueId}&status=${status}`)
     .pipe(map((resp: Calendar[]) => {
       return resp;
     }));
