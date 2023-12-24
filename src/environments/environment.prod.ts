@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  URL_API: 'http://161.35.255.131:32200',
+  URL_API: 'https://demo-agendanweb.api-danweb-softwares.click',
   hmr: false,
   role: ''
 };
