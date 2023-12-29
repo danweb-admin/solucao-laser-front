@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  URL_API: 'http://161.35.255.131:32200',
+  URL_API: 'https://solucao-laser.api-danweb-softwares.click',
   hmr: false,
   role: ''
+  
 };
