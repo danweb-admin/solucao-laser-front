@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: solucao-laser-front
+  namespace: solucao-laser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: solucao-laser-front
+  template:
+    metadata:
+      labels:
+        app: solucao-laser-front
+    spec:
+      containers:
+        - name: solucao-laser-front
+          image: williambr2022/solucao-laser-front
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+        
