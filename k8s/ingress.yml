@@ -2,36 +2,36 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-hosts
-  namespace: demo-danweb
+  namespace: solucao-laser
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-demo-danweb"
+    cert-manager.io/cluster-issuer: "letsencrypt-solucao-laser"
 spec:
   tls:
   - hosts:
-    - "demo-agendanweb.api-danweb-softwares.click"
-    secretName: "demo-agendanweb-tls"
+    - "solucao-laser.api-danweb-softwares.click"
+    secretName: "solucao-laser-tls"
   - hosts:
-    - "demo-agenda.app-danweb-softwares.click"
-    secretName: "demo-agendanweb-front-tls"
+    - "solucao-laser.app-danweb-softwares.click"
+    secretName: "solucao-laser-front-tls"
   rules:
-  - host: demo-agendanweb.api-danweb-softwares.click
+  - host: solucao-laser.api-danweb-softwares.click
     http:
       paths:
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: demo-agenda-back-svc
+            name: solucao-laser-back-svc
             port: 
               number: 80
-  - host: demo-agenda.app-danweb-softwares.click
+  - host: solucao-laser.app-danweb-softwares.click
     http:
       paths:
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: demo-agenda-front-svc
+            name: solucao-laser-front-svc
             port: 
               number: 80
