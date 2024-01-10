@@ -1,0 +1,107 @@
+<h3 *ngIf="isAddMode" mat-dialog-title>Adicionar Modelo</h3>
+<h3 *ngIf="!isAddMode" mat-dialog-title>Editar Modelo</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="form-row">
+      <input type="hidden" formControlName="id">
+      <input type="hidden" formControlName="createdAt">
+      <input type="hidden" formControlName="updatedAt">
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome do Modelo</mat-label>
+            <input matInput placeholder="Nome" formControlName="name">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-custom-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome do Arquivo do Modelo</mat-label>
+            <input matInput #modelFileName placeholder="Celular"  formControlName="modelFileName"  style="pointer-events:none">
+          </mat-form-field>
+        </div>
+        <button mat-button color="warn" (click)="onClick()" style="margin-top: 10px;">  
+          <mat-icon>file_upload</mat-icon>  
+          Selecione Modelo  
+        </button>
+        <input type="file" #fileUpload id="fileUpload" name="fileUpload" accept="docx" style="display: none;" />
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Equipamento</mat-label>
+            <mat-select class="tipo-atributo" formControlName="equipamentId">
+              <mat-option  *ngFor="let item of equipament "
+                            value="{{item.id}}">
+                    {{item.name}}
+                  </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-3 col-custom">
+          <mat-form-field appearance="outline"  >
+            <mat-label>Atributo Arquivo</mat-label>
+            <input matInput placeholder="Nome" #fileAttribute>
+          </mat-form-field>
+        </div>
+        <div class="col col-3 col-custom" >
+          <mat-form-field appearance="outline" >
+            <mat-label>Atributo Técnico</mat-label>
+            <mat-select class="tipo-atributo" #technicalAttribute>
+              <mat-option  *ngFor="let item of technicalAttr "
+                            value="{{item.value}}">
+                    {{item.key}}
+                  </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col col-3 col-custom">
+          <mat-form-field appearance="outline">
+            <mat-label>Tipo Atributo</mat-label>
+            <mat-select class="tipo-atributo"  #attributeType>
+              <mat-option  *ngFor="let attr of attributeTypes "
+                            value="{{attr.value}}">
+                    {{attr.key}}
+                  </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-icon-button (click)="addModelAttribute()">
+          <mat-icon>control_point</mat-icon>
+        </button>
+      </div>
+      <div class="row">
+        <table class="model-configuration-dialog-table__table">
+          <thead>
+              <tr>
+                  <th class="model-configuration-dialog-table__table-row-title">ATRIBUTO ARQUIVO</th>
+                  <th class="model-configuration-dialog-table__table-row-title">ATRIBUTO TÉCNICO</th>
+                  <th class="model-configuration-dialog-table__table-row-title">TIPO DO ATRIBUTO</th>
+                  <th class="model-configuration-dialog-table__table-row-title">AÇÃO</th>
+              </tr>
+          </thead>
+          <tbody class="model-configuration-dialog-table__content">
+              <tr *ngFor="let item of dataSource" class="model-configuration-dialog-table__row">
+                  <td class="model-configuration-dialog-table__cell">{{item.fileAttribute}}</td>
+                  <td class="model-configuration-dialog-table__cell">{{describeTechnicalAttr(item.technicalAttribute)}}</td>
+                  <td class="model-configuration-dialog-table__cell">{{describeAttributeType(item.attributeType)}}</td>
+                  <td class="model-configuration-dialog-table__cell">
+                    <button mat-button color="warn" (click)="removeItem(item)" style="margin-left: 10px;">  
+                      <mat-icon>delete</mat-icon>  
+                    </button>
+                  </td>
+
+              </tr>
+          </tbody>
+      </table>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+</div>
