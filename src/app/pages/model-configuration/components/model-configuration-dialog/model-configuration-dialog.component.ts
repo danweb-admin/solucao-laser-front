@@ -50,10 +50,10 @@ import { Person } from '../../../../shared/models/person';
       
       this.form = this.formBuilder.group({
         id:  [this.data.element?.id || ''],
-        name: [this.data.element?.name || '', Validators.required],
-        active: [ this.isAddMode ? true : this.data.element?.active, Validators.required],
-        modelFileName: [this.data.element?.modelFileName || '', Validators.required],
-        equipamentId: [this.data.element?.equipamentId || '', Validators.required],
+        name: [this.data.element?.name || ''],
+        active: [ this.isAddMode ? true : this.data.element?.active],
+        modelFileName: [this.data.element?.modelFileName || ''],
+        equipamentId: [this.data.element?.equipamentId || ''],
         modelAttributes: [this.data.element?.modelAttributes || []],
         createdAt: [this.data.element?.createdAt || new Date()],
         updatedAt: [this.data.element?.updatedsAt || null],
@@ -64,6 +64,13 @@ import { Person } from '../../../../shared/models/person';
       }
 
     }
+
+    onChange(event: any) {
+      debugger
+      let files = event.srcElement.files;
+      files = files;
+      event= null;
+   }
 
     loadAttributeTypes(){
       this.modelConfigurationService.getAttributeTypes().subscribe((resp: any) => {
@@ -84,8 +91,10 @@ import { Person } from '../../../../shared/models/person';
     }
     
     onClick(){
+      debugger
       const fileUpload = this.fileUpload.nativeElement;
         fileUpload.onchange = (t) => {  
+          debugger
           this.modelFileName.nativeElement.value = t.srcElement.files[0].name;
           this.form.controls['modelFileName'].setValue(t.srcElement.files[0].name);
           this.uploadFile(t.srcElement.files[0]);

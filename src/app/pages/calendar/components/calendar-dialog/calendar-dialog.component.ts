@@ -181,7 +181,6 @@ const moment = _rollupMoment || _moment;
         note: this.inputReadonly ? [{value: this.data.element?.note, disabled: true}] : [this.data.element?.note],
         userId: [this.data.element?.userId],
         parentId: [this.data.element?.parentId],
-        value: this.inputReadonly ? [{value: this.data.element?.value.toString().replace('.',',') || null,disabled: true}] : [{value: this.data.element?.value.toString().replace('.',',') || null, disabled: false}],
         travelOn: this.inputReadonly ? [{value: this.data.element?.travelOn || 0, disabled: true}] : [{value: this.data.element?.travelOn || 0, disabled: false}],
         date: this.inputReadonly ? [{value: this.data.element?.date || null,disabled: true},Validators.required] : [{value: this.data.element?.date || null, disabled: false},Validators.required],
         startTime1:this.inputReadonly ? [{value: this.data.element?.startTime.substring(11,16), disabled: true}] : [this.data.element?.startTime.substring(11,16) || null,Validators.required],
