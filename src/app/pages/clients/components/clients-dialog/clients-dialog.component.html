@@ -282,10 +282,8 @@
         <mat-form-field appearance="outline">
           <mat-label>Valores e Aparelhos</mat-label>
           <textarea matInput
-            cdkTextareaAutosize
-            #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="19"
-            cdkAutosizeMaxRows="40" formControlName="equipamentValues"></textarea>
+            cdkAutosizeMaxRows="40" formControlName="equipamentValues" style="overflow-y: scroll; height: 300px; resize: none;"></textarea>
         </mat-form-field>
       </mat-tab>
     </mat-tab-group>
