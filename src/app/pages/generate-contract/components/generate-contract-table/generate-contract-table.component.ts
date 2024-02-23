@@ -38,6 +38,17 @@ export class GenerateContractTableComponent implements OnInit {
     window.location.reload();
   }
 
+  followingDay(): void {
+      
+    this.time = moment(this.time, 'DD-MM-YYYY', true).add(1,'days');
+    this.ngOnInit();
+  }
+
+  lastDay(): void {
+    this.time = moment(this.time, 'DD-MM-YYYY', true).add(-1,'days');
+    this.getCalendars();
+  }
+
   applyFilter(event){
     this.time = moment(this.inputSearch.nativeElement.value, 'DD-MM-YYYY', true);
     this.getCalendars();

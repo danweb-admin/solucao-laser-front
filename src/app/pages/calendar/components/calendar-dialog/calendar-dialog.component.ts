@@ -180,6 +180,8 @@ const moment = _rollupMoment || _moment;
         noCadastre: this.inputReadonly ? [{value: this.data.element?.noCadastre || false, disabled: true}] : [{value: this.data.element?.noCadastre || false, disabled: false}],
         note: this.inputReadonly ? [{value: this.data.element?.note, disabled: true}] : [this.data.element?.note],
         userId: [this.data.element?.userId],
+        discount: this.inputReadonly ? [{value: this.data.element?.discount, disabled: true}] : [{value: this.data.element?.discount, disabled: false}],
+        freight: this.inputReadonly ? [{value: this.data.element?.freight, disabled: true}] : [{value: this.data.element?.freight, disabled: false}],
         parentId: [this.data.element?.parentId],
         travelOn: this.inputReadonly ? [{value: this.data.element?.travelOn || 0, disabled: true}] : [{value: this.data.element?.travelOn || 0, disabled: false}],
         date: this.inputReadonly ? [{value: this.data.element?.date || null,disabled: true},Validators.required] : [{value: this.data.element?.date || null, disabled: false},Validators.required],
@@ -208,6 +210,14 @@ const moment = _rollupMoment || _moment;
         this.techniqueResult = resp.filter(x => x.personType === 'T');
         this.driverResult = resp.filter(x => x.personType === 'M');
       })
+    }
+
+    onlyNumbers(event){
+      let charCode = (event.which) ? event.which : event.keyCode;
+      if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+        event.preventDefault();
+        return;
+      }
     }
 
     getEquipaments(): void{

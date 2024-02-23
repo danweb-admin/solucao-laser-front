@@ -4,8 +4,14 @@
 
       <div class="row">
           <div class="button-hoje" >
-            <button mat-icon-button (click)="today()" >
+            <button mat-icon-button (click)="lastDay()">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
+            <button mat-icon-button (click)="today()">
                 HOJE
+            </button>
+            <button mat-icon-button (click)="followingDay()">
+                <mat-icon>arrow_forward_ios</mat-icon>
             </button>
           </div>
         
