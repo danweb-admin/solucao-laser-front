@@ -9,25 +9,25 @@
       <input type="hidden" formControlName="clientId">
 
       <div class="row">
-          <div class="col">
-            <mat-form-field style="width: 80% !important;" appearance="outline">
-                <mat-label>Locatário(a)</mat-label>
-                <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client" required>
-    
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                  <mat-option *ngIf="isLoading" class="is-loading">Carregando...</mat-option>
-                  <ng-container *ngIf="!isLoading">
-                    <mat-option *ngFor="let option of clientResult" [value]="option">
-                      <span>{{ option.name }} - {{option.city.nome}} - {{option.state.sigla}}</span>
+        <div class="col">
+          <mat-form-field style="width: 80% !important;" appearance="outline">
+              <mat-label>Locatário(a)</mat-label>
+              <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client" required>
+  
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngIf="isLoading" class="is-loading">Carregando...</mat-option>
+                <ng-container *ngIf="!isLoading">
+                  <mat-option *ngFor="let option of clientResult" [value]="option" (onSelectionChange)="optionSelected($event)">
+                    <span>{{ option.name }} - {{option.city.nome}} - {{option.state.sigla}}</span>
 
-                    </mat-option>
-                  </ng-container>
-                </mat-autocomplete>
-              </mat-form-field>
-              
-              <mat-checkbox (change)="noCadastre()" formControlName="noCadastre" >Sem Cadastro</mat-checkbox>
-          </div>
-          <span *ngIf="notFound">Não encontrado.</span>
+                  </mat-option>
+                </ng-container>
+              </mat-autocomplete>
+            </mat-form-field>
+            
+            <mat-checkbox (change)="noCadastre()" formControlName="noCadastre" >Sem Cadastro</mat-checkbox>
+        </div>
+        <span *ngIf="notFound">Não encontrado.</span>
       </div>
       <div class="row" *ngIf="semCadastro">
         <div class="col"> 
@@ -130,13 +130,13 @@
         <div class="col col-2">
           <mat-form-field appearance="outline">
             <mat-label>Desconto</mat-label>
-            <input matInput placeholder="Desconto" formControlName="discount" (keydown)="onlyNumbers($event)">
+            <input matInput placeholder="Desconto" formControlName="discount" prefix="R$ " mask="separator.2" thousandSeparator="." #discount>
           </mat-form-field>
         </div>
         <div class="col col-2">
           <mat-form-field appearance="outline">
             <mat-label>Frete</mat-label>
-            <input matInput placeholder="Frete" formControlName="freight">
+            <input matInput placeholder="Frete" formControlName="freight" prefix="R$ " mask="separator.2" thousandSeparator="." #freight>
           </mat-form-field>
         </div>
       </div>

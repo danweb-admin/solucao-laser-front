@@ -276,6 +276,21 @@
               </mat-form-field>
             </div>
           </div>
+          <div class="row">
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Desconto</mat-label>
+                <input matInput placeholder="Desconto" formControlName="discount" prefix="R$ " mask="separator.2" thousandSeparator=".">
+              </mat-form-field>
+              
+            </div>
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Frete</mat-label>
+                <input matInput placeholder="Frete" formControlName="freight" prefix="R$ " mask="separator.2" thousandSeparator="." >
+              </mat-form-field>
+            </div>
+          </div>
         </div>
       </mat-tab>
       <mat-tab label="Valores">

@@ -12,7 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { NgxMaskModule } from 'ngx-mask'
 import { MatTabsModule } from '@angular/material/tabs';
 import { EquipamentsPageComponent } from './containers/equipaments-page.component';
 import { EquipamentsService } from 'src/app/shared/services/equipaments.service';
@@ -24,7 +24,7 @@ import { EquipamentsTableComponent } from './components/equipaments-table/equipa
   declarations: [
       EquipamentsPageComponent,
       EquipamentsTableComponent,
-      EquipamentsDialogComponent,
+      EquipamentsDialogComponent
   ],
   imports: [
     CommonModule,

@@ -9,6 +9,7 @@ import { SpecificationsService } from 'src/app/shared/services/specifications.se
 import { Specification } from 'src/app/shared/models/specification';
 import { EquipamentsDialogComponent } from '../equipaments-dialog/equipaments-dialog.component';
 import { EquipamentsService } from 'src/app/shared/services/equipaments.service';
+import { HistoryComponent } from 'src/app/shared/history/history.component';
 
 
 @Component({
@@ -58,6 +59,17 @@ export class EquipamentsTableComponent implements OnInit {
         this.equipamentsService.loadEquipaments(true).subscribe((resp: Equipament[]) => {
           this.dataSource = resp;
         })     
+    });
+  }
+
+  openHistory(element: Person): void {
+    let tableName = 'Equipament';
+
+    
+    const dialogRef = this.dialog.open(HistoryComponent, {
+      width: '500px',
+      height: '450px',
+      data: {element, tableName}
     });
   }
 }

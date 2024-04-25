@@ -50,6 +50,8 @@ const moment = _rollupMoment || _moment;
     inputReadonly = true;
     semCadastro = false;
     @ViewChild('selectIcon') selectIcon;
+    @ViewChild('discount') discount: any;
+    @ViewChild('freight') freight: any;
     selectedtype: any;
     icons: any = [
       {
@@ -180,8 +182,8 @@ const moment = _rollupMoment || _moment;
         noCadastre: this.inputReadonly ? [{value: this.data.element?.noCadastre || false, disabled: true}] : [{value: this.data.element?.noCadastre || false, disabled: false}],
         note: this.inputReadonly ? [{value: this.data.element?.note, disabled: true}] : [this.data.element?.note],
         userId: [this.data.element?.userId],
-        discount: this.inputReadonly ? [{value: this.data.element?.discount, disabled: true}] : [{value: this.data.element?.discount, disabled: false}],
-        freight: this.inputReadonly ? [{value: this.data.element?.freight, disabled: true}] : [{value: this.data.element?.freight, disabled: false}],
+        discount: this.inputReadonly ? [{value: this.data.element?.discount || 0, disabled: true}] : [{value: this.data.element?.discount || 0, disabled: false}],
+        freight: this.inputReadonly ? [{value: this.data.element?.freight || 0, disabled: true}] : [{value: this.data.element?.freight || 0, disabled: false}],
         parentId: [this.data.element?.parentId],
         travelOn: this.inputReadonly ? [{value: this.data.element?.travelOn || 0, disabled: true}] : [{value: this.data.element?.travelOn || 0, disabled: false}],
         date: this.inputReadonly ? [{value: this.data.element?.date || null,disabled: true},Validators.required] : [{value: this.data.element?.date || null, disabled: false},Validators.required],
@@ -218,6 +220,13 @@ const moment = _rollupMoment || _moment;
         event.preventDefault();
         return;
       }
+    }
+
+    optionSelected(event){
+      this.discount.nativeElement.value = event.source.value.discount;
+      this.freight.nativeElement.value = event.source.value.freight;
+      this.form.controls['discount'].setValue(event.source.value.discount);
+      this.form.controls['freight'].setValue(event.source.value.freight);
     }
 
     getEquipaments(): void{

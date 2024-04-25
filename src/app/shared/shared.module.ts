@@ -24,6 +24,7 @@ import { MatCardModule } from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { HistoryComponent } from './history/history.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     FooterComponent,
     SettingsMenuComponent,
     DateMenuComponent,
-    LayoutComponent
+    LayoutComponent,
+    HistoryComponent
   ],
   imports: [
     HeaderModule,

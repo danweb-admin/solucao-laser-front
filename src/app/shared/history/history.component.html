@@ -1,0 +1,25 @@
+<h3  mat-dialog-title>Histórico</h3>
+<div mat-dialog-content class="history-table">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                  <th class="history-table__table-row-title">Data</th>
+                  <th class="history-table__table-row-title">Tipo</th>
+                  <th class="history-table__table-row-title">Usuário</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of histories;">
+                    <td class="history-table__cell">{{item.operationDate | date:'dd/MM/yyyy HH:mm:ss' : '' : 'pt-BR'}}</td>
+                    <td class="history-table__cell">{{item.operation}}</td>
+                    <td class="history-table__cell">{{item.user.name}}</td>
+                </tr>
+              </tbody>
+        </table>
+    </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="close()">Fechar</button>
+</div>

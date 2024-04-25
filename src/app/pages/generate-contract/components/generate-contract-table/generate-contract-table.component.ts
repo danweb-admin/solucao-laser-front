@@ -90,6 +90,4 @@ export class GenerateContractTableComponent implements OnInit {
     this.generateContractService.downloadContract(item.id)
       .subscribe(data => saveAs(data, item.contractPath));
   }
-
-  
 }
