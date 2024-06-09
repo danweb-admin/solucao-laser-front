@@ -1,0 +1,13 @@
+<mat-card class="calendar-table" >
+    <mat-card-title class="calendar-table__header">
+        Lançamento de Consumíveis
+    </mat-card-title>
+    
+    <mat-card-content >
+        <mat-accordion class="example-headers-align" multi>
+            <ng-container *ngFor="let locacao of locacoes">
+                <app-consumable-forms [calendar]="locacao"></app-consumable-forms>
+              </ng-container>
+        </mat-accordion>
+    </mat-card-content>
+</mat-card>

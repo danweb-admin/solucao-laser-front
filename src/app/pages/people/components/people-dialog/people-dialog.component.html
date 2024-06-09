@@ -10,21 +10,38 @@
         <div class="col">
           <mat-form-field appearance="outline">
             <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" formControlName="name">
+            <input matInput placeholder="Nome" formControlName="name" required>
           </mat-form-field>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="!isDriver">
         <div class="col col-2">
           <mat-form-field appearance="outline">
             <mat-label>Celular</mat-label>
-            <input matInput placeholder="Celular" mask="(00) 00000-0000" formControlName="cellPhone">
+            <input matInput placeholder="Celular" mask="(00) 00000-0000" formControlName="cellPhone" required>
           </mat-form-field>
         </div>
-        <div class="col col-2" *ngIf="isDriver">
+        
+      </div>
+      <div class="row" *ngIf="isDriver">
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Celular</mat-label>
+            <input matInput placeholder="Celular" mask="(00) 00000-0000" formControlName="cellPhone" required>
+          </mat-form-field>
+        </div>
+        <div class="col col-3" >
           <mat-form-field appearance="outline">
             <mat-label>Placa</mat-label>
-            <input matInput placeholder="Placa" formControlName="plate" mask="SSS-AAAA">
+            <input matInput placeholder="Placa" formControlName="plate" mask="SSS-AAAA" required>
+          </mat-form-field>
+        </div>
+        <div class="col col-3" >
+          <mat-form-field appearance="outline">
+            <mat-label>Usuário</mat-label>
+            <mat-select  formControlName="userId" [(value)]="form.value.userId" style="display: contents;">
+              <mat-option *ngFor="let item of usersDriver" [value]="item.id">{{item.name}} - {{item.email}}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

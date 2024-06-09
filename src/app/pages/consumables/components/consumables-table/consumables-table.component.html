@@ -1,0 +1,28 @@
+<mat-card class="consumables-table">
+    <mat-card-title class="consumables-table__header">
+      <h5 class="consumables-table__title">Lista</h5>
+
+      <button mat-icon-button (click)="openDialog(null)">
+        <mat-icon>control_point</mat-icon>
+      </button>
+    </mat-card-title>
+  
+    <mat-card-content >
+      <table class="consumables-table__table">
+        <thead>
+            <tr>
+                <th class="consumables-table__table-row-title">NOME</th>
+                <th class="consumables-table__table-row-title">ATIVO/INATIVO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource" (click)="openDialog(item)" class="consumables-table__row">
+                <td class="consumables-table__cell">{{item.name}}</td>
+                <td class="consumables-table__cell">{{item.active ? 'ATIVO' : 'INATIVO'}}</td>
+            </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  
+  

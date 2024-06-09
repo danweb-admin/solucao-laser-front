@@ -2,180 +2,269 @@
 <h3 *ngIf="!isAddMode" mat-dialog-title>Editar Locação</h3>
 <div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row">
-      <input type="hidden" formControlName="id">
-      <input type="hidden" formControlName="createdAt">
-      <input type="hidden" formControlName="updatedAt">
-      <input type="hidden" formControlName="clientId">
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Locação" >
+        <div class="form-row">
+          <input type="hidden" formControlName="id">
+          <input type="hidden" formControlName="createdAt">
+          <input type="hidden" formControlName="updatedAt">
+          <input type="hidden" formControlName="clientId">
 
-      <div class="row">
-        <div class="col">
-          <mat-form-field style="width: 80% !important;" appearance="outline">
-              <mat-label>Locatário(a)</mat-label>
-              <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client" required>
-  
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngIf="isLoading" class="is-loading">Carregando...</mat-option>
-                <ng-container *ngIf="!isLoading">
-                  <mat-option *ngFor="let option of clientResult" [value]="option" (onSelectionChange)="optionSelected($event)">
-                    <span>{{ option.name }} - {{option.city.nome}} - {{option.state.sigla}}</span>
-
-                  </mat-option>
-                </ng-container>
-              </mat-autocomplete>
-            </mat-form-field>
-            
-            <mat-checkbox (change)="noCadastre()" formControlName="noCadastre" >Sem Cadastro</mat-checkbox>
-        </div>
-        <span *ngIf="notFound">Não encontrado.</span>
-      </div>
-      <div class="row" *ngIf="semCadastro">
-        <div class="col"> 
-          <mat-form-field appearance="outline">
-            <mat-label>Cliente Sem Cadastro</mat-label>
-            <input matInput placeholder="Cliente Sem Cadastro" formControlName="temporaryName" >
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Equipamento</mat-label>
-            <mat-select formControlName="equipamentId" (selectionChange)="onChangeEquipament($event)" required>
-              <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Data de Criação</mat-label>
-            <input matInput disabled [value]="form.value.createdAt | date: 'd/M/yy, h:mm a'">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field appearance="outline">
-            <mat-label>Ponteiras</mat-label>
-            <mat-chip-list multiple id="chipList" [selectable]="true" [disabled]="inputReadonly ? true : false ">
-              <mat-chip formArrayName="calendarSpecifications" *ngFor="let item of form.get('calendarSpecifications').value" [selected]="item.active" (click)="item.active=!item.active;">{{item.name}}</mat-chip>
-            </mat-chip-list>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Técnica</mat-label>
-            <mat-select id="techniqueId" formControlName="techniqueId" [(value)]="form.value.techniqueId">
-              <mat-option *ngFor="let item of techniqueResult" [value]="item.id">{{item.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+          <div class="row">
+              <div class="col">
+                <mat-form-field style="width: 80% !important;" appearance="outline">
+                    <mat-label>Locatário(a)</mat-label>
+                    <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client">
         
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="status">
-              <mat-option value="1">Confirmada</mat-option>
-              <mat-option value="2">Pendente</mat-option>
-              <mat-option value="3">Cancelada</mat-option>
-              <mat-option value="4">Excluida</mat-option>
-              <mat-option value="5">Pré Agendada</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Motorista Entrega</mat-label>
-            <mat-select formControlName="driverId">
-              <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Motorista Recolhe</mat-label>
-            <mat-select formControlName="driverCollectsId">
-              <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-3">
-          <mat-form-field appearance="outline">
-            <mat-label>Data</mat-label>
-            <input matInput [matDatepicker]="dp" [min]="todayDate" placeholder="Data" formControlName="date" (focus)="dp.open()" required>
-            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-            <mat-datepicker #dp></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="col col-3">
-          <mat-form-field appearance="outline">
-            <mat-label>Início</mat-label>
-            <input matInput placeholder="Início" formControlName="startTime1" mask="00:00" (blur)="onBlur($event)" required>
-          </mat-form-field>
-        </div>
-        <div class="col col-3">
-          <mat-form-field appearance="outline">
-            <mat-label>Final</mat-label>
-            <input matInput placeholder="Final" formControlName="endTime1" mask="00:00" (blur)="onBlur($event)" required>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Desconto</mat-label>
-            <input matInput placeholder="Desconto" formControlName="discount" prefix="R$ " mask="separator.2" thousandSeparator="." #discount>
-          </mat-form-field>
-        </div>
-        <div class="col col-2">
-          <mat-form-field appearance="outline">
-            <mat-label>Frete</mat-label>
-            <input matInput placeholder="Frete" formControlName="freight" prefix="R$ " mask="separator.2" thousandSeparator="." #freight>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col" style="width: 70%; float: left;">
-          <mat-form-field appearance="outline">
-            <mat-label>Observação</mat-label>
-            <input matInput placeholder="Observação" formControlName="note">
-          </mat-form-field>
-        </div>
-        <div class="col" style="width: 30%; float: left;">
-          <mat-form-field appearance="outline">
-            <mat-label>Segue Viagem?</mat-label>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngIf="isLoading" class="is-loading">Carregando...</mat-option>
+                      <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let option of clientResult" [value]="option">
+                          <span>{{ option.name }} - {{option.city.nome}} - {{option.state.sigla}}</span>
+    
+                        </mat-option>
+                      </ng-container>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  
+                  <mat-checkbox (change)="noCadastre()" formControlName="noCadastre" >Sem Cadastro</mat-checkbox>
+              </div>
+              <span *ngIf="notFound">Não encontrado.</span>
+          </div>
+          <div class="row" *ngIf="semCadastro">
+            <div class="col"> 
+              <mat-form-field appearance="outline">
+                <mat-label>Cliente Sem Cadastro</mat-label>
+                <input matInput placeholder="Cliente Sem Cadastro" formControlName="temporaryName" >
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Equipamento</mat-label>
+                <mat-select formControlName="equipamentId" (selectionChange)="onChangeEquipament($event)">
+                  <mat-option *ngFor="let item of equipamentResult" [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Data de Criação</mat-label>
+                <input matInput disabled [value]="form.value.createdAt | date: 'd/M/yy, h:mm a'">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Ponteiras</mat-label>
+                <mat-chip-list multiple id="chipList" [selectable]="true" [disabled]="inputReadonly ? true : false ">
+                  <mat-chip formArrayName="calendarSpecifications" *ngFor="let item of form.get('calendarSpecifications').value" [selected]="item.active" (click)="item.active=!item.active;">{{item.name}}</mat-chip>
+                </mat-chip-list>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Técnica</mat-label>
+                <mat-select id="techniqueId" formControlName="techniqueId" [(value)]="form.value.techniqueId">
+                  <mat-option *ngFor="let item of techniqueResult" [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
             
-            <mat-select formControlName="travelOn" (selectionChange)="onRoomChange($event.value)">
-              <mat-option [value]="0">
-                <mat-icon></mat-icon>
-              </mat-option>
-              <mat-option [value]="1">
-                <mat-icon>arrow_forward</mat-icon>
-              </mat-option>
-              <mat-option [value]="2">
-                <mat-icon>arrow_back</mat-icon>
-              </mat-option>
-              <mat-option [value]="3">
-                <mat-icon>swap_horiz</mat-icon>
-              </mat-option>
-              <!-- MUST USE mat-select-trigger TO SHOW mat-icon -->
-              <mat-select-trigger >
-                <mat-icon style="margin-top: -15px;">{{selectedtype}}</mat-icon>&nbsp;
-              </mat-select-trigger>
-            </mat-select>
-          </mat-form-field>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option value="1">Confirmada</mat-option>
+                  <mat-option value="2">Pendente</mat-option>
+                  <mat-option value="3">Cancelada</mat-option>
+                  <mat-option value="4">Excluida</mat-option>
+                  <mat-option value="5">Pré Agendada</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+           
+          </div>
+          <div class="row">
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Motorista Entrega</mat-label>
+                <mat-select formControlName="driverId">
+                  <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col col-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Motorista Recolhe</mat-label>
+                <mat-select formControlName="driverCollectsId">
+                  <mat-option *ngFor="let item of driverResult" [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Data</mat-label>
+                <input matInput [matDatepicker]="dp" [min]="todayDate" placeholder="Data" formControlName="date" (focus)="dp.open()">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp></mat-datepicker>
+              </mat-form-field>
+              
+            </div>
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Início</mat-label>
+                <input matInput placeholder="Início" formControlName="startTime1" mask="00:00" (blur)="onBlur($event)">
+              </mat-form-field>
+            </div>
+            <div class="col col-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Final</mat-label>
+                <input matInput placeholder="Final" formControlName="endTime1" mask="00:00" (blur)="onBlur2($event)">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" style="width: 70%; float: left;">
+              <mat-form-field appearance="outline">
+                <mat-label>Observação</mat-label>
+                <input matInput placeholder="Observação" formControlName="note">
+              </mat-form-field>
+            </div>
+            <div class="col" style="width: 30%; float: left;">
+              <mat-form-field appearance="outline">
+                <mat-label>Segue Viagem?</mat-label>
+                
+                <mat-select formControlName="travelOn" (selectionChange)="onRoomChange($event.value)">
+                  <mat-option [value]="0">
+                    <mat-icon></mat-icon>
+                  </mat-option>
+                  <mat-option [value]="1">
+                    <mat-icon>arrow_forward</mat-icon>
+                  </mat-option>
+                  <mat-option [value]="2">
+                    <mat-icon>arrow_back</mat-icon>
+                  </mat-option>
+                  <mat-option [value]="3">
+                    <mat-icon>swap_horiz</mat-icon>
+                  </mat-option>
+                  <!-- MUST USE mat-select-trigger TO SHOW mat-icon -->
+                  <mat-select-trigger >
+                    <mat-icon style="margin-top: -15px;">{{selectedtype}}</mat-icon>&nbsp;
+                  </mat-select-trigger>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Desconto</mat-label>
+                <input matInput placeholder="Desconto" formControlName="discount" prefix="R$ " mask="separator.2" thousandSeparator="." (blur)="calculateTotalValue()">
+              </mat-form-field>
+            </div>
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Frete</mat-label>
+                <input matInput placeholder="Frete" formControlName="freight" prefix="R$ " mask="separator.2" thousandSeparator="." (blur)="calculateTotalValue()">
+              </mat-form-field>
+            </div>
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Valor Locação</mat-label>
+                <input matInput placeholder="Valor Locação" formControlName="value" prefix="R$ " mask="separator.2" thousandSeparator="." >
+              </mat-form-field>
+            </div>
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Total Locação</mat-label>
+                <input matInput placeholder="Total Locação" formControlName="totalValue" prefix="R$ " mask="separator.2" thousandSeparator=".">
+              </mat-form-field>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </mat-tab>
+      <mat-tab label="Consumíveis" >
+        <h5 *ngIf="calendarEquipamentConsumables.controls.length > 0">Consumíveis do Aparelho</h5>
+        <div class="row" formArrayName="calendarEquipamentConsumables">
+          <div *ngFor="let item of calendarEquipamentConsumables.controls; let i=index" [formGroupName]="i">
+            <input type="hidden" formControlName="id">
+            <input type="hidden" formControlName="createdAt">
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput placeholder="Nome" formControlName="name" >
+              </mat-form-field>
+            </div>
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Valor</mat-label>
+                <input matInput placeholder="Valor" formControlName="value" prefix="R$ " mask="separator.2" thousandSeparator="." (blur)="changeValueEquipamentConsumables(i)">
+              </mat-form-field>
+            </div>
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Quantidade</mat-label>
+                <input matInput placeholder="Quantidade" formControlName="amount" (blur)="changeValueEquipamentConsumables(i)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </mat-form-field>
+            </div>
+            <div class="col col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Valor Total</mat-label>
+                <input matInput placeholder="Valor Total" formControlName="totalValue" prefix="R$ " mask="separator.2" thousandSeparator="." disabled>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <h5 *ngIf="calendarSpecificationConsumables.controls.length > 0">Consumíveis da Ponteira</h5>
+        <div class="row" formArrayName="calendarSpecificationConsumables">
+          <div *ngFor="let item of calendarSpecificationConsumables.controls; let i=index" [formGroupName]="i">
+            <input type="hidden" formControlName="id">
+            <input type="hidden" formControlName="createdAt">
+            <div class="col col-5">
+              <mat-form-field appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput placeholder="Nome" formControlName="name" >
+              </mat-form-field>
+            </div>
+            <div class="col col-5">
+              <mat-form-field appearance="outline">
+                <mat-label>Inicial</mat-label>
+                <input matInput placeholder="Inicial" formControlName="initial" (change)="changeValueSpecificationConsumables(i)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </mat-form-field>
+            </div>
+            <div class="col col-5">
+              <mat-form-field appearance="outline">
+                <mat-label>Final</mat-label>
+                <input matInput placeholder="Final" formControlName="final" (change)="changeValueSpecificationConsumables(i)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+              </mat-form-field>
+            </div>
+            <div class="col col-5">
+              <mat-form-field appearance="outline">
+                <mat-label>Valor</mat-label>
+                <input matInput placeholder="Valor" formControlName="value" prefix="R$ " mask="separator.2" thousandSeparator="." (change)="changeValueSpecificationConsumables(i)">
+              </mat-form-field>
+            </div>
+            <div class="col col-5">
+              <mat-form-field appearance="outline">
+                <mat-label>Valor Total</mat-label>
+                <input matInput placeholder="Valor Total" formControlName="totalValue" prefix="R$ " mask="separator.2" thousandSeparator=".">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </form>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
-  <button *ngIf="!inputReadonly" mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+  <button *ngIf="!inputReadonly" mat-raised-button color="primary"  (click)="onSubmit()">Salvar</button>
 </div>

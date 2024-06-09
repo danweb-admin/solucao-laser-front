@@ -24,8 +24,22 @@ export class UserService {
     return false
   }
 
+  isDriver(): boolean{
+    let admin = localStorage.getItem('role');
+    if (admin.match('driver'))
+      return true;
+    return false
+  }
+
   loadUsers(): Observable<User[]>{
     return this.http.get(`${environment.URL_API}${URL_USER}`)
+    .pipe(map((resp: User[]) => {
+      return resp;
+    }));
+  }
+
+  loadUsersDriver(): Observable<User[]>{
+    return this.http.get(`${environment.URL_API}${URL_USER}/?isDriver=true`)
     .pipe(map((resp: User[]) => {
       return resp;
     }));

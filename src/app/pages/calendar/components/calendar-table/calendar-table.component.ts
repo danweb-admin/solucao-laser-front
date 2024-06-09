@@ -1,4 +1,3 @@
-
 import { Equipament } from './../../../../shared/models/equipament';
 import { ToastrService } from 'ngx-toastr';
 import { SpecificationsService } from 'src/app/shared/services/specifications.service';
@@ -17,82 +16,81 @@ import { StatusDialogComponent } from '../status-dialog/status-dialog.component'
 import { StickyNotesDialogComponent } from '../sticky-notes-dialog/sticky-notes-dialog.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { UserService } from 'src/app/shared/services/user.service';
-import html2canvas from 'html2canvas';
 
 
 
 @Component({
-    selector: 'app-calendar-table',
-    templateUrl: 'calendar-table.component.html',
-    styleUrls: ['./calendar-table.component.scss',],
-    providers: [
-      {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-      {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    ],
-  })
-  export class CalendarTableComponent implements OnInit, AfterViewInit{
-    
-    displayedColumns: string[] = ['equipamento', 'locatario', 'horario', 'tecnica', 'motorista','usuario','status','obs'];
-    @ViewChild('inputSearch') inputSearch: ElementRef;
-    @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
-    @ViewChild(StickyNotesDialogComponent) sticky: StickyNotesDialogComponent;
-    dataSource: [];
-    isShowFilterInput = false;
-    currentDate = new Date();
-    specificationArray: Specification[];
-    equipamentArray: Equipament[];
-    time;
-    value;
-    todayDate;
-    inputReadonly = false;
-    innerValue: Date = new Date();
-    isAdmin = false;
-    icons: any = [
-      {
-        id: "0",
-        icon: ""
-      },
-      {
-        id: "1",
-        icon: "arrow_forward"
-      },
-      {
-        id: "2",
-        icon: "arrow_back"
-      },
-      {
-        id: "3",
-        icon: "swap_horiz"
-      }
-    ];
-
-    constructor(private calendarService: CalendarService,
-                public dialog: MatDialog,
-                private specificationSerivce: SpecificationsService,
-                private userService: UserService,
-                private toastrService: ToastrService) {
+  selector: 'app-calendar-table',
+  templateUrl: 'calendar-table.component.html',
+  styleUrls: ['./calendar-table.component.scss',],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
+})
+export class CalendarTableComponent implements OnInit, AfterViewInit{
+  
+  displayedColumns: string[] = ['equipamento', 'locatario', 'horario', 'tecnica', 'motorista','usuario','status','obs'];
+  @ViewChild('inputSearch') inputSearch: ElementRef;
+  @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
+  @ViewChild(StickyNotesDialogComponent) sticky: StickyNotesDialogComponent;
+  dataSource: [];
+  isShowFilterInput = false;
+  currentDate = new Date();
+  specificationArray: Specification[];
+  equipamentArray: Equipament[];
+  time;
+  value;
+  todayDate;
+  inputReadonly = false;
+  innerValue: Date = new Date();
+  isAdmin = false;
+  icons: any = [
+    {
+      id: "0",
+      icon: ""
+    },
+    {
+      id: "1",
+      icon: "arrow_forward"
+    },
+    {
+      id: "2",
+      icon: "arrow_back"
+    },
+    {
+      id: "3",
+      icon: "swap_horiz"
+    }
+  ];
+  
+  constructor(private calendarService: CalendarService,
+    public dialog: MatDialog,
+    private specificationSerivce: SpecificationsService,
+    private userService: UserService,
+    private toastrService: ToastrService) {
       this.time = moment();
       this.isAdmin = this.userService.isAdmin();
     }
-
+    
     resetPicker() {
       this.picker.select(undefined);
     }
-
+    
     ngAfterViewInit(): void {
       this.ajusteCSS();
     }
-
+    
     showFilterInput(): void {
       this.isShowFilterInput = !this.isShowFilterInput;
     }
-
+    
     closeFilterInput(): void {
       this.time = moment(new Date(), 'DD/MM/YYYY', true);
       this.inputSearch.nativeElement.value = '';
       this.getCalendars();
     }
-
+    
     applyFilter(event): void {
       let length = this.inputSearch.nativeElement.value.length;
       let charCode = (event.which) ? event.which : event.keyCode;
@@ -109,28 +107,27 @@ import html2canvas from 'html2canvas';
       this.time = moment(this.inputSearch.nativeElement.value, 'DD-MM-YYYY', true);
       this.getCalendars();
     }
-
+    
     ngOnInit(): void {
       this.getCalendars();
       this.loadSpecifications();
     }
-
+    
     async loadSpecifications(): Promise<void> {
       await this.specificationSerivce.loadSpecifications().toPromise().then((data) => {
         localStorage.setItem('specificationsList',JSON.stringify(data));
         this.specificationArray = data;
       }); 
     }
-
+    
     getCalendars(): void{
       this.time = moment(this.time, 'DD-MM-YYYY', true);
       let date = this.time.format('YYYY-MM-DD');
       this.calendarService.getCalendarByDay(date).subscribe((resp: any) => {
         this.dataSource = resp;
-        
       });
     }
-
+    
     openDialog(element: Calendar){
       const dialogRef = this.dialog.open(CalendarDialogComponent, {
         width: '700px',
@@ -138,15 +135,15 @@ import html2canvas from 'html2canvas';
         disableClose: true,
         data: {element}
       });
-  
+      
       dialogRef.afterClosed().subscribe(result => {
         if (result === undefined)
-          return;
+        return;
         
         this.getCalendars();           
       });
     }
-
+    
     openDialogTechnique(element: Calendar){
       let isDriver = false;
       const dialogRef = this.dialog.open(PersonDialogUpdateComponent, {
@@ -155,38 +152,33 @@ import html2canvas from 'html2canvas';
         disableClose: true,
         data: {element, isDriver}
       });
-  
+      
       dialogRef.afterClosed().subscribe(result => {
         if (result === undefined)
-          return;
+        return;
         
         this.getCalendars();           
       });
     }
-
+    
     openDialogDriver(element: Calendar, isCollect: boolean){
       let isDriver = true;
-      let role = localStorage.getItem('role');
-
-      if (role === 'viewer'){
-        return;
-      }
-    
+      
       const dialogRef = this.dialog.open(PersonDialogUpdateComponent, {
         width: '400px',
         height: '250px',
         disableClose: true,
         data: {element, isDriver, isCollect}
       });
-  
+      
       dialogRef.afterClosed().subscribe(result => {
         if (result === undefined)
-          return;
+        return;
         
         this.getCalendars();           
       });
     }
-
+    
     openDialogStatus(element: Calendar, isTravelOn){
       
       const dialogRef = this.dialog.open(StatusDialogComponent, {
@@ -195,15 +187,15 @@ import html2canvas from 'html2canvas';
         disableClose: true,
         data: {element, isTravelOn}
       });
-  
+      
       dialogRef.afterClosed().subscribe(result => {
         if (result === undefined)
-          return;
+        return;
         
         this.getCalendars();           
       });
     }
-
+    
     openDialogStickyNotes(){
       let element = null;
       const dialogRef = this.dialog.open(StickyNotesDialogComponent, {
@@ -212,36 +204,36 @@ import html2canvas from 'html2canvas';
         disableClose: true,
         data: {element}
       });
-  
+      
       dialogRef.afterClosed().subscribe(result => {
         if (result === undefined)
-          return;
-
+        return;
+        
         this.getCalendars();           
       });
     }
-
+    
     today(): void {
       window.location.reload();
     }
-
+    
     followingDay(): void {
       
       this.time = moment(this.time, 'DD-MM-YYYY', true).add(1,'days');
       this.ngOnInit();
     }
-
+    
     lastDay(): void {
       this.time = moment(this.time, 'DD-MM-YYYY', true).add(-1,'days');
       this.getCalendars();
     }
-
+    
     updateContractMade(item: Calendar): void{
       this.calendarService.updateContractMade(item.id).subscribe(() => {
         this.getCalendars(); 
       })
     }
-
+    
     descriptionSpecifications(item: Calendar){
       let retorno = new Array();
       item.calendarSpecifications.forEach(obj => {
@@ -254,19 +246,19 @@ import html2canvas from 'html2canvas';
       });
       return retorno.join(' - ')
     }
-
+    
     showTime(item: Calendar){
       let start = ''
       let end = '';
       if (item.startTime)
-        start = item.startTime.substring(11,16);
+      start = item.startTime.substring(11,16);
       if (item.endTime)
-        end = item.endTime.substring(11,16)
+      end = item.endTime.substring(11,16)
       return start + ' - ' + end;
     }
-
+    
     showAddress(item){
-
+      
       let ret = [];
       if (item.noCadastre){
         return ''
@@ -278,28 +270,19 @@ import html2canvas from 'html2canvas';
       
       return ret.join(' - ');
     }
-
+    
     showClientCity(item){
       let ret = [];
       if (item.noCadastre){
         ret.push(item.temporaryName);
       }else{
-        let split = item.client.name.split(' ');
-        if (split.length > 1){
-          ret.push(split[0] + ' ' + split[1]);
-        }else{
-          ret.push(split[0]);
-        }
+        ret.push(item.client.name)
         ret.push(item.client.city.nome)
       }
       
-      if (item.calendarSpecifications.filter(x => x.active).length > 0){
-        ret.push(this.descriptionSpecifications(item));
-      }
-
       return ret.join(' - ');
     }
-
+    
     showSpecifications(item){
       let ret = [];
       if (item.calendarSpecifications.filter(x => x.active).length > 0){
@@ -307,61 +290,46 @@ import html2canvas from 'html2canvas';
       }
       return ret.join(' - ');
     }
-
+    
     showIconTravelOn(value): string {
       let ret = '';
       switch(value){
         case 1:
-          ret = 'arrow_forward';
-          break;
+        ret = 'arrow_forward';
+        break;
         case 2:
-          ret = 'arrow_back';
-          break;
+        ret = 'arrow_back';
+        break;
         case 3:
-          ret = 'swap_horiz';
-          break;
+        ret = 'swap_horiz';
+        break;
       }
       return ret;
-;    }
-
+    }
+    
     statusToString(status): string{
       let ret = 'Confirmada';
       switch (status){
         case '2':
-          ret = 'Pendente';
-          break;
+        ret = 'Pendente';
+        break;
         case '3':
-          ret = 'Cancelada';
-          break;
+        ret = 'Cancelada';
+        break;
         case '4':
-          ret = 'Excluida';
-          break;
+        ret = 'Excluida';
+        break;
         case '5':
-          ret = 'Pre-Agendada'
-          break;
+        ret = 'Pre-Agendada'
+        break;
       }
-
+      
       return ret;
     }
-
-    download(){
-      let container = document.getElementById("calendar-main-table");
-      let today = new Date();
-      let imageName = `AgendaDia-${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}.png`
-      html2canvas(container,{allowTaint : true}).then(function(canvas) {
-      
-        var link = document.createElement("a");
-        document.body.appendChild(link);
-        link.download = imageName;
-        link.href = canvas.toDataURL("image/png");
-        link.target = '_blank';
-        link.click();
-      });
-    }
-
+    
     ajusteCSS(): void {
       document
-            .querySelectorAll<HTMLElement>('.header__title-button-icon')
-            .forEach(node => node.click())
+      .querySelectorAll<HTMLElement>('.header__title-button-icon')
+      .forEach(node => node.click())
     }
   }

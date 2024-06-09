@@ -1,3 +1,4 @@
+import { EquipamentConsumable } from "./equipamentConsumable";
 import { EquipamentSpecifications } from "./equipamentSpecifications";
 
 export interface Equipament {
@@ -5,4 +6,5 @@ export interface Equipament {
     name: string;
     active: boolean;
     equipamentSpecifications: EquipamentSpecifications[];
+    equipamentConsumables: EquipamentConsumable[];
   }

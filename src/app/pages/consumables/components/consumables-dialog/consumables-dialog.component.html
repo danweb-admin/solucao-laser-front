@@ -1,0 +1,29 @@
+<h3 *ngIf="isAddMode" mat-dialog-title>Adicionar Consumível</h3>
+<h3 *ngIf="!isAddMode" mat-dialog-title>Editar Consumível</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <input type="hidden" formControlName="id">
+      <input type="hidden" formControlName="createdAt">
+      <input type="hidden" formControlName="updatedAt">
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome" formControlName="name">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col ">
+            <mat-checkbox class="checkbox" formControlName="active" checked="form.value.active" >Ativo</mat-checkbox>
+        </div>
+      </div>
+      
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+</div>

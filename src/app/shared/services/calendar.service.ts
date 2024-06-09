@@ -24,6 +24,13 @@ export class CalendarService {
     }));
   }
 
+  getCalendarAll(date: string): Observable<Calendar[]>{
+    return this.http.get(`${environment.URL_API}${URL_CALENDARS}/get-all/?date=${date}`)
+    .pipe(map((resp: Calendar[]) => {
+      return resp;
+    }));
+  }
+
   save(calendar: Calendar): Observable<Calendar>{
     return this.http.post(`${environment.URL_API}${URL_CALENDARS}`,calendar)
     .pipe(map((resp: Calendar) => {

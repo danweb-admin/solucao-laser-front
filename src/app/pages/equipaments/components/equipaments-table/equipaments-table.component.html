@@ -1,33 +1,27 @@
 <mat-card class="equipament-table">
-  <mat-card-title class="equipament-table__header">
-    <h5 class="equipament-table__title">Lista</h5>
-    
-    <button mat-icon-button (click)="openDialog(null)">
-      <mat-icon>control_point</mat-icon>
-    </button>
-  </mat-card-title>
+    <mat-card-title class="equipament-table__header">
+      <h5 class="equipament-table__title">Lista</h5>
+
+      <button mat-icon-button (click)="openDialog(null)">
+        <mat-icon>control_point</mat-icon>
+      </button>
+    </mat-card-title>
   
-  <mat-card-content >
-    <table class="equipament-table__table">
-      <thead>
-        <tr>
-          <th class="equipament-table__table-row-title">NOME</th>
-          <th class="equipament-table__table-row-title">ATIVO/INATIVO</th>
-          <th class="equipament-table__table-row-title">ORDEM</th>
-          <th class="equipament-table__table-row-title">HISTÓRICO</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of dataSource"  class="equipament-table__row">
-          <td class="equipament-table__cell" (click)="openDialog(item)">{{item.name}}</td>
-          <td class="equipament-table__cell" (click)="openDialog(item)">{{item.active ? 'ATIVO' : 'INATIVO'}}</td>
-          <td class="equipament-table__cell" (click)="openDialog(item)">{{item.order}}</td>
-          <td> 
-            <div class="row padding-left-5" (click)="openHistory(item)">
-              <mat-icon>notes</mat-icon>
-            </div>
-          </td>            
-        </tr>
+    <mat-card-content >
+      <table class="equipament-table__table">
+        <thead>
+            <tr>
+                <th class="equipament-table__table-row-title">NOME</th>
+                <th class="equipament-table__table-row-title">ATIVO/INATIVO</th>
+                <th class="equipament-table__table-row-title">ORDEM</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of dataSource" (click)="openDialog(item)" class="equipament-table__row">
+                <td class="equipament-table__cell">{{item.name}}</td>
+                <td class="equipament-table__cell">{{item.active ? 'ATIVO' : 'INATIVO'}}</td>
+                <td class="equipament-table__cell">{{item.order}}</td>
+            </tr>
         </tbody>
       </table>
     </mat-card-content>

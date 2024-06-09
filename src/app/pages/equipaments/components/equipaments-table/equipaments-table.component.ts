@@ -9,7 +9,7 @@ import { SpecificationsService } from 'src/app/shared/services/specifications.se
 import { Specification } from 'src/app/shared/models/specification';
 import { EquipamentsDialogComponent } from '../equipaments-dialog/equipaments-dialog.component';
 import { EquipamentsService } from 'src/app/shared/services/equipaments.service';
-import { HistoryComponent } from 'src/app/shared/history/history.component';
+import { LoginFormComponent } from 'src/app/pages/auth/components';
 
 
 @Component({
@@ -33,9 +33,10 @@ export class EquipamentsTableComponent implements OnInit {
   public ngOnInit(): void {
     this.equipamentsService.loadEquipaments(true).subscribe((resp: Equipament[]) => {
       this.dataSource = resp;
+      console.log(resp);
+      
     })
   }
-
 
   public showAtivo(ativo: boolean): string {
     if (ativo)
@@ -43,8 +44,7 @@ export class EquipamentsTableComponent implements OnInit {
     return 'Inativo';
   }
 
-
-  openDialog(element: Person): void {
+  openDialog(element: Equipament): void {
     
     const dialogRef = this.dialog.open(EquipamentsDialogComponent, {
       width: '700px',
@@ -59,17 +59,6 @@ export class EquipamentsTableComponent implements OnInit {
         this.equipamentsService.loadEquipaments(true).subscribe((resp: Equipament[]) => {
           this.dataSource = resp;
         })     
-    });
-  }
-
-  openHistory(element: Person): void {
-    let tableName = 'Equipament';
-
-    
-    const dialogRef = this.dialog.open(HistoryComponent, {
-      width: '500px',
-      height: '450px',
-      data: {element, tableName}
     });
   }
 }

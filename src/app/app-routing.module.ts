@@ -107,6 +107,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/generate-contract/generate-contract.module' ).then(m => m.GenerateContractModule)
   },
   {
+    path: 'consumiveis',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/consumables/consumables.module' ).then(m => m.ConsumablesModule)
+  },
+  {
+    path: 'lancar-consumiveis',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/calendar-consumable/calendar-consumable.module' ).then(m => m.CalendarConsumableModule)
+  },
+  {
     path: '**',
     redirectTo: '404'
   }

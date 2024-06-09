@@ -1,0 +1,142 @@
+<form [formGroup]="form">
+    <mat-expansion-panel >
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{calendar?.client.name.substring(0,20)}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{showTime(calendar)}}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        {{calendar.active}}
+        
+        <div class="row">
+            <div class="col">
+                <mat-label class="mat-label">Aparelho: </mat-label>
+                <mat-label class="mat-label">{{calendar.equipament?.name}}</mat-label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-label class="mat-label">Ponteiras: </mat-label>
+                <mat-label class="mat-label">{{showSpecifications(calendar)}}</mat-label>
+            </div>
+        </div>
+        
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col col-2">
+                <mat-label class="mat-label">Desc: </mat-label>
+                <mat-label class="mat-label">{{form.value.discount}}</mat-label>
+            </div>
+            <div class="col col-2">
+                <mat-label class="mat-label">Frete: </mat-label>
+                <mat-label class="mat-label">{{form.value.freight}}</mat-label>
+            </div>
+        </div>
+        
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col col-2">
+                <mat-label class="mat-label">Locação: </mat-label>
+                <mat-label class="mat-label">{{form.value.value}}</mat-label>
+            </div>
+            <div class="col col-2">
+                <mat-label class="mat-label">Total: </mat-label>
+                <mat-label class="mat-label">{{form.value.totalValue}}</mat-label>
+            </div>
+        </div>
+        
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Consumíveis do Aparelho
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                
+                <div class="row" formArrayName="calendarEquipamentConsumables">
+                    <div *ngFor="let item of calendarEquipamentConsumables.controls; let i=index" [formGroupName]="i">
+                        <input type="hidden" formControlName="id">
+                        <input type="hidden" formControlName="createdAt">
+                        <div class="row">
+                            <div class="col col-2">
+                                <mat-label class="mat-label">Consumível: {{calendarEquipamentConsumables.controls[i].get('name').value}}</mat-label>
+                            </div>
+                            <div class="col col-2">
+                                <mat-label class="mat-label">Valor: {{calendarEquipamentConsumables.controls[i].get('value').value}}</mat-label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;"> 
+                            
+                            <div class="col col-2">
+                                <mat-form-field appearance="outline" style="width: 90px;">
+                                    <mat-label>Quantidade</mat-label>
+                                    <input matInput placeholder="Quantidade" formControlName="amount"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' (blur)="changeValueEquipamentConsumables(i)">
+                                </mat-form-field>
+                            </div>
+                            <div class="col col-2">
+                                <mat-form-field appearance="outline" style="width: 90px;">
+                                    <mat-label>Valor Total</mat-label>
+                                    <input matInput placeholder="Valor Total" formControlName="totalValue" prefix="R$ " mask="separator.2" thousandSeparator="." disabled>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Consumíveis da(s) Ponteira(s)
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row" formArrayName="calendarSpecificationConsumables">
+                    <div *ngFor="let item of calendarSpecificationConsumables.controls; let i=index" [formGroupName]="i">
+                        <input type="hidden" formControlName="id">
+                        <input type="hidden" formControlName="createdAt">
+                        <div class="row">
+                            <div class="col">
+                                <mat-label class="mat-label">Consumível: {{calendarSpecificationConsumables.controls[i].get('name').value}}</mat-label>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col col-2">
+                                <mat-form-field appearance="outline" style="width: 90px;">
+                                    <mat-label>Inicial</mat-label>
+                                    <input matInput placeholder="Inicial" formControlName="initial"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' (blur)="changeValueSpecificationConsumables(i)" >
+                                </mat-form-field>
+                            </div>
+                            <div class="col col-2">
+                                <mat-form-field appearance="outline" style="width: 90px;">
+                                    <mat-label>Final</mat-label>
+                                    <input matInput placeholder="Final" formControlName="final"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' (blur)="changeValueSpecificationConsumables(i)">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-2">
+                                <mat-form-field appearance="outline" style="width: 90px;">
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput placeholder="Valor" formControlName="value" prefix="R$ " mask="separator.2" thousandSeparator="." >
+                                </mat-form-field>
+                            </div>
+                            <div class="col col-2">
+                                <mat-form-field appearance="outline" style="width: 90px;">
+                                    <mat-label>Valor Total</mat-label>
+                                    <input matInput placeholder="Valor Total" formControlName="totalValue" prefix="R$ " mask="separator.2" thousandSeparator=".">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <div class="row" style="margin-top: 15px; float: right;">
+            <button  mat-raised-button color="primary"  (click)="onSubmit()">Salvar</button>
+        </div>
+    </mat-expansion-panel>
+    
+</form>

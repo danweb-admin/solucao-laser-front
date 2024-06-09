@@ -1,6 +1,6 @@
 import { Calendar } from './../../../../shared/models/calendar';
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
@@ -20,6 +20,8 @@ import {default as _rollupMoment} from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/consts/my-format';
+import { Consumable } from 'src/app/shared/models/consumable';
+import { ConsumablesService } from 'src/app/shared/services/consumables.service';
 
 const moment = _rollupMoment || _moment;
 
@@ -38,7 +40,10 @@ const moment = _rollupMoment || _moment;
     isAddMode: boolean;
     id: string;
     arr: FormArray;
+    consumableArray: [] = [];
+    consumableSpecificationArray: [] = [];
     clientResult: [];
+    consumables: Consumable[];
     techniqueResult: Person[];
     driverResult: Person[];
     equipamentResult: Equipament[];
@@ -50,8 +55,6 @@ const moment = _rollupMoment || _moment;
     inputReadonly = true;
     semCadastro = false;
     @ViewChild('selectIcon') selectIcon;
-    @ViewChild('discount') discount: any;
-    @ViewChild('freight') freight: any;
     selectedtype: any;
     icons: any = [
       {
@@ -82,10 +85,29 @@ const moment = _rollupMoment || _moment;
       private equipamentService: EquipamentsService,
       private personService: PersonService,
       private specificationService: SpecificationsService,
+      private consumablesService: ConsumablesService,
       private cdr: ChangeDetectorRef) {
         this.todayDate = new Date();
         this.readOnly();
 
+    }
+
+    ngOnInit(): void {
+      this.getPeople();
+      this.getEquipaments();
+      this.getSpecifications();
+      this.createForm();
+      this.loadConsumables();
+      this.loadConsumableSpecification();
+      this.onChanges();
+      console.log(this.form.value);
+      
+    }
+
+    ngAfterViewInit(): void {
+      setTimeout(() => {
+        this.ajustesCSS();
+      },500);
     }
 
     readOnly(): void{
@@ -98,12 +120,6 @@ const moment = _rollupMoment || _moment;
       
       if (ret >= 0)
         this.inputReadonly = false;
-    }
-
-    ngAfterViewInit(): void {
-      setTimeout(() => {
-        this.ajustesCSS();
-      },500);
     }
 
     noCadastre(): void{
@@ -141,18 +157,11 @@ const moment = _rollupMoment || _moment;
       return item?.name;
     }
 
-    ngOnInit(): void {
-      this.getPeople();
-      this.getEquipaments();
-      this.getSpecifications();
-      this.createForm();
-      this.onChanges();
-    }
-
     createForm(): void {
       let list = this.data.element?.calendarSpecifications;
       let temp = JSON.parse(localStorage.getItem('specificationsList'));
       let array = [];
+      let consumableArray: [] = [];
       this.id = this.data.element;
       this.isAddMode = !this.id;
 
@@ -182,9 +191,11 @@ const moment = _rollupMoment || _moment;
         noCadastre: this.inputReadonly ? [{value: this.data.element?.noCadastre || false, disabled: true}] : [{value: this.data.element?.noCadastre || false, disabled: false}],
         note: this.inputReadonly ? [{value: this.data.element?.note, disabled: true}] : [this.data.element?.note],
         userId: [this.data.element?.userId],
-        discount: this.inputReadonly ? [{value: this.data.element?.discount || 0, disabled: true}] : [{value: this.data.element?.discount || 0, disabled: false}],
-        freight: this.inputReadonly ? [{value: this.data.element?.freight || 0, disabled: true}] : [{value: this.data.element?.freight || 0, disabled: false}],
         parentId: [this.data.element?.parentId],
+        discount: this.inputReadonly ? [{value: this.data.element?.discount.toFixed(2).replace('.',',') || 0, disabled: true}] : [{value: this.data.element?.discount.toFixed(2).replace('.',',') || 0, disabled: false}],
+        freight: this.inputReadonly ? [{value: this.data.element?.freight.toFixed(2).replace('.',',') || 0, disabled: true}] : [{value: this.data.element?.freight.toFixed(2).replace('.',',') || 0, disabled: false}],
+        totalValue: [{value: this.data.element?.totalValue.toFixed(2).replace('.',',') || 0, disabled: true}],
+        value: [{value: this.data.element?.value.toFixed(2).replace('.',',') || 0, disabled: true}],
         travelOn: this.inputReadonly ? [{value: this.data.element?.travelOn || 0, disabled: true}] : [{value: this.data.element?.travelOn || 0, disabled: false}],
         date: this.inputReadonly ? [{value: this.data.element?.date || null,disabled: true},Validators.required] : [{value: this.data.element?.date || null, disabled: false},Validators.required],
         startTime1:this.inputReadonly ? [{value: this.data.element?.startTime.substring(11,16), disabled: true}] : [this.data.element?.startTime.substring(11,16) || null,Validators.required],
@@ -192,12 +203,141 @@ const moment = _rollupMoment || _moment;
         status: this.inputReadonly ? [{value: this.data.element?.status || '2', disabled: true}] : [{value: this.data.element?.status || '2', disabled: false}],
         equipamentId: this.inputReadonly ?  [{value: this.data.element?.equipamentId || null, disabled: true} ,Validators.required] : [{value: this.data.element?.equipamentId || null, disabled: false} ,Validators.required],
         temporaryName: this.inputReadonly ? [{value: this.data.element?.temporaryName, disabled: true}] : [{value: this.data.element?.temporaryName, disabled: false}],
-        calendarSpecifications:  this.formBuilder.array(this.data.element?.calendarSpecifications ? array : [])
+        calendarSpecifications:  this.formBuilder.array(this.data.element?.calendarSpecifications ? array : []),
+        calendarEquipamentConsumables: this.formBuilder.array(this.consumableArray),
+        calendarSpecificationConsumables: this.formBuilder.array(this.consumableSpecificationArray)
+
       });
       this.semCadastro = this.form.value.noCadastre;
-      this.selectedtype = this.icons.find(x => x.id == this.form.value.travelOn).icon;
+      if (this.form.value.travelOn)
+        this.selectedtype = this.icons.find(x => x.id == this.form.value.travelOn).icon;
       
     } 
+
+    loadConsumables(): void {
+      if (this.data.element == null)
+        return;
+
+			this.createConsumableForms(this.data.element.calendarEquipamentConsumables);
+		}
+
+    loadConsumableSpecification(): void {
+      if (this.data.element == null)
+        return;
+
+			this.createConsumableSpecificationForms(this.data.element.calendarSpecificationConsumables);
+		}
+
+    createConsumableForms(consumables: any[]): void {
+      for (let item of consumables) {
+
+        if (!item.active)
+          continue;
+
+        if (this.data.element != null ){
+          const formGroup = this.formBuilder.group({
+            id: ['', Validators.required],
+            name: [{value: item.consumable.name, disabled: true}],
+            active: [item.active, Validators.required],
+            value: this.inputReadonly ? [{value: item.value.toFixed(2).replace('.',','), disabled: true}] : [{value: item.value.toFixed(2).replace('.',','), disabled: false}],
+            equipamentId: [item.equipamentId],
+            consumableId: [item.consumableId],
+            calendarId: [null],
+            amount: this.inputReadonly ? [{value: item.amount, disabled: true}] : [{value: item.amount, disabled: false}] ,
+            totalValue: [{value: item.totalValue.toFixed(2).replace('.',','), disabled: true}],
+            createdAt: new Date()
+          });
+      
+          formGroup.addControl('id', new FormControl(item.id));
+      
+          this.calendarEquipamentConsumables.push(formGroup);
+          continue;
+        }
+
+				const existingItem = this.data.element?.calendarEquipamentConsumables.find(e => e.consumableId === item.id);
+        
+				const formGroup = this.formBuilder.group({
+          id: [existingItem ? existingItem.id : '', Validators.required],
+					name: [{value: item.consumable.name, disabled: true}],
+					active: [existingItem ? existingItem.active : item.active, Validators.required],
+					value: [existingItem ? existingItem.value : item.value, Validators.required],
+					equipamentId: [item.equipamentId],
+					consumableId: [item.consumableId],
+          calendarId: [existingItem ? this.data.element.id : null],
+          amount: [existingItem ? existingItem.amount : 0],
+          totalValue: [{value: existingItem ? existingItem.totalValue : 0, disabled: true}],
+					createdAt: existingItem ? existingItem.createdAt : new Date()
+				});
+		
+				if (existingItem) 
+					formGroup.addControl('id', new FormControl(existingItem.id));
+		
+				this.calendarEquipamentConsumables.push(formGroup);
+			}
+		}
+
+    createConsumableSpecificationForms(consumables: any): void {
+      let specs = JSON.parse(localStorage.getItem('specificationsList'));
+      
+      for (let item of consumables) {
+        
+        if (!item.active)
+          continue;
+
+        const spec = specs.find(x => x.id === item.specificationId);
+
+        if (!spec.hasConsumable)
+          continue;
+
+        if (this.data.element != null) {
+          const formGroup = this.formBuilder.group({
+            id: [ '', Validators.required],
+            name: [{value: spec.name, disabled: true}],
+            active: [item.active, Validators.required],
+            value:  [{value: item.value.toFixed(2).replace('.',','), disabled: this.inputReadonly}],
+            initial: [{value: item.initial, disabled: this.inputReadonly}],
+            final: [{value: item.final, disabled: this.inputReadonly}],
+            specificationId: [item.specificationId],
+            calendarId: [null],
+            totalValue: [{value: item.totalValue.toFixed(2).replace('.',','), disabled: true }],
+            createdAt:  new Date()
+          });
+    
+          formGroup.addControl('id', new FormControl(item.id));
+      
+          this.calendarSpecificationConsumables.push(formGroup);
+          continue;
+        } 
+
+				const existingItem = this.data.element?.calendarSpecificationConsumables.find(e => e.consumableId === item.id);
+        
+				const formGroup = this.formBuilder.group({
+          id: [existingItem ? existingItem.id : '', Validators.required],
+					name: [{value: spec.name, disabled: true}],
+					active: [existingItem ? existingItem.active : item.active, Validators.required],
+					value: [existingItem ? existingItem.value : spec.value.toFixed(2).replace('.',','), Validators.required],
+          initial: [existingItem ? existingItem.initial : 0],
+          final: [existingItem ? existingItem.final : 0],
+					specificationId: [item.specificationId],
+          calendarId: [existingItem ? this.data.element.id : null],
+          totalValue: [{value: existingItem ? existingItem.totalValue : 0, disabled: true}],
+					createdAt: existingItem ? existingItem.createdAt : new Date()
+				});
+		
+				if (existingItem) 
+					formGroup.addControl('id', new FormControl(existingItem.id));
+		
+				this.calendarSpecificationConsumables.push(formGroup);
+			}
+		}
+
+    get calendarEquipamentConsumables(): FormArray {
+			return this.form.get('calendarEquipamentConsumables') as FormArray;
+		}
+
+    get calendarSpecificationConsumables(): FormArray {
+			return this.form.get('calendarSpecificationConsumables') as FormArray;
+		}
 
     buildCalendarSpecifications(equipamentSpecification: EquipamentSpecifications){
       return this.formBuilder.group({
@@ -212,21 +352,6 @@ const moment = _rollupMoment || _moment;
         this.techniqueResult = resp.filter(x => x.personType === 'T');
         this.driverResult = resp.filter(x => x.personType === 'M');
       })
-    }
-
-    onlyNumbers(event){
-      let charCode = (event.which) ? event.which : event.keyCode;
-      if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-        event.preventDefault();
-        return;
-      }
-    }
-
-    optionSelected(event){
-      this.discount.nativeElement.value = event.source.value.discount;
-      this.freight.nativeElement.value = event.source.value.freight;
-      this.form.controls['discount'].setValue(event.source.value.discount);
-      this.form.controls['freight'].setValue(event.source.value.freight);
     }
 
     getEquipaments(): void{
@@ -246,11 +371,17 @@ const moment = _rollupMoment || _moment;
     }
 
     onChangeEquipament(event): void {
+      this.calendarEquipamentConsumables.clear();
+      this.calendarSpecificationConsumables.clear();
+
       this.arr = this.form.get('calendarSpecifications') as FormArray;
       let temp = this.equipamentResult.filter(x => x.id === event.value);
 
       if (this.arr.value.length !== 0)
         this.arr.clear();
+
+      this.createConsumableForms(temp[0].equipamentConsumables)
+      this.createConsumableSpecificationForms(temp[0].equipamentSpecifications)
     
       temp[0].equipamentSpecifications.forEach(item => {
         if (item.active){
@@ -271,6 +402,8 @@ const moment = _rollupMoment || _moment;
     }
 
     onSubmit(){
+      this.adjustFormValues();
+      
       if (this.form.value.id === ""){
         this.form.value.clientId = this.form.value.client.id;
         this.calendarService.save(this.form.value).subscribe((resp: Calendar) => {
@@ -294,6 +427,42 @@ const moment = _rollupMoment || _moment;
         );
       }
     }
+
+    adjustFormValues(){
+			this.calendarEquipamentConsumables.controls.forEach((control, index) => {
+				const currentValue = control.get('value').value.toString();
+				const newValue  = currentValue.replace(',', '.');
+        control.get('value').patchValue(newValue);
+        const currentTotalValue = control.get('totalValue').value.toString();
+				const newTotalValue = currentTotalValue.replace(',', '.');
+        control.get('totalValue').patchValue(newTotalValue);
+        control.get('totalValue').enable();
+			});
+
+      this.calendarSpecificationConsumables.controls.forEach((control, index) => {
+        
+				const currentValue = control.get('value').value.toString();
+				const newValue  = currentValue.replace(',', '.');
+        control.get('value').patchValue(newValue);
+        const currentTotalValue = control.get('totalValue').value.toString();
+				const newTotalValue = currentTotalValue.replace(',', '.');
+        control.get('totalValue').patchValue(newTotalValue);
+        control.get('totalValue').enable();
+
+			});
+      
+      for (const field in this.form.controls) { // 'field' is a string
+        
+        if (field == "discount" || field == "freight" || field == "totalValue" || field == "value"){
+          const control = this.form.get(field);
+          const currentValue = control.value.toString();
+				  const newValue  = currentValue.replace(',', '.');
+          control.patchValue(newValue);
+          control.enable();
+        }
+        
+      }
+		}
 
     compare(dateTimeA, dateTimeB) {
       var data_locacao = moment(dateTimeA,"YYYY-MM-DD");
@@ -324,6 +493,40 @@ const moment = _rollupMoment || _moment;
       }
     }
 
+    changeValueEquipamentConsumables(i){
+
+      const amount = this.calendarEquipamentConsumables.controls[i].get('amount').value;
+      const value = this.calendarEquipamentConsumables.controls[i].get('value').value;
+
+      if (value == "")
+        return;
+
+      const amount_ = parseFloat(amount);
+      const value_ = parseFloat(value.toString().replace(',','.'))
+      const totalValue = value_ * amount_;
+
+      this.calendarEquipamentConsumables.controls[i].get('totalValue').patchValue(totalValue.toFixed(2).replace('.',','))
+      this.calculateTotalValue();
+    }
+
+    changeValueSpecificationConsumables(i){
+
+      const initial = this.calendarSpecificationConsumables.controls[i].get('initial').value;
+      const final = this.calendarSpecificationConsumables.controls[i].get('final').value;
+      const value = this.calendarSpecificationConsumables.controls[i].get('value').value;
+
+      if (value == "" || initial == 0 || final == 0)
+        return;
+      
+      const initial_ = parseFloat(initial);
+      const final_ = parseFloat(final);
+      const value_ = parseFloat(value.toString().replace(',','.'))
+      const totalValue = (final_ - initial_) * value_;
+
+      this.calendarSpecificationConsumables.controls[i].get('totalValue').patchValue(totalValue.toFixed(2).replace('.',','))
+      this.calculateTotalValue();
+    }
+
     onBlur(input){
       var re=/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
       
@@ -336,6 +539,60 @@ const moment = _rollupMoment || _moment;
         this.toastr.warning('Horário inválido');
         element.focus();
         element.value = ""
+        return false;
       }
+      return true;
+    }
+
+    onBlur2(input){
+      var ret = this.onBlur(input);
+      
+      if (ret){
+        this.clientService.getValueByEquipament(this.form.value.client.id,this.form.value.equipamentId, this.form.value.startTime1, this.form.value.endTime1).subscribe((resp: number) => {
+          for (const field in this.form.controls) { 
+            if (field == "value" || field == "totalValue"){
+              const control = this.form.get(field);
+              const newValue  = resp.toString().replace('.', ',');
+              control.patchValue(newValue);
+            } 
+          }
+        });
+      }
+    }
+
+    calculateTotalValue(){
+      
+      let total = 0;
+      const freight = this.form.value.freight;
+      const discount = this.form.value.discount;
+
+      this.calendarEquipamentConsumables.controls.forEach((control) => {
+				
+        const currentTotalValue = control.get('totalValue').value.toString();
+				const newTotalValue = currentTotalValue.replace(',', '.');
+        
+        
+        total += parseFloat(newTotalValue);
+        console.log('valor equip:' + newTotalValue  );
+			});
+
+      this.calendarSpecificationConsumables.controls.forEach((control) => {
+				
+        const currentTotalValue = control.get('totalValue').value.toString();
+				const newTotalValue = currentTotalValue.replace(',', '.');
+        total += parseFloat(newTotalValue);
+        console.log('valor spec:' + newTotalValue  );
+
+			});
+
+      const value = this.form.get('value').value;
+      const value_ = parseFloat(value.replace(',','.'));
+      
+      total += value_ + freight - discount;
+
+      const control = this.form.get('totalValue');
+      const newValue  = total.toString().replace('.', ',');
+      control.patchValue(newValue);
+      
     }
   }

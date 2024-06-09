@@ -2,6 +2,8 @@ import { Component, Inject, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/pages/auth/models';
+import { UserService } from 'src/app/shared/services/user.service';
 import { Person } from '../../../../shared/models/person';
 import { PersonService } from '../../../../shared/services/people.service';
 
@@ -16,13 +18,15 @@ import { PersonService } from '../../../../shared/services/people.service';
     id: string;
     isDriver: boolean = true;
     isTechnique: boolean  = false;
+    usersDriver: User[] = [];
 
     constructor(
       public dialogRef: MatDialogRef<PeopleDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any,
       private personService: PersonService,
       private formBuilder: FormBuilder,
-      private toastr: ToastrService) {
+      private toastr: ToastrService,
+      private userService: UserService) {
         
     }
 
@@ -39,6 +43,7 @@ import { PersonService } from '../../../../shared/services/people.service';
         cellPhone: [this.data.element?.cellPhone || '', Validators.required],
         plate: [this.data.element?.plate || '',[this.isDriver ? Validators.required : Validators.nullValidator]],
         active: [ this.isAddMode ? true : this.data.element?.active, Validators.required],
+        userId: [this.data.element?.userId || null],
         personType: [this.isAddMode ? 'M' : this.data.element?.personType, Validators.required],
         createdAt: [this.data.element?.createdAt || new Date()],
         updatedAt: [this.data.element?.updatedsAt || null],
@@ -51,7 +56,13 @@ import { PersonService } from '../../../../shared/services/people.service';
         this.isDriver = true;
         this.isTechnique = false;
       }
-     
+      this.loadUsersDriver();
+    }
+
+    loadUsersDriver(){
+      this.userService.loadUsersDriver().subscribe((resp: User[]) => {
+        this.usersDriver = resp;
+      })
     }
   
     onNoClick(): void {

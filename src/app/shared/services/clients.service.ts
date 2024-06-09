@@ -24,6 +24,13 @@ export class ClientsService {
     }));
   }
 
+  getValueByEquipament(clientId: string, equipamentId: string, startTime: string, endTime: string): Observable<number> {
+    return this.http.get(`${environment.URL_API}${URL_CLIENTS}/value-by-equipament?clientId=${clientId}&equipamentId=${equipamentId}&startTime=${startTime}&endTime=${endTime}`)
+    .pipe(map((resp: number) => {
+      return resp;
+    }));
+  }
+
   save(client: Client): Observable<Client>{
     return this.http.post(`${environment.URL_API}${URL_CLIENTS}`,client)
     .pipe(map((resp: Client) => {

@@ -21,12 +21,26 @@
             <input matInput placeholder="Quantidade" formControlName="amount">
           </mat-form-field>
         </div>
-        <div class="col col-3">
-          <mat-checkbox formControlName="single" checked="form.value.single" style="margin-top: 15px;" >Único</mat-checkbox>
+       
+        <div class="col col-2">
+          <mat-checkbox class="check-box-inline" formControlName="single" checked="form.value.single"  >Único</mat-checkbox>
+        
         </div>
-        <div class="col col-3">
-          <mat-checkbox formControlName="active" checked="form.value.active" style="margin-top: 15px;">Ativo</mat-checkbox>
       </div>
+      <div class="row">
+        <div class="col col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Valor Consumível</mat-label>
+            <input matInput placeholder="Valor Consumível" formControlName="value" prefix="R$ " mask="separator.2" thousandSeparator=".">
+          </mat-form-field>
+        </div>
+       
+        <div class="col col-2">
+          <mat-checkbox class="check-box-inline" formControlName="hasConsumable" checked="form.value.hasConsumable" >Consumível</mat-checkbox>
+
+          <mat-checkbox class="check-box-inline" formControlName="active" checked="form.value.active" >Ativo</mat-checkbox>
+
+        </div>
       </div>
     </div>
   </form>

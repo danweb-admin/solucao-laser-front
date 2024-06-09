@@ -31,12 +31,15 @@ import { SpecificationsService } from 'src/app/shared/services/specifications.se
       
       this.id = this.data.element;
       this.isAddMode = !this.id;
+      
       this.form = this.formBuilder.group({
         id:  [this.data.element?.id || ''],
         name: [this.data.element?.name || '', Validators.required],
         active: [ this.isAddMode ? true : this.data.element?.active, Validators.required],
         single: [ this.data.element?.single || false],
         amount: [this.data.element?.amount || 1],
+        hasConsumable: [this.data.element?.hasConsumable || false],
+        value: [this.data.element?.value.toFixed(2).replace('.',',') || 0],
         createdAt: [this.data.element?.createdAt || new Date()],
         updatedAt: [this.data.element?.updatedsAt || null],
       });

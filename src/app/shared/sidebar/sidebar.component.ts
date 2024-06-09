@@ -13,9 +13,12 @@ export class SidebarComponent {
   public isOpenEquipaments = false;
   public isOpenContracts = false;
   isAdmin = false;
+  isDriver = false;
+
 
   constructor(private userService: UserService){
     this.isAdmin = userService.isAdmin();
+    this.isDriver = userService.isDriver()
   }
 
   public openLocations() {

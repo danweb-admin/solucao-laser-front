@@ -1,10 +1,4 @@
-import { SpecificationsService } from '../../../../shared/services/specifications.service';
-import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { Calendar } from 'src/app/shared/models/calendar';
-import moment from 'moment';
-import { Specification } from 'src/app/shared/models/specification';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PersonService } from 'src/app/shared/services/people.service';
 import { Person } from 'src/app/shared/models/person';
@@ -57,6 +51,7 @@ import { ToastrService } from 'ngx-toastr';
     }
 
     onSubmit(): void {
+      
       this.calendarService.updateDriverOrTechniqueCalendar(
         this.form.value.personId,
         this.form.value.calendarId,
