@@ -1,4 +1,4 @@
-import { Equipament } from './../../../../shared/models/equipament';
+import { Equipament } from '../../../../shared/models/equipament';
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';

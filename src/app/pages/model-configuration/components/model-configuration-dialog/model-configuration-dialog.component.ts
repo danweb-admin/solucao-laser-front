@@ -66,7 +66,6 @@ import { Person } from '../../../../shared/models/person';
     }
 
     onChange(event: any) {
-      debugger
       let files = event.srcElement.files;
       files = files;
       event= null;
@@ -91,10 +90,8 @@ import { Person } from '../../../../shared/models/person';
     }
     
     onClick(){
-      debugger
       const fileUpload = this.fileUpload.nativeElement;
         fileUpload.onchange = (t) => {  
-          debugger
           this.modelFileName.nativeElement.value = t.srcElement.files[0].name;
           this.form.controls['modelFileName'].setValue(t.srcElement.files[0].name);
           this.uploadFile(t.srcElement.files[0]);
