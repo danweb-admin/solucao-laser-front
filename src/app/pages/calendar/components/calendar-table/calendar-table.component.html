@@ -76,7 +76,7 @@
                     <td>
                         <div *ngFor="let item of element.calendars" (click)="openDialogTechnique(item)">
                             <div class="row padding-left-5" >
-                                {{item.technique?.name}}
+                                {{item.technique?.name || '-''}}
                             </div>
                         </div>
                     </td>
@@ -98,14 +98,14 @@
                     <td>
                         <div *ngFor="let item of element.calendars" (click)="openDialogDriver(item,false)">
                             <div class="row padding-left-5">
-                                {{item.driver?.name}}
+                                {{item.driver?.name || '-'}}
                             </div>
                         </div>
                     </td>
                     <td>
                         <div *ngFor="let item of element.calendars" (click)="openDialogDriver(item,true)">
                             <div class="row padding-left-5">
-                                {{item.driverCollects?.name}}
+                                {{item.driverCollects?.name || '-'}}
                             </div>
                         </div>
                     </td>
@@ -198,7 +198,7 @@
                     <td>
                         <div *ngFor="let item of element.calendars" >
                             <div class="row padding-left-5" >
-                                {{item.technique?.name}}
+                                {{item.technique?.name || '-''}}
                             </div>
                         </div>
                     </td>
@@ -220,7 +220,7 @@
                     <td>
                         <div *ngFor="let item of element.calendars">
                             <div class="row padding-left-5">
-                                {{item.driver?.name}}
+                                {{item.driver?.name || '-'}}
                             </div>
                         </div>
                     </td>
