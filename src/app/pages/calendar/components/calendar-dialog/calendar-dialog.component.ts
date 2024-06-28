@@ -55,6 +55,8 @@ const moment = _rollupMoment || _moment;
     inputReadonly = true;
     semCadastro = false;
     @ViewChild('selectIcon') selectIcon;
+    @ViewChild('discount') discount: any;
+    @ViewChild('freight') freight: any;
     selectedtype: any;
     icons: any = [
       {
@@ -100,8 +102,12 @@ const moment = _rollupMoment || _moment;
       this.loadConsumables();
       this.loadConsumableSpecification();
       this.onChanges();
-      console.log(this.form.value);
       
+    }
+
+    optionSelected(event){
+      this.form.controls['discount'].setValue(event.source.value.discount);
+      this.form.controls['freight'].setValue(event.source.value.freight);
     }
 
     ngAfterViewInit(): void {
@@ -556,8 +562,12 @@ const moment = _rollupMoment || _moment;
               control.patchValue(newValue);
             } 
           }
+          this.calculateTotalValue();
+
         });
+        
       }
+      
     }
 
     calculateTotalValue(){
@@ -573,7 +583,6 @@ const moment = _rollupMoment || _moment;
         
         
         total += parseFloat(newTotalValue);
-        console.log('valor equip:' + newTotalValue  );
 			});
 
       this.calendarSpecificationConsumables.controls.forEach((control) => {
@@ -581,7 +590,6 @@ const moment = _rollupMoment || _moment;
         const currentTotalValue = control.get('totalValue').value.toString();
 				const newTotalValue = currentTotalValue.replace(',', '.');
         total += parseFloat(newTotalValue);
-        console.log('valor spec:' + newTotalValue  );
 
 			});
 
@@ -591,7 +599,7 @@ const moment = _rollupMoment || _moment;
       total += value_ + freight - discount;
 
       const control = this.form.get('totalValue');
-      const newValue  = total.toString().replace('.', ',');
+      const newValue  = total.toFixed(2).toString().replace('.', ',');
       control.patchValue(newValue);
       
     }

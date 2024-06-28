@@ -19,7 +19,7 @@
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                       <mat-option *ngIf="isLoading" class="is-loading">Carregando...</mat-option>
                       <ng-container *ngIf="!isLoading">
-                        <mat-option *ngFor="let option of clientResult" [value]="option">
+                        <mat-option *ngFor="let option of clientResult" [value]="option" (onSelectionChange)="optionSelected($event)">
                           <span>{{ option.name }} - {{option.city.nome}} - {{option.state.sigla}}</span>
     
                         </mat-option>
