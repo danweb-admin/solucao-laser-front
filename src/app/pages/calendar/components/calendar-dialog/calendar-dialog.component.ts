@@ -461,8 +461,14 @@ const moment = _rollupMoment || _moment;
         
         if (field == "discount" || field == "freight" || field == "totalValue" || field == "value"){
           const control = this.form.get(field);
+          console.log('control: ' + control);
+          
           const currentValue = control.value.toString();
+          console.log('currentValue: ' + currentValue);
+
 				  const newValue  = currentValue.replace(',', '.');
+          console.log('newValue: ' + newValue);
+
           control.patchValue(newValue);
           control.enable();
         }
