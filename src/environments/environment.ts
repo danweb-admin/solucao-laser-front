@@ -7,6 +7,7 @@ export const environment = {
   URL_API: 'https://solucao-laser.api-danweb-softwares.click',
   hmr: false,
   role: ''
+  
 };
 
 /*
