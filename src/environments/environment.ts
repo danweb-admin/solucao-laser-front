@@ -4,10 +4,11 @@
 
 export const environment = {
   production: false,
-  URL_API: 'https://solucao-laser.api-danweb-softwares.click',
+  // URL_API: 'https://solucao-laser.api-danweb-softwares.click',
+  URL_API: 'https://localhost:8091',
   hmr: false,
   role: ''
-  
+
 };
 
 /*
