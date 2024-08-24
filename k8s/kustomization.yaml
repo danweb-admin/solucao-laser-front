@@ -9,4 +9,4 @@ namespace: solucao-laser
 images:
 - name: williambr2022/solucao-laser-front
   newName: williambr2022/solucao-laser-front
-  newTag: c9be84dedb370a2ccb2f27a411f99d69db01545d
+  newTag: 34641c23ed13211ff214be7ed110fedd5f86cc27
