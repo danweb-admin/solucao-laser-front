@@ -18,6 +18,7 @@ import { ClientsDialogComponent } from './components/clients-dialog/clients-dial
 import { ClientsTableComponent } from './components/clients-table/clients-table.component';
 import { ClientsPageComponent } from './containers/clients-page/clients-page.component';
 import { ClientsService } from '../../shared/services/clients.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ClientsService } from '../../shared/services/clients.service';
     MatCardModule,
     MatIconModule,
     MatMenuModule,
+    MatExpansionModule,
     MatTableModule,
     MatButtonModule,
     MatCheckboxModule,
