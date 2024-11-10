@@ -579,8 +579,8 @@ const moment = _rollupMoment || _moment;
     calculateTotalValue(){
       
       let total = 0;
-      const freight = parseFloat(this.form.value.freight.replace('.', ','));
-      const discount = parseFloat(this.form.value.discount.replace('.', ','));
+      const freight = parseFloat(this.form.value.freight.toString().replace('.', ','));
+      const discount = parseFloat(this.form.value.discount.toString().replace('.', ','));
 
       this.calendarEquipamentConsumables.controls.forEach((control) => {
 				
