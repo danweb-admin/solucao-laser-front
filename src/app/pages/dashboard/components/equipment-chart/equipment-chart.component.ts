@@ -38,7 +38,6 @@ export class EquipmentChartComponent implements OnChanges {
   
 
   private setChartOptions(seriesData: any[]) {
-    debugger
     this.chartOptions = {
       title: {
         text: 'Locações por Aparelho',
