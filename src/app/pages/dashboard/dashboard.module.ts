@@ -28,6 +28,9 @@ import {
 import { SharedModule } from '../../shared/shared.module';
 import { DashboardService } from './services';
 import { LocacoesChartComponent } from './components/locacoes-chart/locacoes-chart.component';
+import { EquipmentChartComponent } from './components/equipment-chart/equipment-chart.component';
+import { DriverChartComponent } from './components/driver-chart/driver-chart.component';
+import { FilterChartComponent } from './components/filter-chart/filter-chart.component';
 
 
 @NgModule({
@@ -40,7 +43,10 @@ import { LocacoesChartComponent } from './components/locacoes-chart/locacoes-cha
     DailyLineChartComponent,
     SupportRequestsComponent,
     ProjectStatChartComponent,
-    LocacoesChartComponent
+    LocacoesChartComponent,
+    EquipmentChartComponent,
+    DriverChartComponent,
+    FilterChartComponent
   ],
   imports: [
     CommonModule,

@@ -346,6 +346,10 @@ import { ClientsService } from '../../../../shared/services/clients.service';
         const currentValue = item.get('value').value.toString();
         const newValue  = currentValue.replace('R$ ','').replace(',', '.');
         item.get('value').patchValue(newValue);
+
+        const currentValue_ = item.get('hours').value.toString();
+        const newValue_  = currentValue_.replace(',', '.');
+        item.get('hours').patchValue(newValue_);
 			}); 
 		}
 
@@ -383,11 +387,11 @@ import { ClientsService } from '../../../../shared/services/clients.service';
 
     allowOnlyNumbers(event: KeyboardEvent): boolean {
       const charCode = event.which ? event.which : event.keyCode;
-      // Permite apenas números (0-9)
-      if (charCode < 48 || charCode > 57) {
-        event.preventDefault(); // Bloqueia qualquer outro caractere que não seja número
-        return false;
+      // Permite números (0-9) e vírgula (44)
+      if ((charCode < 48 || charCode > 57) && charCode !== 44) {
+          event.preventDefault(); // Bloqueia qualquer caractere que não seja número ou vírgula
+          return false;
       }
       return true;
-    }
+  }
   }
