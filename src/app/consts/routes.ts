@@ -19,6 +19,8 @@ export enum routes {
   CONTRACTS = '/gerar-contratos',
   MODEL_CONFIGURATION = '/configuracao-modelo',
   CONSUMABLES = '/consumiveis',
-  CALENDAR_CONSUMABLE = '/lancar-consumiveis'
+  CALENDAR_CONSUMABLE = '/lancar-consumiveis',
+  BULK_SCHEDULING = '/agenda-em-lote'
+
 
 }

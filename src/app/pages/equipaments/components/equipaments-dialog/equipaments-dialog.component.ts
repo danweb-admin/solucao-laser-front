@@ -46,13 +46,14 @@ import { SpecificationsService } from 'src/app/shared/services/specifications.se
 
 		createConsumableForms(): void {
 			this.consumables.forEach(item => {
+				
 				const existingItem = this.data.element?.equipamentConsumables.find(e => e.consumableId === item.id);
 
 				const formGroup = this.formBuilder.group({
 					name: [{value: item.name, disabled: true}],
 					active: [existingItem ? existingItem.active : item.active, Validators.required],
 					value: [existingItem ? existingItem.value.toFixed(2).replace('.',',') : 0, Validators.required],
-					equipamentId: [existingItem ? this.data.element.id : null],
+					equipamentId: [existingItem ? existingItem.equipamentId : this.data.element.id],
 					consumableId: [item.id],
 					createdAt: existingItem ? existingItem.createdAt : new Date()
 				});

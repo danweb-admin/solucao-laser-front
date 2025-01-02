@@ -117,6 +117,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/calendar-consumable/calendar-consumable.module' ).then(m => m.CalendarConsumableModule)
   },
   {
+    path: 'agenda-em-lote',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/bulk-scheduling/bulk-scheduling.module' ).then(m => m.BulkSchedulingModule)
+  },
+  {
     path: '**',
     redirectTo: '404'
   }

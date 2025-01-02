@@ -261,17 +261,17 @@ const moment = _rollupMoment || _moment;
         }
 
 				const existingItem = this.data.element?.calendarEquipamentConsumables.find(e => e.consumableId === item.id);
-        
+
 				const formGroup = this.formBuilder.group({
           id: [existingItem ? existingItem.id : '', Validators.required],
 					name: [{value: item.consumable.name, disabled: true}],
 					active: [existingItem ? existingItem.active : item.active, Validators.required],
-					value: [existingItem ? existingItem.value : item.value, Validators.required],
+					value: [existingItem ? existingItem.value.toFixed(2).replace('.',',') : item.value.toFixed(2).replace('.',','), Validators.required],
 					equipamentId: [item.equipamentId],
 					consumableId: [item.consumableId],
           calendarId: [existingItem ? this.data.element.id : null],
-          amount: [existingItem ? existingItem.amount : 0],
-          totalValue: [{value: existingItem ? existingItem.totalValue : 0, disabled: true}],
+          amount: [existingItem ? existingItem.amount.toFixed(2).replace('.',',') : 0],
+          totalValue: [{value: existingItem ? existingItem.totalValue.toFixed(2).replace('.',',') : 0, disabled: true}],
 					createdAt: existingItem ? existingItem.createdAt : new Date()
 				});
 		
@@ -599,7 +599,7 @@ const moment = _rollupMoment || _moment;
 			});
 
       const value = this.form.get('value').value;
-      const value_ = parseFloat(value.replace(',','.'));
+      const value_ = parseFloat(value.toString().replace(',','.'));
       
       total += value_ + freight - discount;
 
