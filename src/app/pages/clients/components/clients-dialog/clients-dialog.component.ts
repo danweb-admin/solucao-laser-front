@@ -60,7 +60,7 @@ import { ClientsService } from '../../../../shared/services/clients.service';
 
     ngAfterViewInit(): void {
       this.specificationList = JSON.parse(localStorage.getItem('specificationsList'));
-      
+      this.specificationList.sort((a, b) => a.name.localeCompare(b.name));
       if (this.data.element?.cityId != null){
         setTimeout(() => {
           this.selectEstado.options.filter(item => item.value == this.data.element?.stateId)[0].select();
