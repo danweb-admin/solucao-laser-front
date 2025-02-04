@@ -7,7 +7,7 @@
         <form [formGroup]="form">
             <input type="hidden" formControlName="clientId">
             <div class="row">
-                <div class="col col-2">
+                <div class="col col-3">
                     <mat-form-field appearance="outline">
                         <mat-label>Locatário(a)</mat-label>
                         <input matInput placeholder="Busca Locatário(a)"  aria-label="State" [matAutocomplete]="auto"  formControlName="client">
@@ -24,13 +24,21 @@
                     </mat-form-field>
                     <span *ngIf="notFound">Não encontrado.</span>
                 </div>
-                <div class="col col-2">
+                <div class="col col-3">
                     <mat-form-field appearance="outline">
                         <mat-label>Equipamento</mat-label>
                         <mat-select formControlName="equipmentId" (selectionChange)="onChangeEquipament($event)">
                             <mat-option *ngFor="let item of equipmentResult" [value]="item.id">{{item.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
+                </div>
+                <div class="col col-3">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Técnica</mat-label>
+                        <mat-select id="techniqueId" formControlName="techniqueId" [(value)]="form.value.techniqueId">
+                          <mat-option *ngFor="let item of techniqueResult" [value]="item.id">{{item.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
                 </div>
             </div>
             <div class="row">
@@ -101,7 +109,7 @@
             </div>
             <div class="row">
                 <button mat-raised-button color="warn" [disabled]="!form.valid" (click)="checkScheduling()" style="float: right; margin-left: 10px;">Validar Agendamentos</button>
-                <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="saveScheduling()" style="float: right;">Salvar</button>
+                <button mat-raised-button color="primary" [disabled]="!isValidated" (click)="saveScheduling()" style="float: right;">Salvar</button>
                 
             </div>
         </form>
