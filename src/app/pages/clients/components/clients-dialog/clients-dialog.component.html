@@ -359,16 +359,16 @@
       <mat-accordion class="example-headers-align" multi>
         <div formArrayName="clientEquipment">
           <ng-container *ngFor="let equipment of clientEquipment.controls; let i = index" [formGroupName]="i">
-            <mat-expansion-panel style="overflow-y: auto; min-height: 30px; max-height: 300px; width: 50%; float: left;" [expanded]="expandedIndex === i" (opened)="openPanel(i)">
-              <mat-expansion-panel-header>
+            <mat-expansion-panel style="min-height: 30px; max-height: 300px; width: 50%; float: left;" [expanded]="expandedIndex === i" (opened)="openPanel(i)">
+              <mat-expansion-panel-header [collapsedHeight]="customCollapsedHeight" [expandedHeight]="customExpandedHeight">
                 <mat-panel-title>
                   {{clientEquipment.controls[i].get('name').value}}
                 </mat-panel-title>
               </mat-expansion-panel-header>
               
-              <div class="row">
+              <div class="row" >
                 <div class="col col-2">
-                  <table >
+                  <table class="fixed_header_equipment">
                     <thead>
                       <tr>
                         <th>Tempo</th>

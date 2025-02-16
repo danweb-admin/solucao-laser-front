@@ -39,6 +39,9 @@ import { ClientsService } from '../../../../shared/services/clients.service';
     expandedIndex: number | null = null;
     leftColumn: any[] = [];
     rightColumn: any[] = [];
+    customCollapsedHeight: string = '40px';
+    customExpandedHeight: string = '40px';
+    panelOpenState: boolean = false;
 
     constructor(
       public dialogRef: MatDialogRef<ClientsDialogComponent>,
@@ -254,6 +257,7 @@ import { ClientsService } from '../../../../shared/services/clients.service';
       const timeValueForm = this.formBuilder.group({
         id: [timeValue.id],
         time: [timeValue.time],
+        clientEquipmentId: [timeValue.clientEquipmentId],
         value: [timeValue.value.toFixed(2).replace('.',',')]
       });
   
