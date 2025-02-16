@@ -22,6 +22,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/consts/my-format';
 import { Consumable } from 'src/app/shared/models/consumable';
 import { ConsumablesService } from 'src/app/shared/services/consumables.service';
+import { CalendarSpecifications } from 'src/app/shared/models/calendarSpecifications';
 
 const moment = _rollupMoment || _moment;
 
@@ -164,6 +165,7 @@ const moment = _rollupMoment || _moment;
     }
 
     createForm(): void {
+      debugger
       let list = this.data.element?.calendarSpecifications;
       let temp = JSON.parse(localStorage.getItem('specificationsList'));
       let array = [];
@@ -179,7 +181,7 @@ const moment = _rollupMoment || _moment;
             active: (this.isAddMode ? false : this.data.element?.calendarSpecifications.filter(x => x.specificationId == item.specificationId)[0].active),
             specificationId: item.specificationId,
             name: temp.find(x => x.id === item.specificationId).name
-          } as EquipamentSpecifications;
+          } as CalendarSpecifications;
           array.push(this.buildCalendarSpecifications(calendarSpecification));
         });
       }
@@ -345,7 +347,7 @@ const moment = _rollupMoment || _moment;
 			return this.form.get('calendarSpecificationConsumables') as FormArray;
 		}
 
-    buildCalendarSpecifications(equipamentSpecification: EquipamentSpecifications){
+    buildCalendarSpecifications(equipamentSpecification: CalendarSpecifications){
       return this.formBuilder.group({
         specificationId: equipamentSpecification.specificationId,
         active: equipamentSpecification.active,
@@ -397,7 +399,7 @@ const moment = _rollupMoment || _moment;
             active: (this.isAddMode ? false : active == null ? false : active ),
             specificationId: item.specificationId,
             name: spec.name
-          } as EquipamentSpecifications;
+          } as CalendarSpecifications;
           this.arr.push(this.buildCalendarSpecifications(equipamentSpecification));
         }
       });

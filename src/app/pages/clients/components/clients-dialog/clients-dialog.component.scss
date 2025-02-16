@@ -18,21 +18,35 @@ mat-form-field {
     padding-left: 15px;
 }
 
-table {
+
+
+.fixed_header{
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
 }
-table, th, td {
-    border-top: 1px dotted black;
-    border-bottom: 1px dotted black;
-}
-th, td {
-    padding: 3px;
-    text-align: center;
+
+.fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 270px;
 }
 
-th {
-    background-color: gray; /* Alterar para a cor desejada */
-    color: white;
+.fixed_header thead tr {
+   display: block;
 }
 
+.fixed_header thead {
+  background: black;
+  color:#fff;
+}
+
+.fixed_header th, .fixed_header td {
+  padding-left: 15px;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  min-width: 180px;
+  text-align: center;
+}
