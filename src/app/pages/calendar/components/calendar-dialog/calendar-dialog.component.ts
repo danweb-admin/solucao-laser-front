@@ -59,6 +59,7 @@ const moment = _rollupMoment || _moment;
     @ViewChild('discount') discount: any;
     @ViewChild('freight') freight: any;
     selectedtype: any;
+    ChangedEquipment: string;
     icons: any = [
       {
         id: "0",
@@ -165,7 +166,6 @@ const moment = _rollupMoment || _moment;
     }
 
     createForm(): void {
-      debugger
       let list = this.data.element?.calendarSpecifications;
       let temp = JSON.parse(localStorage.getItem('specificationsList'));
       let array = [];
@@ -242,7 +242,7 @@ const moment = _rollupMoment || _moment;
         if (!item.active)
           continue;
 
-        if (this.data.element != null ){
+        if (this.data.element != null && this.ChangedEquipment != 'y'){
           const formGroup = this.formBuilder.group({
             id: ['', Validators.required],
             name: [{value: item.consumable.name, disabled: true}],
@@ -297,7 +297,7 @@ const moment = _rollupMoment || _moment;
         if (!spec.hasConsumable)
           continue;
 
-        if (this.data.element != null) {
+        if (this.data.element != null && this.ChangedEquipment != 'y') {
           const formGroup = this.formBuilder.group({
             id: [ '', Validators.required],
             name: [{value: spec.name, disabled: true}],
@@ -384,6 +384,9 @@ const moment = _rollupMoment || _moment;
 
       this.arr = this.form.get('calendarSpecifications') as FormArray;
       let temp = this.equipamentResult.filter(x => x.id === event.value);
+
+      if (this.data.element?.equipamentId != event.value)
+        this.ChangedEquipment = 'y'
 
       if (this.arr.value.length !== 0)
         this.arr.clear();
