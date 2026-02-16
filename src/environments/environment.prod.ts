@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  URL_API: 'http://95.111.226.231:32100',
+  URL_API: 'https://backend.solucao-laser.online',
   hmr: false,
   role: ''
 };
